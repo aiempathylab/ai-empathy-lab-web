@@ -120,22 +120,25 @@
   background: var(--ael-bg-sunken);
 }
 
-/* Between the hamburger point and ~1099px there is not enough slack for
-   absolute centering — the nav would slide under the brand. Normal flow
-   centres it in the remaining space instead. */
-@media (max-width: 1099px) {
-  .nav {
-    position: static;
-    transform: none;
-    margin-inline: auto;
-  }
-}
-
 .mobileNav {
   display: none;
 }
 
-@media (max-width: 760px) {
+/* ── The one header breakpoint ──
+   The bar's contents are a fixed width and do not shrink: brand 188 + 24 +
+   the six links 533 + 24 + the Platform pill 120, plus the bar's own
+   26/15 padding and hairline, is 932px. The bar only ever gets
+   `100vw - 2 x clamp(1rem, 2.5vw, 3rem)`, about 0.95 x viewport, so the
+   links and the pill stop fitting at ~996px — and because the pill is
+   last, it is what gets pushed out of the bar's rounded end. Centring
+   runs out even earlier: below ~1100px the absolutely centred nav reaches
+   the brand, which is why it used to fall back to flow centring for one
+   band and sit with visibly uneven gaps either side.
+   Both faults end at the same number, so the links go to the hamburger at
+   1099px. Above it the nav is always the centred one; below it there is no
+   nav to centre. ONE line, one layout per side of it — not three layouts
+   across two lines, the middle one of which clipped its own CTA. */
+@media (max-width: 1099px) {
   .nav {
     display: none;
   }
@@ -148,11 +151,17 @@
   .bar {
     padding-inline: 1.4rem 0.9rem;
   }
+  /* Full width on a phone, where 26rem is wider than the bar anyway. On a
+     tablet the cap takes hold and `margin-left: auto` pins the panel to the
+     bar's right end, under the button that opened it — a menu spanning a
+     1000px bar reads as a page section, not as a menu. */
   .mobileNav {
     position: absolute;
     left: clamp(1rem, 2.5vw, 3rem);
     right: clamp(1rem, 2.5vw, 3rem);
     top: calc(100% + 0.5rem);
+    max-width: 26rem;
+    margin-left: auto;
     display: grid;
     padding: 0.75rem 1.25rem;
     background: var(--ael-bg-surface);
