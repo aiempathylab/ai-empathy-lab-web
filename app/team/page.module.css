@@ -1,4 +1,4 @@
-/* A fixed three-up rather than auto-fit: the engineering group has two
+/* A fixed three-up rather than auto-fit: the Engineers group has two
    people, and auto-fit would stretch their two cards to half the row each,
    giving them portraits half again the size of everyone else's. */
 .grid {

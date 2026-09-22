@@ -50,6 +50,6 @@ public/      favicons, PWA icons, OG card — all copied from the brand kit
 
 ## Known placeholders (before launch)
 
-- `content/team.ts` — Danylo's title; Illia's full name/bio/links
+- `content/team.ts` — Illia's bio and profile links
 - `content/news.ts` — entry dates are unconfirmed seeds
 - Team photos — initials avatars by design until a uniform photo set exists

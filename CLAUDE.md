@@ -30,9 +30,9 @@ the right edge at 1352 on every page. Do not introduce a second system.
   `justify-items: start`, so a rail grid placed directly on it shrink-wraps its
   columns instead of filling them, which reads as correct until a page turns up
   whose content is too short to hide it.
-- Body measure is `.prose p { max-width: 75ch }`, about 96 characters. `ch` is
-  the digit advance (10.1px in Inter) against a 7.8px average glyph, so the
-  number reads lower than the character count it buys. It is set high on
+- Body measure is `--ael-measure: 74ch` on `.prose p`, about 95 characters.
+  `ch` is the digit advance (10.1px in Inter) against a 7.8px average glyph,
+  so the number reads lower than the character count it buys. It is set high on
   purpose: the reading column is 754px wide, and a shorter measure stopped the
   text 200px before the support rail, which left the two columns looking
   unrelated. Lower it to 68ch (~88 chars) or 58ch (~75) if legibility should

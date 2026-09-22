@@ -43,7 +43,7 @@ export function photoFor(id: string): string | undefined {
 export type TeamGroup =
   | "directors"
   | "scientists"
-  | "engineering"
+  | "engineers"
   | "assistants";
 
 export interface TeamLink {
@@ -60,7 +60,8 @@ export interface Person {
   bio: string;
   focus?: string[];
   links: TeamLink[];
-  /** Marks profiles whose copy is not final; renders a small chip. */
+  /** Editorial marker: this profile's copy is not final. Nothing renders it —
+      it pairs with the README's known-placeholders list. */
   placeholder?: boolean;
   /** Brand tag hue for the initials avatar. */
   hue: "indigo" | "iris" | "teal" | "amber" | "rose" | "sky" | "olive" | "slate";
@@ -205,10 +206,9 @@ export const TEAM: Person[] = [
   },
   {
     id: "danylo-provodov",
-    // PLACEHOLDER — Danylo: confirm final title (source doc says "Head of xxx").
     name: "Danylo Provodov",
-    role: "Head of Engineering",
-    group: "engineering",
+    role: "Software Engineer, Independent",
+    group: "engineers",
     bio: "Danylo Provodov is a computer scientist and the Lab's technical backbone. He designs and builds the experimental infrastructure that makes our research possible, integrating empathic voice interfaces, product catalogs, and data pipelines into robust platforms for running large-scale behavioral experiments with real AI agents.",
     focus: [
       "Research infrastructure",
@@ -216,14 +216,13 @@ export const TEAM: Person[] = [
       "Experimental platforms",
     ],
     links: [],
-    placeholder: true,
     hue: "olive",
   },
   {
     id: "illia-orel",
     name: "Illia Orel",
-    role: "Software Developer",
-    group: "engineering",
+    role: "Software Engineer, Independent",
+    group: "engineers",
     // PLACEHOLDER — bio and profile links still pending.
     bio: "Bio coming soon.",
     links: [],
@@ -260,7 +259,7 @@ export const TEAM: Person[] = [
 export const TEAM_GROUPS: { key: TeamGroup; title: string }[] = [
   { key: "directors", title: "Directors" },
   { key: "scientists", title: "Research Scientists" },
-  { key: "engineering", title: "Engineering" },
+  { key: "engineers", title: "Engineers" },
   { key: "assistants", title: "Research Assistants" },
 ];
 
