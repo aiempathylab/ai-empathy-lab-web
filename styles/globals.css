@@ -494,6 +494,19 @@ strong {
   background-clip: text;
   color: transparent;
 }
+/* Selection has to hand the glyphs a real colour back. The gradient is
+   painted as the element's BACKGROUND and clipped to the glyph shapes, so
+   the selection highlight paints over it; with the fill left transparent
+   there is then nothing to see and the phrase does not dim, it DISAPPEARS,
+   leaving a pale empty rectangle mid-headline. `color` covers Firefox and
+   `-webkit-text-fill-color` covers Chrome and Safari, where it is what the
+   clipped fill actually reads. The value is the gradient's own 55% stop
+   flattened, so the emphasis keeps its colour while selected — 6.2:1 on
+   --ael-accent-soft, the highlight set at the top of this file. */
+.grad-text::selection {
+  color: var(--ael-indigo-700);
+  -webkit-text-fill-color: var(--ael-indigo-700);
+}
 
 /* ── Buttons lift on hover ── */
 .btn {
