@@ -1,40 +1,143 @@
-.logos {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+/* ── Partners and collaborations ──
+   An endless band of identical logo cards. Identical boxes are what let
+   marks of very different proportions read as one set; each logo keeps its
+   own optical height inside. */
+/* min-width: 0 lets the band shrink to its parent. Inside a grid or flex
+   parent (the About page's section is a grid) an item otherwise sizes to
+   its content, all six cards side by side: the band then had nothing to
+   scroll, so it neither drifted nor dragged, and it pushed the page 456px
+   wider than the screen. */
+.carousel {
+  position: relative;
+  min-width: 0;
 }
-.logos li {
+
+/* The fade at both ends makes the loop read as endless rather than as a
+   row running off the page. Vertical padding gives the cards' shadows room
+   inside the clip. The arrows sit outside this element, so they never fade. */
+.viewport {
+  overflow: hidden;
+  padding-block: 0.75rem;
+  margin-block: -0.75rem;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.viewport:active {
+  cursor: grabbing;
+}
+/* Without JavaScript there is no drag, so the band scrolls natively. */
+:global(html:not(.js)) .viewport {
+  overflow-x: auto;
+}
+
+/* Each slide carries its own trailing space instead of a track gap, the
+   spacing Embla's loop expects. */
+.track {
+  display: flex;
+}
+.slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding-right: 1.25rem;
+}
+
+.card {
+  width: 17.5rem;
+  height: 8.5rem;
   display: grid;
   place-items: center;
-  min-height: 8.5rem;
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   background: var(--ael-bg-surface);
   border: 1px solid var(--ael-border-hairline);
   border-radius: var(--ael-radius-card);
   box-shadow: var(--ael-shadow-sm);
-  transition: border-color var(--ael-dur-standard) var(--ael-ease);
+  text-decoration: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  transition:
+    border-color var(--ael-dur-standard) var(--ael-ease),
+    box-shadow var(--ael-dur-standard) var(--ael-ease);
 }
-.logos li:hover {
+.card:hover,
+.card:focus-visible {
   border-color: var(--ael-border-strong);
+  box-shadow: var(--ael-shadow-md);
 }
-.logos img {
-  width: auto;
-  max-width: 100%;
+
+/* Grey at rest for cohesion, true colours on hover. The filter sits on the
+   whole logo so a mark and the name set beside it change together. */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   filter: grayscale(1);
   opacity: 0.62;
   transition:
     opacity var(--ael-dur-standard) var(--ael-ease),
     filter var(--ael-dur-standard) var(--ael-ease);
 }
-.logos li:hover img {
+.card:hover .logo,
+.card:focus-visible .logo {
   filter: none;
   opacity: 1;
 }
+.logo img {
+  width: auto;
+  max-width: 100%;
+  flex: none;
+  pointer-events: none;
+}
+/* ZHAW's school name, set the way zhaw.ch sets it beside the mark: Inter,
+   in the darkest neutral the brand tokens have, next to the mark's #333.
+   A newline in the content marks the lockup's line break. */
+.wordmark {
+  font: 600 0.875rem/1.25 var(--ael-font-text);
+  color: var(--ael-text-primary);
+  white-space: pre-line;
+}
+
+/* The arrows: small, round and quiet, centred on the band's faded ends. */
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-hairline);
+  box-shadow: var(--ael-shadow-sm);
+  color: var(--ael-text-secondary);
+  transform: translateY(-50%);
+  transition:
+    color var(--ael-dur-micro) var(--ael-ease),
+    border-color var(--ael-dur-micro) var(--ael-ease),
+    box-shadow var(--ael-dur-micro) var(--ael-ease);
+}
+.arrow:hover,
+.arrow:focus-visible {
+  color: var(--ael-accent);
+  border-color: var(--ael-border-strong);
+  box-shadow: var(--ael-shadow-md);
+}
+.prev {
+  left: -0.5rem;
+}
+.next {
+  right: -0.5rem;
+}
+
+/* A phone swipes; arrows would only cover the cards. */
 @media (max-width: 760px) {
-  .logos {
-    grid-template-columns: minmax(0, 1fr);
+  .card {
+    width: 15rem;
+    height: 7.5rem;
   }
-  .logos li {
-    min-height: 6.5rem;
+  .arrow {
+    display: none;
   }
 }
