@@ -1,43 +1,34 @@
 .footer {
+  /* The card's side padding, shared with the watermark so the two can
+     never drift out of line. */
+  --footer-pad-x: clamp(2rem, 5vw, 5rem);
   margin-top: clamp(3rem, 7vw, 5rem);
   padding-top: 0.5rem;
   overflow: hidden;
 }
 
-/* Interior scaled to the wide card: 16px links on a ~40px row pitch,
-   full-size padding. A large container with small, tight type inside is
-   what reads as cramped — the air has to be in the rhythm, not just the
-   width. */
+/* Interior scaled to the wide card: 16px links, full-size padding. A
+   large container with small, tight type inside is what reads as cramped;
+   the air has to be in the rhythm, not just the width. */
 .card {
   background: var(--ael-bg-surface);
   border: 1px solid var(--ael-border-hairline);
   border-radius: var(--ael-radius-panel);
   box-shadow: var(--ael-shadow-sm);
-  padding: clamp(2.5rem, 4.5vw, 4rem) clamp(2rem, 5vw, 5rem);
+  padding: clamp(2.5rem, 4.5vw, 4rem) var(--footer-pad-x);
 }
 
-.cols {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(150px, 1fr));
-  gap: clamp(2.5rem, 6vw, 5rem);
+/* The sections in one row from the left, Contact alone at the far end,
+   over LinkedIn: the two ways to reach the lab share the right edge. */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: clamp(1.5rem, 3vw, 2.75rem);
+  row-gap: 1rem;
 }
 
-.col {
-  display: grid;
-  gap: 1.35rem;
-  align-content: start;
-  justify-items: start;
-}
-
-.colTitle {
-  font: 600 0.78rem/1.3 var(--ael-font-mono);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--ael-text-muted);
-  margin-bottom: 0.5rem;
-}
-
-.colLink {
+.link {
   font: 400 1rem/1.4 var(--ael-font-text);
   color: var(--ael-text-secondary);
   text-decoration: none;
@@ -49,10 +40,14 @@
   margin-block: -0.5rem;
 }
 
-.colLink:hover {
+.link:hover {
   color: var(--ael-text-link);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.contact {
+  margin-left: auto;
 }
 
 .bottom {
@@ -67,11 +62,15 @@
   color: var(--ael-text-muted);
 }
 
+/* The 40px tap box centres a 20px glyph. Pulled 10px outward, it puts the
+   glyph's edge, not the box's, on the card's inner edge, flush under
+   Contact and with the watermark's end. */
 .social {
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
+  margin-right: -10px;
   border-radius: var(--ael-radius-control);
   color: var(--ael-text-muted);
   transition:
@@ -85,10 +84,14 @@
 }
 
 /* ── The giant ghost wordmark, on the page ground ──
-   Sized to span the shell exactly, so its edges align with the card above.
-   The lockup's width is em-proportional: measured 7.891x the font size,
-   so font-size = container width / 7.891 (with 0.5% rounding safety). */
-.wmShell {
+   Sized to span the card's inner width exactly: the card's side padding
+   plus its 1px border, so its edges fall on the card's own text rather
+   than on the card's outline. Edge to edge with the card it read as one
+   size too loud. The lockup's width is em-proportional: measured 7.891x
+   the font size, so font-size = container width / 7.891 (with 0.5%
+   rounding safety). */
+.wmInset {
+  padding-inline: calc(var(--footer-pad-x) + 1px);
   container-type: inline-size;
 }
 .watermark {
@@ -106,6 +109,10 @@
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
+  /* One step quieter. Opacity on the whole lockup composites it as a
+     group, so the arches stay solid against each other, never translucent,
+     and only the set as a whole recedes into the page ground. */
+  opacity: 0.7;
 }
 
 .watermarkText {
@@ -128,13 +135,15 @@
 .wmMid { fill: var(--ael-border-strong); }
 .wmFront { fill: var(--ael-border-input); }
 
+/* A phone gets the links as two even columns, Contact last. */
 @media (max-width: 640px) {
-  .cols {
+  .links {
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    justify-items: start;
+    row-gap: 1.25rem;
   }
-}
-@media (max-width: 420px) {
-  .cols {
-    grid-template-columns: 1fr;
+  .contact {
+    margin-left: 0;
   }
 }

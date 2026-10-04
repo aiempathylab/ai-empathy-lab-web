@@ -35,19 +35,30 @@ export interface NavItem {
 }
 
 /**
- * Navbar links. Every SECTION of the site is here — six items, inside the
- * 5-to-7 convention — because a page whose only global path is the footer
- * is findable only by the lost (the footer is a safety net, not a route;
- * /resources/ was contextually orphaned and even Danylo could not find
- * pages). The two coming-soon initiatives (Index, Symposium) stay out
- * deliberately: they are linked from the home cards, the news feed, and
- * the footer, and they earn a slot when they launch, not before.
+ * Navbar links: the four places a visitor to a research lab comes for, and
+ * nothing else, beside the one Platform button. Fewer items is what makes
+ * each one easy to find: six links plus the button read as noise.
+ *
+ * Every page off the bar still has a route from the home page, which is
+ * what keeps the reachability rule (every page within two clicks of home,
+ * not counting the footer, which is a safety net, not a route):
+ *   News       the "Latest from the team" section's "All updates"
+ *   Resources  the hero's "What is AI empathy?", whose explainer lists the
+ *              other four and links back to /resources/
+ *   Index, Symposium  the "What is coming" cards
+ * Index and Symposium earn a slot when they launch, not before.
  */
 export const NAV: NavItem[] = [
   { label: "Research", href: "/research/" },
   { label: "Publications", href: "/publications/" },
   { label: "Team", href: "/team/" },
-  { label: "News", href: "/news/" },
-  { label: "Resources", href: "/resources/" },
   { label: "About", href: "/about/" },
+];
+
+/** The footer's one row: the navbar again, then the two sections that are
+ *  not on it, so every section is one click from the end of any page. */
+export const FOOTER_NAV: NavItem[] = [
+  ...NAV,
+  { label: "Resources", href: "/resources/" },
+  { label: "News", href: "/news/" },
 ];

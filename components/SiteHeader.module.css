@@ -125,20 +125,17 @@
 }
 
 /* ── The one header breakpoint ──
-   The bar's contents are a fixed width and do not shrink: brand 188 + 24 +
-   the six links 533 + 24 + the Platform pill 120, plus the bar's own
-   26/15 padding and hairline, is 932px. The bar only ever gets
-   `100vw - 2 x clamp(1rem, 2.5vw, 3rem)`, about 0.95 x viewport, so the
-   links and the pill stop fitting at ~996px — and because the pill is
-   last, it is what gets pushed out of the bar's rounded end. Centring
-   runs out even earlier: below ~1100px the absolutely centred nav reaches
-   the brand, which is why it used to fall back to flow centring for one
-   band and sit with visibly uneven gaps either side.
-   Both faults end at the same number, so the links go to the hamburger at
-   1099px. Above it the nav is always the centred one; below it there is no
-   nav to centre. ONE line, one layout per side of it — not three layouts
-   across two lines, the middle one of which clipped its own CTA. */
-@media (max-width: 1099px) {
+   The bar's contents are a fixed width and do not shrink: the brand ends
+   215px into the bar (26px padding, 188px lockup, hairline), the four
+   links are 357px, and the Platform pill with its inset takes the last
+   136px. The nav is centred on the bar, so it clears the brand by 24px
+   only while the bar is at least 2 x (215 + 24 + 357 / 2) = 835px wide.
+   The bar gets `100vw - 2 x clamp(1rem, 2.5vw, 3rem)`, 0.95 x viewport
+   here, so that is an 880px screen; the line sits at 900 for air.
+   ONE line, one layout per side of it: above it the nav is always the
+   centred one, below it there is no nav to centre. With six links this
+   line had to sit at 1100, which sent a landscape tablet to the menu. */
+@media (max-width: 899px) {
   .nav {
     display: none;
   }

@@ -44,12 +44,16 @@ export default function HomePage() {
             <span className="grad-text">make sense of us</span>
           </h1>
           <p className={styles.heroLede}>{SITE.heroLede}</p>
+          {/* Two doors: what the lab studies, and the question a newcomer
+              arrives with. The second used to repeat the navbar's
+              Publications; now it is the home page's route into the
+              explainers, which have no navbar slot of their own. */}
           <div className={styles.heroActions}>
             <Link href="/research/" className="btn btn-primary">
               Explore the research
             </Link>
-            <Link href="/publications/" className="btn btn-secondary">
-              Latest working papers
+            <Link href="/resources/what-is-ai-empathy/" className="btn btn-secondary">
+              What is AI empathy?
             </Link>
           </div>
         </div>
