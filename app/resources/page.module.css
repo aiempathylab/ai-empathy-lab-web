@@ -1,18 +1,3 @@
-.upcoming {
-  display: grid;
-}
-.upcomingItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  border-top: 1px solid var(--ael-rule);
-  padding-block: 1.05rem;
-}
-.upcomingTitle {
-  font: 500 1.02rem/1.4 var(--ael-font-text);
-  color: var(--ael-text-secondary);
-}
 .platformIntro {
   display: grid;
   gap: 0.9rem;

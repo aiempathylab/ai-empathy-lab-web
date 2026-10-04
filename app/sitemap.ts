@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { RESEARCH_PROJECTS } from "@/content/research";
+import { EXPLAINERS } from "@/content/resources";
 import { SITE } from "@/content/site";
 import { TEAM } from "@/content/team";
 
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/team/",
     ...TEAM.map((person) => `/team/${person.id}/`),
     "/resources/",
+    ...EXPLAINERS.map((explainer) => `/resources/${explainer.slug}/`),
     "/news/",
     "/ai-empathy-index/",
     "/symposium/",

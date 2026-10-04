@@ -1,4 +1,6 @@
 import { ArrowUpRight, Mail } from "lucide-react";
+import { explainerItems, QuestionList } from "@/components/QuestionRow";
+import { EXPLAINERS } from "@/content/resources";
 import { SITE } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -9,15 +11,6 @@ export const metadata = pageMetadata({
     "Explore research-based definitions, evidence, methods, and resources on AI empathy, emotional AI, voice agents, companions, and human-AI relationships.",
   path: "/resources/",
 });
-
-/** Explainers planned for this page; each becomes its own entry when written. */
-const UPCOMING_EXPLAINERS = [
-  "What is AI empathy?",
-  "What separates empathic AI, emotional AI, and affective computing?",
-  "How do you measure empathy in a machine?",
-  "AI companions and human well-being",
-  "Where persuasion ends and manipulation begins",
-];
 
 const PLATFORM_POINTS = [
   "Six AI providers behind one identical participant interface, so the service is never a confound.",
@@ -43,20 +36,16 @@ export default function ResourcesPage() {
         </div>
       </header>
 
+      {/* Each explainer as the question it answers, in the same rows the
+          research hub uses, with the answer itself as the summary so the
+          list teaches something even to a reader who clicks nothing. */}
       <section className="band">
         <div className="section-head">
           <div>
-            <h2 className="t-h2">Explainers in preparation</h2>
+            <h2 className="t-h2">Explainers</h2>
           </div>
         </div>
-        <ul className={styles.upcoming}>
-          {UPCOMING_EXPLAINERS.map((title) => (
-            <li key={title} className={styles.upcomingItem}>
-              <span className={styles.upcomingTitle}>{title}</span>
-              <span className="chip chip-neutral">In preparation</span>
-            </li>
-          ))}
-        </ul>
+        <QuestionList items={explainerItems(EXPLAINERS)} />
       </section>
 
       <section className="band band-rule">

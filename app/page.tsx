@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { OrgJsonLd } from "@/components/JsonLd";
 import { Mark } from "@/components/Mark";
 import { PublicationCard } from "@/components/PublicationCard";
-import { QuestionList } from "@/components/QuestionRow";
+import { projectItems, QuestionList } from "@/components/QuestionRow";
 import { NewsList } from "@/components/NewsList";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { NEWS } from "@/content/news";
@@ -96,7 +96,7 @@ export default function HomePage() {
               Inside the research <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
-          <QuestionList projects={RESEARCH_PROJECTS} />
+          <QuestionList items={projectItems(RESEARCH_PROJECTS)} />
         </div>
       </section>
 

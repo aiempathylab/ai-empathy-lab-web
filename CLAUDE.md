@@ -38,6 +38,25 @@ the right edge at 1352 on every page. Do not introduce a second system.
   unrelated. Lower it to 68ch (~88 chars) or 58ch (~75) if legibility should
   win over the pairing.
 
+## Explainers (/resources/)
+
+Five long-form explainers live in `content/resources.ts` and render through
+`app/resources/[slug]/page.tsx`. Each opens with a short answer (the hero
+lede, also the snippet search and answer engines lift), then sections,
+common questions, and a sources list in the publication-row grammar.
+
+- Every factual claim links to its source in the sentence that makes it,
+  as a phrase link written `[label](href)`. No parenthetical citations, no
+  "et al.", no numbered references: Danylo bans academic formatting.
+- Working papers and preprints are named as such wherever they are cited.
+  The GPT-4 persuasion study (Salvi et al.) has a 2026 correction: its
+  personalization effect over plain GPT-4 is not significant. Never cite it
+  as showing that personalization drives persuasion.
+- `reviewed` is the date of the last full fact check. Change it only after
+  re-checking every number on that page against its source.
+- Statements about how the lab works (design of its experiments, what the
+  platform records) should be confirmed by a director before they change.
+
 ## Gotchas
 
 - The reset has `ul[class], ol[class] { margin: 0; padding: 0 }`. That is

@@ -1,4 +1,4 @@
-import { QuestionList } from "@/components/QuestionRow";
+import { projectItems, QuestionList } from "@/components/QuestionRow";
 import { RESEARCH_INTRO, RESEARCH_PROJECTS } from "@/content/research";
 import { pageMetadata } from "@/lib/seo";
 
@@ -19,7 +19,7 @@ export default function ResearchHubPage() {
         </div>
       </header>
       <div className="band band-tight" data-reveal>
-        <QuestionList projects={RESEARCH_PROJECTS} />
+        <QuestionList items={projectItems(RESEARCH_PROJECTS)} />
       </div>
     </div>
   );

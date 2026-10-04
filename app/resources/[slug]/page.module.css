@@ -1,0 +1,277 @@
+/* ── An explainer ──
+   The hero is every interior page's hero: the question on the left rails,
+   the short answer as the lede on the support rail. Below it the article
+   takes the reading rail and a contents panel rides the support rail, the
+   same split as a research page and its work sample. */
+
+/* Reading time and review date. Two facts, set as two spans with a gap
+   between them, never joined by a separator glyph. */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  font: 500 0.8125rem/1.5 var(--ael-font-mono);
+  letter-spacing: 0.03em;
+  color: var(--ael-text-muted);
+}
+
+/* Sections are spaced by whitespace, not rules: a rule on this site means
+   "items in a list", and an article's sections are not that. */
+.article {
+  display: grid;
+  gap: clamp(2.5rem, 4.5vw, 3.25rem);
+  align-content: start;
+}
+.section {
+  display: grid;
+  gap: 1rem;
+  /* Anchor jumps land below the floating navbar, not under it. */
+  scroll-margin-top: calc(var(--ael-nav-clearance) + 1.5rem);
+}
+.h2 {
+  font: 600 clamp(1.4rem, 2.2vw, 1.65rem)/1.25 var(--ael-font-display);
+  letter-spacing: -0.01em;
+  color: var(--ael-text-primary);
+  text-wrap: balance;
+  max-width: 34ch;
+  margin-bottom: 0.15rem;
+  scroll-margin-top: calc(var(--ael-nav-clearance) + 1.5rem);
+}
+.h3 {
+  font: 600 1.05rem/1.45 var(--ael-font-text);
+  color: var(--ael-text-primary);
+}
+
+/* Lists inside the article. The reset's ul[class]/ol[class] rule is
+   specificity (0,1,1), so these selectors carry two classes to beat it. */
+.article .list {
+  display: grid;
+  gap: 0.85rem;
+  max-width: var(--ael-measure);
+  padding: 0;
+  margin: 0.25rem 0;
+  list-style: none;
+}
+.article .list li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+/* The marker is drawn, not typed: a small accent square, so no bullet
+   glyph ever stands in for structure. */
+.article .list li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 1px;
+  background: var(--ael-accent);
+}
+.article .listOrdered {
+  counter-reset: item;
+}
+.article .listOrdered li {
+  counter-increment: item;
+  padding-left: 2.25rem;
+}
+.article .listOrdered li::before {
+  content: counter(item, decimal-leading-zero);
+  top: 0.12em;
+  left: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font: 500 0.8rem/1.6 var(--ael-font-mono);
+  color: var(--ael-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The comparison. A real table, so the three definitions stay one object
+   for readers and for search; its rows take the site's list rule. */
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.25rem 0;
+}
+.compare thead th {
+  font: 500 0.75rem/1.4 var(--ael-font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+  text-align: left;
+  padding: 0 1rem 0.75rem 0;
+  vertical-align: bottom;
+}
+.compare tbody tr {
+  border-top: 1px solid var(--ael-rule);
+}
+.compare tbody th,
+.compare tbody td {
+  text-align: left;
+  vertical-align: baseline;
+  padding: 1rem 1rem 1rem 0;
+}
+.compare tbody th {
+  font: 600 1.05rem/1.35 var(--ael-font-display);
+  color: var(--ael-text-primary);
+  width: 22%;
+}
+.compare tbody td {
+  font: var(--ael-text-small);
+  color: var(--ael-text-secondary);
+}
+.compare tbody td:last-child {
+  padding-right: 0;
+}
+
+/* Common questions: each one a question and its answer, spaced as a pair. */
+.faqs {
+  display: grid;
+  gap: 1.6rem;
+}
+.faq {
+  display: grid;
+  gap: 0.45rem;
+}
+
+/* The support-rail panel, in the shared panel language: one surface, one
+   border, one radius, sticky beside the article on a wide screen. */
+.panel {
+  position: sticky;
+  top: calc(var(--ael-nav-clearance) + 1.25rem);
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-hairline);
+  border-radius: var(--ael-radius-panel);
+  padding: 1.6rem 1.75rem;
+  box-shadow: var(--ael-shadow-sm);
+  display: grid;
+  gap: 1.6rem;
+  align-content: start;
+}
+.panelBlock {
+  display: grid;
+  gap: 0.7rem;
+}
+.panelLabel {
+  font: 600 0.75rem/1.3 var(--ael-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+}
+.panel .toc,
+.panel .related {
+  display: grid;
+  gap: 0.1rem;
+}
+.toc a {
+  display: block;
+  padding-block: 0.4rem;
+  font: 500 0.9rem/1.45 var(--ael-font-text);
+  color: var(--ael-text-secondary);
+  text-decoration: none;
+  transition: color var(--ael-dur-micro) var(--ael-ease);
+}
+.toc a:hover {
+  color: var(--ael-accent);
+}
+.related a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16px;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-block: 0.45rem;
+  font: 600 0.95rem/1.4 var(--ael-font-text);
+  color: var(--ael-text-link);
+  text-decoration: none;
+  transition: color var(--ael-dur-micro) var(--ael-ease);
+}
+.related a svg {
+  align-self: center;
+  color: var(--ael-text-muted);
+  transition:
+    transform var(--ael-dur-micro) var(--ael-ease),
+    color var(--ael-dur-micro) var(--ael-ease);
+}
+.related a:hover {
+  color: var(--ael-accent-hover);
+}
+.related a:hover svg {
+  color: var(--ael-accent);
+  transform: translateX(3px);
+}
+
+/* The sources band sits closer to the article than a new section would. */
+.sources {
+  padding-top: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+/* The way back, identical to the research and team pages. */
+.back {
+  border-top: 1px solid var(--ael-rule);
+  padding-block: 1.5rem 0.5rem;
+}
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-block: 0.55rem;
+  margin-block: -0.55rem;
+  font: 500 0.95rem/1.5 var(--ael-font-text);
+  color: var(--ael-text-secondary);
+  text-decoration: none;
+  transition: color var(--ael-dur-micro) var(--ael-ease);
+}
+.backLink:hover {
+  color: var(--ael-accent);
+}
+
+/* Stacked rails: the panel follows the article, where a table of contents
+   points backwards and a sticky box just judders. Keep the related links,
+   drop the contents. */
+@media (max-width: 1000px) {
+  .panel {
+    position: static;
+  }
+  .panel nav {
+    display: none;
+  }
+}
+
+/* On a phone the comparison becomes three stacked definitions, each cell
+   labelled by its column. */
+@media (max-width: 720px) {
+  .compare thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .compare,
+  .compare tbody,
+  .compare tr,
+  .compare tbody th,
+  .compare tbody td {
+    display: block;
+    width: 100%;
+  }
+  .compare tbody tr {
+    padding-block: 1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+  .compare tbody th,
+  .compare tbody td {
+    padding: 0;
+  }
+  .compare tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font: 500 0.7rem/1.4 var(--ael-font-mono);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ael-text-muted);
+    margin-bottom: 0.15rem;
+  }
+}
