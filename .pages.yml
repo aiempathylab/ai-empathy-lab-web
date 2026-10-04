@@ -1,0 +1,155 @@
+# Pages CMS (https://pagescms.org): the editor lab members use at
+# app.pagescms.org to update the site without touching code. Every save is
+# a commit to main, and Vercel publishes it about a minute later.
+#
+# Only the lists that change regularly live here: News, which also feeds
+# the home page's "Latest from the team", and Publications, which also
+# feed the home page's "Latest on AI empathy" and the programme pages.
+# Team, research programmes, explainers, partners and page copy stay in
+# code on purpose: they change rarely, and a slip there costs more.
+#
+# Keep in step with the code:
+#   field names        are the JSON keys content/news.ts and
+#                      content/publications.ts read
+#   news types         components/NewsList.tsx colours the known
+#                      ones, a new type shows in grey until it is added
+#   programme values   must be the slugs in content/research.ts, the build
+#                      refuses an unknown one
+# A file the build cannot read fails that build only. The live site keeps
+# the last good version, so a bad edit is never published.
+
+settings:
+  # The editor for this file. Changes here are code changes, made in git.
+  hide: true
+
+content:
+  - name: news
+    label: News
+    type: collection
+    path: data/news
+    format: json
+    filename: "{fields.date}-{fields.type}.json"
+    view:
+      fields: [date, type, text]
+      primary: text
+      sort: [date]
+      search: [text, type]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: date
+        label: Date
+        type: date
+        required: true
+        description: "The site lists news newest first, by this date."
+        options:
+          format: yyyy-MM-dd
+      - name: type
+        label: Type
+        type: select
+        required: true
+        description: "Shown as the small tag beside the item."
+        options:
+          values:
+            - Announcement
+            - Article
+            - Award
+            - Conference
+            - Event
+            - Interview
+            - Podcast
+            - Publication
+            - Talk
+            - Video
+            - Working paper
+      - name: text
+        label: Text
+        type: text
+        required: true
+        description: "One sentence, exactly as it should read on the site. Leave the type out, the tag already shows it."
+        options:
+          maxlength: 300
+      - name: href
+        label: Link
+        type: string
+        description: "The page it opens, for example the video, the article or the event. Leave empty if there is none."
+        pattern:
+          regex: "^(https?://\\S+|/\\S*)?$"
+          message: "Paste the full web address, starting with https://"
+
+  - name: publications
+    label: Publications
+    type: file
+    path: data/publications.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: publications
+        label: Publications
+        description: "Drag to reorder. Working papers appear in this order under Latest on AI empathy, and the first four on the home page too. Published work appears in this order under Selected publications."
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: kind
+            label: Type
+            type: select
+            required: true
+            options:
+              values:
+                - name: working
+                  label: Working paper
+                - name: published
+                  label: Published
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: authors
+            label: Authors
+            type: string
+            required: true
+            description: "As in the citation, for example Mari, A., Uysal, D. E., & Alabed, A."
+          - name: year
+            label: Year
+            type: number
+            description: "The year it was published. Leave empty for a working paper."
+            options:
+              min: 1990
+              max: 2100
+          - name: venue
+            label: Venue
+            type: string
+            description: "The journal, book or conference. For a working paper, where it is posted, for example SSRN working paper."
+          - name: detail
+            label: Volume, issue and pages
+            type: string
+            description: "For example 58(2), 373–409"
+          - name: href
+            label: Link
+            type: string
+            description: "The paper itself, for example its DOI, SSRN or publisher page."
+            pattern:
+              regex: "^(https?://\\S+)?$"
+              message: "Paste the full web address, starting with https://"
+          - name: projects
+            label: Research programmes
+            type: select
+            description: "The programme pages that list this paper under Related publications."
+            options:
+              multiple: true
+              values:
+                - name: ai-empathy-agentic-commerce
+                  label: Agentic commerce
+                - name: ai-empathy-sustainable-consumption
+                  label: Sustainable consumption
+                - name: ai-companions-healthy-aging
+                  label: Companionship in later life
+                - name: ai-empathy-customer-service
+                  label: Customer service
+                - name: ai-emotion-measurement
+                  label: Emotion measurement

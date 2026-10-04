@@ -1,5 +1,5 @@
 import { NewsList } from "@/components/NewsList";
-import { NEWS } from "@/content/news";
+import { getNews } from "@/content/news";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -25,7 +25,7 @@ export default function NewsPage() {
         </div>
       </header>
       <div className="band band-tight" data-reveal>
-        <NewsList items={NEWS} />
+        <NewsList items={getNews()} />
       </div>
     </div>
   );

@@ -287,8 +287,6 @@
 }
 .newsMain {
   grid-area: main;
-  display: grid;
-  gap: 0.35rem;
 }
 .newsTitle {
   font: 500 1rem/1.5 var(--ael-font-text);
@@ -308,11 +306,6 @@
   vertical-align: -0.12em;
   margin-left: 0.25rem;
   color: var(--ael-text-muted);
-}
-.newsBody {
-  font: var(--ael-text-small);
-  color: var(--ael-text-secondary);
-  max-width: 60ch;
 }
 .newsItem > span[class*="chip"] {
   grid-area: tag;
@@ -341,6 +334,11 @@
     grid-area: auto;
     grid-column: 2;
     grid-row: 1;
+  }
+  /* A news item is a whole sentence: under the date and tag it takes the
+     full width, not just the column beside the tag. */
+  .newsMain {
+    grid-column: 1 / -1;
   }
   .qRow {
     grid-template-columns: 1fr auto;

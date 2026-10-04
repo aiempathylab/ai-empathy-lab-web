@@ -7,7 +7,7 @@ import { PublicationCard } from "@/components/PublicationCard";
 import { projectItems, QuestionList } from "@/components/QuestionRow";
 import { NewsList } from "@/components/NewsList";
 import { PartnerLogos } from "@/components/PartnerLogos";
-import { NEWS } from "@/content/news";
+import { getNews } from "@/content/news";
 import { WORKING_PAPERS } from "@/content/publications";
 import { RESEARCH_PROJECTS } from "@/content/research";
 import { SITE } from "@/content/site";
@@ -116,8 +116,10 @@ export default function HomePage() {
               All publications <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
+          {/* The first four in the lab's own order, two rows of two on a
+              desktop. The rest are one click away on /publications/. */}
           <div className={styles.paperGrid}>
-            {WORKING_PAPERS.map((paper, index) => (
+            {WORKING_PAPERS.slice(0, 4).map((paper, index) => (
               <div key={paper.id} data-reveal style={delay(index * 80)}>
                 <PublicationCard publication={paper} />
               </div>
@@ -180,7 +182,7 @@ export default function HomePage() {
               All updates <ArrowRight size={16} aria-hidden="true" />
             </Link>
           </div>
-          <NewsList items={NEWS.slice(0, 3)} />
+          <NewsList items={getNews().slice(0, 3)} />
         </div>
       </section>
       {/* ── Partners: the page's closing acknowledgment, the way a paper

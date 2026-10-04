@@ -57,6 +57,41 @@ common questions, and a sources list in the publication-row grammar.
 - Statements about how the lab works (design of its experiments, what the
   platform records) should be confirmed by a director before they change.
 
+## News and publications (Pages CMS)
+
+Lab members edit these two lists at app.pagescms.org, without code. Every
+save is a commit to `main`, and Vercel publishes it about a minute later.
+The editor's forms are defined in `.pages.yml`.
+
+- News: one JSON file per item in `data/news/`, read by `getNews()` in
+  `content/news.ts`. The site sorts by date, so file order never matters.
+  /news/ shows all of them, the home page's "Latest from the team" the
+  newest three.
+- Publications: one ordered list in `data/publications.json`, read by
+  `content/publications.ts`. The list order is the lab's curation and the
+  editor reorders it by drag. Working papers show as the cards under
+  "Latest on AI empathy" (the first four on the home page too), published
+  work under "Selected publications". Programme pages list the papers
+  tagged with their slug, working papers first.
+- Only these two lists are in the editor, deliberately. Team, programmes,
+  explainers, partners and page copy change rarely and carry verification
+  rules, so they stay in code.
+- Both loaders validate every entry and throw with the file and the reason.
+  A bad edit fails that Vercel build only, and the live site keeps the last
+  good version.
+- Keep in step: the JSON keys are the field names in `.pages.yml`; the
+  programme values there must be the slugs in `content/research.ts` (the
+  build refuses an unknown one); a news type added there shows grey until
+  `components/NewsList.tsx` gives it a colour family.
+- `.pages.yml` changes can be checked with Pages CMS's own validator,
+  `parseAndValidateConfig` in `lib/config.ts` of github.com/pages-cms/pages-cms.
+  The editor's settings page, which shows the same errors, is hidden by
+  `settings.hide`.
+- The repo is public. Anything saved in the editor is readable on GitHub at
+  once, so nothing embargoed goes in before its date.
+- Links go in clean: no `utm_*` or LinkedIn `rcm` tracking parameters, and
+  `lnkd.in` short links resolved to the post they open.
+
 ## Gotchas
 
 - The reset has `ul[class], ol[class] { margin: 0; padding: 0 }`. That is
