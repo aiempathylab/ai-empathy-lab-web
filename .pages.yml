@@ -29,6 +29,9 @@ content:
     path: data/news
     format: json
     filename: "{fields.date}-{fields.type}.json"
+    # The site reads data/news/ itself, not folders inside it: an entry
+    # saved in a subfolder would never appear. This removes the button.
+    subfolders: false
     view:
       fields: [date, type, text]
       primary: text
