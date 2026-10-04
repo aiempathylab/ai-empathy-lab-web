@@ -38,12 +38,21 @@ export const metadata: Metadata = {
     images: ["/brand/og.png"],
     type: "website",
   },
+  /* Without a card type, X shows a small thumbnail; og:title, og:image and
+     the description fill the large card on their own. */
+  twitter: { card: "summary_large_image" },
+  /* Google shows one favicon per hostname, read from the home page, and
+     accepts any of these: so every one of them has to be valid. All are
+     square (Google rejects anything else), the PNG is a multiple of 48px as
+     its guidelines recommend, and all are rendered by the brand kit's
+     scripts/gen_icons.py. Never hand-edit them. */
   icons: {
     icon: [
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
     ],
-    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
   },
   manifest: "/site.webmanifest",
 };

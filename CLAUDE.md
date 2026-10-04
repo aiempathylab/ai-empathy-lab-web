@@ -71,3 +71,9 @@ common questions, and a sources list in the publication-row grammar.
   paths from simple-icons (CC0) — lucide-react dropped brand icons in v1.
 - Team photos: the mapping in `content/team.ts` was verified against each
   person's own published photo. Read that file's header before touching it.
+- Favicons and app icons in `public/` are rendered by the brand kit's
+  `scripts/gen_icons.py` and copied over, never edited by hand. Google shows
+  one favicon per hostname and accepts every `rel="icon"` and
+  `apple-touch-icon` on the home page, so each must be valid: square (a
+  101x46 SVG and a blank apple-touch-icon were why search results showed no
+  icon until October 2026), with the PNG a multiple of 48px.

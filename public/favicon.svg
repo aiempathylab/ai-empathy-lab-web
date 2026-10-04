@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101 46" role="img" aria-label="AI Empathy Lab mark">
-  <path d="M 11 46 A 44 44 0 0 1 99 46 L 81 46 A 26 26 0 0 0 29 46 Z" fill="#C9D4F7"/>
-  <path d="M 2 46 A 33 33 0 0 1 68 46 L 53.5 46 A 18.5 18.5 0 0 0 16.5 46 Z" fill="#9080E8"/>
-  <path d="M 24.5 46 A 22.5 22.5 0 0 1 69.5 46 L 58 46 A 11 11 0 0 0 36 46 Z" fill="#3A45C0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -26.5 101 101" role="img" aria-label="AI Empathy Lab mark">
+  <style>.b{fill:#C9D4F7}.m{fill:#9080E8}.f{fill:#3A45C0}@media (prefers-color-scheme: dark){.b{fill:#38406E}.m{fill:#8474DE}.f{fill:#E9EDF8}}</style>
+  <path class="b" d="M 11 46 A 44 44 0 0 1 99 46 L 81 46 A 26 26 0 0 0 29 46 Z"/>
+  <path class="m" d="M 2 46 A 33 33 0 0 1 68 46 L 53.5 46 A 18.5 18.5 0 0 0 16.5 46 Z"/>
+  <path class="f" d="M 24.5 46 A 22.5 22.5 0 0 1 69.5 46 L 58 46 A 11 11 0 0 0 36 46 Z"/>
 </svg>

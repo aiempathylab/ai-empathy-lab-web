@@ -17,14 +17,35 @@ export function JsonLd({ data }: { data: object }) {
  *  publisher of everything on /resources/. */
 export const ORGANIZATION = {
   "@type": "Organization",
+  "@id": `${SITE.url}/#organization`,
   name: SITE.name,
   url: SITE.url,
   description: SITE.description,
   foundingDate: "2024",
   logo: `${SITE.url}/icon-512.png`,
+  sameAs: [SITE.linkedin],
 } as const;
 
-/** schema.org Organization card for the home page. */
+/** The home page's graph: the organisation, and the website it publishes.
+ *  Google takes the site name it prints in results from the WebSite entry,
+ *  so without it the name is guessed from titles and headings. */
 export function OrgJsonLd() {
-  return <JsonLd data={{ "@context": "https://schema.org", ...ORGANIZATION }} />;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          ORGANIZATION,
+          {
+            "@type": "WebSite",
+            "@id": `${SITE.url}/#website`,
+            name: SITE.name,
+            url: `${SITE.url}/`,
+            inLanguage: "en",
+            publisher: { "@id": ORGANIZATION["@id"] },
+          },
+        ],
+      }}
+    />
+  );
 }

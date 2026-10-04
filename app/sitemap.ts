@@ -16,10 +16,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/team/",
     ...TEAM.map((person) => `/team/${person.id}/`),
     "/resources/",
-    ...EXPLAINERS.map((explainer) => `/resources/${explainer.slug}/`),
     "/news/",
     "/ai-empathy-index/",
     "/symposium/",
   ];
-  return paths.map((path) => ({ url: `${SITE.url}${path}` }));
+  return [
+    ...paths.map((path) => ({ url: `${SITE.url}${path}` })),
+    ...EXPLAINERS.map((explainer) => ({
+      url: `${SITE.url}/resources/${explainer.slug}/`,
+      lastModified: explainer.reviewed,
+    })),
+  ];
 }
