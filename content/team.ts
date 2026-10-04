@@ -223,10 +223,16 @@ export const TEAM: Person[] = [
     name: "Illia Orel",
     role: "Software Engineer, Independent",
     group: "engineers",
-    // PLACEHOLDER — bio and profile links still pending.
-    bio: "Bio coming soon.",
-    links: [],
-    placeholder: true,
+    bio: "Illia Orel is a computer scientist who develops web applications for the Lab's studies. He works on agentic AI applications, integrations with large language models and voice interfaces, and web tools that streamline post-study data processing. His focus is on turning researchers' ideas into efficient, reliable software.",
+    focus: [
+      "Research infrastructure",
+      "Agentic AI",
+      "Voice AI",
+      "Data processing",
+    ],
+    links: [
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/illia-orel/" },
+    ],
     hue: "slate",
   },
   {
