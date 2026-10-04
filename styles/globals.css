@@ -168,7 +168,11 @@ strong {
    the band short instead, so content arrives before the whitespace can
    read as emptiness. */
 .page-hero {
-  padding-block: calc(var(--ael-nav-clearance) + clamp(1.5rem, 3vw, 2.25rem))
+  /* The navbar is a floating pill, so it needs real air beneath it rather
+     than the bare clearance — at the old 3vw the H1 sat 45px under it and
+     read as crowded. The lower bound stays modest because the same padding
+     costs scarce vertical space on a phone. */
+  padding-block: calc(var(--ael-nav-clearance) + clamp(2rem, 4.5vw, 3.75rem))
     clamp(1rem, 2vw, 1.5rem);
   display: grid;
   gap: 1.1rem;
