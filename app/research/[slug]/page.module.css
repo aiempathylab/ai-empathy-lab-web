@@ -9,9 +9,20 @@
    person's focus panel: one surface, one border, one radius. The accent bar
    and the two mismatched corner radii it needed made this the only card on
    the site with its own shape. */
-.sample {
+/* Image and work sample stick as one, so neither can slide over the other. */
+.support {
   position: sticky;
   top: calc(var(--ael-nav-clearance) + 1.25rem);
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+/* Wide images take the rail's width, tall ones are held to a height. */
+.figure {
+  width: min(100%, calc(420px * var(--ratio)));
+  margin: 0;
+}
+.sample {
   background: var(--ael-bg-surface);
   border: 1px solid var(--ael-border-hairline);
   border-radius: var(--ael-radius-panel);
@@ -58,7 +69,7 @@
 /* Once the rails stack there is nothing to ride alongside: a sticky panel
    in a single column just judders. */
 @media (max-width: 1000px) {
-  .sample {
+  .support {
     position: static;
   }
 }

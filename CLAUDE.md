@@ -92,6 +92,38 @@ The editor's forms are defined in `.pages.yml`.
 - Links go in clean: no `utm_*` or LinkedIn `rcm` tracking parameters, and
   `lnkd.in` short links resolved to the post they open.
 
+## Images in squares
+
+The site's pictures are real photographs drawn in small indigo squares, the
+way a machine sees, in the ordered (Bayer) pattern at three levels: no
+square, a light one, a dark one.
+
+- Every photograph is CC0 (free for any use, commercial included, no
+  attribution). Only CC0, never "free to use" licences with conditions. The
+  site's came from rawpixel's and StockSnap's CC0 sets, found through the
+  Openverse API. `content/art.ts` keeps each one's source page.
+- Making one: cut the subject out of its background (the site's were lifted
+  with macOS Vision, `../ai-empathy-lab-motion/tools/lift`), then
+  `python3 scripts/art/prepare.py <cutout.png> <name>` writes the tone map
+  and the still to `public/art/` (needs Pillow and NumPy). Register it in
+  `content/art.ts` with the ratio the script prints. Programme pages take
+  theirs from `PROGRAMME_ART`.
+- `components/DitherArt.tsx` draws a piece live with WebGL2: the squares
+  resolve once in view, then a patch of finer squares drifts across it and
+  follows the pointer. The patch keeps the same colours as the rest, by
+  decision. `components/DitherField.tsx` draws the abstract loops (the
+  Index's bars, the Symposium's ripples, the voice waveform under How we
+  work). Both share `lib/dither.ts` and read their colours from the tokens.
+- Everything moving runs only while on screen with the tab visible, draws a
+  still frame under reduced motion, and drops to 30 fps at 1x pixels on weak
+  hardware (`lib/lowPower.ts`, which also stops the partner carousel's
+  autoscroll). Check changes with Chrome's CPU throttling and SwiftShader,
+  not only on a fast machine.
+- Never call `loseContext()` in an effect's cleanup. A canvas owns one
+  context for life, and React runs effects twice in development, so the
+  second run would draw on a dead context.
+- The footer stays still, by decision.
+
 ## Gotchas
 
 - The reset has `ul[class], ol[class] { margin: 0; padding: 0 }`. That is

@@ -1,0 +1,30 @@
+/* An image drawn as squares. The canvas paints it live; the still is the
+   same picture already dithered, shown only when the canvas cannot run. */
+.art {
+  position: relative;
+  touch-action: pan-y;
+}
+.still,
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.still {
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* With JavaScript the canvas reveals the image itself; the still waits in
+   the accessibility tree for its alt text, out of sight. */
+:global(html.js) .art:not([data-state="still"]) .still {
+  opacity: 0;
+}
+.art[data-state="still"] .canvas {
+  display: none;
+}
+/* An animated field without WebGL2 leaves the layout rather than a gap. */
+.field[data-state="none"] {
+  display: none;
+}

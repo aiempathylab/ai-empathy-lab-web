@@ -39,19 +39,19 @@
 }
 
 
-/* The solid mark, large, as the hero's grounded moment — fully in view,
-   feet standing on the hero's bottom edge, right edge on the content
-   grid. The mark is never cropped, same as everywhere else it appears. */
-.heroMark {
+/* The hero's image, standing on the hero's bottom edge with its right edge
+   on the content grid, never cropped and never under the navbar. It sits
+   behind the text layer and only ever beside it: below 900px there is no
+   room beside the headline, so it steps out. */
+.heroArt {
   position: absolute;
   right: clamp(1.25rem, 4vw, 2.5rem);
   bottom: 0;
-  width: clamp(240px, 26vw, 420px);
-  height: auto;
+  height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 42vw, 600px);
   z-index: 0;
 }
 @media (max-width: 900px) {
-  .heroMark {
+  .heroArt {
     display: none;
   }
 }
@@ -153,6 +153,29 @@
 }
 .initIris .initGo {
   color: var(--ael-text-accent-violet);
+}
+
+/* The moving picture at the head of each initiative card, on the card's own
+   tint, the full width of its text. */
+.initArt {
+  height: 132px;
+  margin-bottom: 0.4rem;
+}
+
+/* How we work: the waveform under the heading, its caption the sentence
+   it is drawn from. */
+.voice {
+  margin: 2.25rem 0 0;
+  max-width: 34rem;
+}
+.voiceField {
+  height: 112px;
+}
+.voiceCaption {
+  margin-top: 0.85rem;
+  font: 500 0.78rem/1.4 var(--ael-font-mono);
+  letter-spacing: 0.04em;
+  color: var(--ael-text-muted);
 }
 
 /* Reveal wrappers must pass the row height through to the cards. */

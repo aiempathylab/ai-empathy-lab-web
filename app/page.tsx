@@ -2,15 +2,17 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { OrgJsonLd } from "@/components/JsonLd";
-import { Mark } from "@/components/Mark";
 import { PublicationCard } from "@/components/PublicationCard";
 import { projectItems, QuestionList } from "@/components/QuestionRow";
 import { NewsList } from "@/components/NewsList";
+import { DitherArt } from "@/components/DitherArt";
+import { DitherField } from "@/components/DitherField";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { getNews } from "@/content/news";
 import { WORKING_PAPERS } from "@/content/publications";
 import { RESEARCH_PROJECTS } from "@/content/research";
 import { SITE } from "@/content/site";
+import { ART } from "@/content/art";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -37,7 +39,10 @@ export default function HomePage() {
         <div className={`${styles.glow} ${styles.glowA}`} aria-hidden="true" />
         <div className={`${styles.glow} ${styles.glowB}`} aria-hidden="true" />
         <div className="grain" aria-hidden="true" />
-        <Mark size={182} className={styles.heroMark} />
+        {/* The lab's medium, the voice, as a machine sees it. It resolves
+            on load, then a finer patch drifts across it, the machine
+            looking closer, and follows the pointer when it rests there. */}
+        <DitherArt piece={ART.heroMicrophone} className={styles.heroArt} />
         <div className={`container ${styles.heroInner}`}>
           <h1 className={styles.heroTitle}>
             Making sense of machines that{" "}
@@ -65,6 +70,12 @@ export default function HomePage() {
         <div className={`container ${styles.aboutSplit}`} data-reveal>
           <div className={styles.aboutHead}>
             <h2 className="t-h2">How we work</h2>
+            {/* Our medium is the voice: an empathic sentence as a waveform, a
+                listening window travelling along it. */}
+            <figure className={styles.voice}>
+              <DitherField scene="voice" className={styles.voiceField} />
+              <figcaption className={styles.voiceCaption}>“I understand how you feel.”</figcaption>
+            </figure>
           </div>
           <div className="prose">
             <p className="t-lead">
@@ -139,6 +150,8 @@ export default function HomePage() {
           <div className={styles.initGrid}>
             <div data-reveal>
               <Link href="/ai-empathy-index/" className={`${styles.initCard} ${styles.initIndigo}`}>
+                {/* A benchmark: bars re-ranking edition after edition. */}
+                <DitherField scene="bars" palette="indigo" className={styles.initArt} />
                 <span className={styles.initChipRow}>
                   <span className="chip chip-accent">Coming soon</span>
                 </span>
@@ -154,6 +167,8 @@ export default function HomePage() {
             </div>
             <div data-reveal style={delay(90)}>
               <Link href="/symposium/" className={`${styles.initCard} ${styles.initIris}`}>
+                {/* A gathering: waves from several voices meeting. */}
+                <DitherField scene="ripples" palette="iris" className={styles.initArt} />
                 <span className={styles.initChipRow}>
                   <span className="chip chip-iris">Coming soon</span>
                 </span>

@@ -1,7 +1,9 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DitherArt } from "@/components/DitherArt";
 import { PublicationItem } from "@/components/PublicationItem";
+import { PROGRAMME_ART } from "@/content/art";
 import { publicationsForProject } from "@/content/publications";
 import { projectBySlug, RESEARCH_PROJECTS } from "@/content/research";
 import { pageMetadata } from "@/lib/seo";
@@ -35,6 +37,7 @@ export default async function ResearchProjectPage({
   const project = projectBySlug(slug);
   if (!project) notFound();
 
+  const art = PROGRAMME_ART[project.slug];
   const related = publicationsForProject(project.slug).filter(
     (publication) => publication.href !== project.workSample?.href,
   );
@@ -60,34 +63,41 @@ export default async function ResearchProjectPage({
           ))}
         </div>
 
-        {project.workSample ? (
-          <aside className={styles.sample}>
-            <p className={styles.sampleKind}>
+        {/* The support rail: the programme's image, then its work sample,
+            riding alongside the text together. */}
+        <div className={styles.support}>
+          {art ? (
+            <figure className={styles.figure} style={{ ["--ratio" as string]: art.ratio }}>
+              <DitherArt piece={art} />
+            </figure>
+          ) : null}
+          {project.workSample ? (
+            <aside className={styles.sample}>
+              <p className={styles.sampleKind}>
+                {project.workSample.href ? (
+                  <>
+                    <span className="chip chip-accent">Working paper</span>
+                    <span className={styles.sampleVenue}>SSRN</span>
+                  </>
+                ) : (
+                  <span className="chip chip-soon">Coming soon</span>
+                )}
+              </p>
+              <p className={styles.sampleTitle}>{project.workSample.title}</p>
               {project.workSample.href ? (
-                <>
-                  <span className="chip chip-accent">Working paper</span>
-                  <span className={styles.sampleVenue}>SSRN</span>
-                </>
-              ) : (
-                <span className="chip chip-soon">Coming soon</span>
-              )}
-            </p>
-            <p className={styles.sampleTitle}>{project.workSample.title}</p>
-            {project.workSample.href ? (
-              <a
-                href={project.workSample.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-arrow"
-              >
-                Read the work sample{" "}
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-            ) : null}
-          </aside>
-        ) : (
-          <span />
-        )}
+                <a
+                  href={project.workSample.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-arrow"
+                >
+                  Read the work sample{" "}
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              ) : null}
+            </aside>
+          ) : null}
+        </div>
       </section>
 
       {related.length ? (
