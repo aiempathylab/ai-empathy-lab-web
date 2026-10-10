@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PARTNERS } from "@/content/partners";
+import { isLowPower } from "@/lib/lowPower";
 import styles from "./partners.module.css";
 
 /**
@@ -15,7 +16,9 @@ import styles from "./partners.module.css";
  * cursor leaves: a pause after hover reads as a stall. After a swipe or an
  * arrow press the drift takes over as soon as the glide has slowed to its
  * own speed, so the two motions blend instead of stopping in between. With
- * reduced motion it never drifts at all; dragging and the arrows still work.
+ * reduced motion it never drifts at all, nor on weak hardware, where
+ * repainting the faded edges and grey logos every frame cost the page two
+ * thirds of its frames. Dragging and the arrows still work.
  *
  * Embla does the looping and the momentum. Logos rest in grey for cohesion
  * and take their true colours on hover. Shared by the home page and the
@@ -27,7 +30,7 @@ const DRIFT_SPEED = 0.6;
 export function PartnerLogos() {
   const [plugins] = useState(() =>
     typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    (window.matchMedia("(prefers-reduced-motion: reduce)").matches || isLowPower())
       ? []
       : [
           AutoScroll({
