@@ -362,6 +362,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "empathic-ai-emotional-ai-affective-computing",
     tag: "Terminology",
+    film: "threeTerms",
     question: "What separates empathic AI, emotional AI, and affective computing?",
     summary:
       "One is a research field, one reads emotion, and one responds to it. Where they overlap, and where the law tells them apart.",

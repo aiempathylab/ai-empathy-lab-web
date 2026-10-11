@@ -76,6 +76,19 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("what-is-ai-empathy"),
   },
+  /** On /resources/empathic-ai-emotional-ai-affective-computing/. */
+  threeTerms: {
+    name: "What separates empathic AI, emotional AI, and affective computing?",
+    description:
+      "Three terms in 45 seconds: affective computing is the research field, emotional AI reads emotion, and empathic AI responds to it. The two capabilities come apart, newer systems do both, and European law treats them differently.",
+    transcript:
+      "What separates empathic AI, emotional AI, and affective computing? Affective computing is the field: a research field, named in 1995, asking how computers can sense, express, and influence emotion. Emotional AI reads emotion: technology that reads it from a face, a voice, text, or the body, asking what this person is feeling. Empathic AI responds to it: a way of responding to people, asking what response this person would experience as understanding. Sorry, that did not work. Let me try another way. The two come apart: a text-only language model responds with empathy but reads no emotion, inferring feelings from what people write, and a dashboard that flags angry customers reads emotion but never responds to anyone. Newer systems do both: empathic voice interfaces measure the emotion in a speaker’s voice and use it to shape the reply as the conversation happens. European law treats them differently. Under the EU AI Act, emotion recognition from a face, a voice, or typing has been banned at work and in schools since February 2025, except for medical or safety reasons, and elsewhere, since August 2026, the people it is used on must be told. Empathic AI, through a different door: no manipulative or deceptive techniques that cause significant harm, and people must be told it is an AI. Making sense of machines that make sense of us.",
+    seconds: 45,
+    published: "2026-10-11",
+    poster: "/media/film/three-terms-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("three-terms"),
+  },
 } satisfies Record<string, Film>;
 
 export type FilmKey = keyof typeof FILMS;
