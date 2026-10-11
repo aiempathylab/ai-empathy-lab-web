@@ -1,6 +1,11 @@
+import { PublicationsJsonLd } from "@/components/JsonLd";
 import { PublicationCard } from "@/components/PublicationCard";
 import { PublicationItem } from "@/components/PublicationItem";
-import { SELECTED_PUBLICATIONS, WORKING_PAPERS } from "@/content/publications";
+import {
+  ALL_PUBLICATIONS,
+  SELECTED_PUBLICATIONS,
+  WORKING_PAPERS,
+} from "@/content/publications";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -14,6 +19,7 @@ export const metadata = pageMetadata({
 export default function PublicationsPage() {
   return (
     <div className="container">
+      <PublicationsJsonLd publications={ALL_PUBLICATIONS} />
       <header className="page-hero">
         <div className="hero-split">
           <h1 className="t-h1">

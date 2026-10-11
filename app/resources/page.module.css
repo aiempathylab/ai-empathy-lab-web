@@ -38,3 +38,58 @@
   color: var(--ael-accent);
   font-variant-numeric: tabular-nums;
 }
+
+/* The section the home page's Research Platform card opens on, clear of
+   the floating navbar. */
+.platform {
+  scroll-margin-top: calc(var(--ael-nav-clearance) + 1rem);
+}
+
+/* The kinds of study it runs, as boxes: things a researcher can pick, where
+   the points above are properties every study has. */
+.formats {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+.formatsHead {
+  font: 500 0.75rem/1.4 var(--ael-font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+}
+.formatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: 1.25rem;
+  list-style: none;
+}
+.format {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding: 1.5rem 1.5rem 1.6rem;
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-hairline);
+  border-radius: var(--ael-radius-card);
+  box-shadow: var(--ael-shadow-sm);
+}
+.formatIcon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.35rem;
+  border-radius: var(--ael-radius-control);
+  background: var(--ael-indigo-50);
+  border: 1px solid var(--ael-indigo-100);
+  color: var(--ael-indigo-600);
+}
+.formatTitle {
+  font: 600 1.15rem/1.3 var(--ael-font-display);
+  letter-spacing: -0.01em;
+}
+.formatBody {
+  font: var(--ael-text-small);
+  color: var(--ael-text-secondary);
+}

@@ -15,8 +15,14 @@ import styles from "./DitherArt.module.css";
  * alive: the squares resolve in once it is in view, top first, in dither
  * order, and then a patch of squares twice as fine drifts slowly across it,
  * the machine looking closer. Under the pointer the patch follows the
- * pointer. It runs only while on screen with the tab visible; reduced
- * motion shows the finished image, weak hardware draws at 30 fps and 1x
+ * pointer. A piece with a video plays it instead, every frame dithered as
+ * it arrives, starting on the frame its still shows. It has no patch, so
+ * every square stays the same size and what happens is easy to follow. A
+ * one-tone piece draws the dark indigo only, its density alone following
+ * the image, which stays crisper at the finest squares.
+ *
+ * It all runs only while on screen with the tab visible. Reduced motion
+ * shows the finished still image, weak hardware draws at 30 fps and 1x
  * pixels (where the patch cannot be finer, so it rests). Without
  * JavaScript or WebGL the pre-dithered still shows instead.
  */
@@ -31,24 +37,32 @@ uniform vec3 uLens;
 uniform float uLensR;
 uniform vec3 uInk;
 uniform vec3 uMid;
+uniform bool uOne;
 out vec4 o;
 ${BAYER8}
 void main() {
   vec2 frag = vec2(gl_FragCoord.x, uSize.y - gl_FragCoord.y);
   vec2 coarse = floor(frag / uCell);
   bool fine = uCell >= 4.0 && uLens.z > 0.001 && distance((coarse + 0.5) * uCell, uLens.xy) < uLensR * uLens.z;
-  float cell = fine ? uCell * 0.5 : uCell;
+  float cell = fine ? floor(uCell * 0.5) : uCell;
   vec2 idx = floor(frag / cell);
   vec2 center = (idx + 0.5) * cell;
-  vec4 s = textureLod(uTone, center / uSize, max(0.0, log2(cell / uSize.y * uTexH)));
+  vec2 uv = center / uSize;
+  float lod = max(0.0, log2(cell / uSize.y * uTexH));
   float th = bayer8(idx);
   float appear = 0.6 * (center.y / uSize.y) + 0.4 * th;
   vec2 local = frag - idx * cell;
-  float gap = cell * 0.16;
+  vec4 s = textureLod(uTone, uv, lod);
+  // In whole pixels, so the look holds at any zoom or screen density: one
+  // pixel of page on each side of a square, none for the finer patch's
+  // squares or any under 4 pixels, which touch like a fine print's dots.
+  float gap = fine || cell < 4.0 ? 0.0 : 1.0;
   bool inside = all(greaterThanEqual(local, vec2(gap))) && all(lessThan(local, vec2(cell - gap)));
-  // Ordered dithering to three levels: no square, a light one, a dark one.
-  float level = min(floor(s.r * 2.0 + th), 2.0);
-  if (s.a < 0.5 || level < 1.0 || uReveal < appear || !inside) { o = vec4(0.0); return; }
+  // Ordered dithering to three levels, no square, a light one, a dark one,
+  // or for one tone to two, no square or a dark one.
+  float level = uOne ? (s.r > th ? 2.0 : 0.0) : min(floor(s.r * 2.0 + th), 2.0);
+  // An ink video has no alpha: where it is black there is no subject.
+  if (s.a < 0.5 || s.r < 0.03 || level < 1.0 || uReveal < appear || !inside) { o = vec4(0.0); return; }
   o = vec4(level > 1.5 ? uInk : uMid, 1.0);
 }`;
 
@@ -66,6 +80,13 @@ function brandEase(p: number): number {
   return ((ay * s + by) * s + cy) * s;
 }
 
+const FRAME = { position: "relative", width: "100%", height: "100%" } as const;
+const FILL = { position: "absolute", inset: 0, width: "100%", height: "100%" } as const;
+
+/** Seconds the squares take to dissolve at a video's end, and to resolve
+ *  again on its first frame: the loop's seam, in the site's own motion. */
+const SEAM_S = 0.6;
+
 export function DitherArt({
   piece,
   className,
@@ -74,8 +95,9 @@ export function DitherArt({
 }: {
   piece: ArtPiece;
   className?: string;
-  /** Square size in CSS pixels. Under the pointer they halve, where the
-   *  screen has the pixels for it (a 2x display at the default size). */
+  /** Square size in CSS pixels, never under 2 screen pixels. Under the
+   *  pointer they halve, where the screen has the pixels for it (a 2x
+   *  display at the default size). */
   cell?: number;
   lensRadius?: number;
 }) {
@@ -97,6 +119,7 @@ export function DitherArt({
     const u = (name: string) => gl.getUniformLocation(prog, name);
     gl.uniform3f(u("uInk"), ...tokenRGB("--ael-indigo-700"));
     gl.uniform3f(u("uMid"), ...tokenRGB("--ael-indigo-400"));
+    gl.uniform1i(u("uOne"), piece.oneTone ? 1 : 0);
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const low = isLowPower();
@@ -114,6 +137,9 @@ export function DitherArt({
     let raf = 0;
     let last = 0;
     let tex: WebGLTexture | null = null;
+    let video: HTMLVideoElement | null = null;
+    let videoTime = -1;
+    let seam = 1;
 
     const resize = () => {
       const rect = wrap.getBoundingClientRect();
@@ -121,21 +147,27 @@ export function DitherArt({
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
     };
+    /* Squares in whole device pixels: at a zoom or screen density that
+       is not a whole number, fractions would give some rows and columns a
+       gap and others none, a mesh lighter than the picture. */
+    const deviceCell = () => Math.max(Math.round(cell * dpr), 2);
     const draw = () => {
       if (!ready) return;
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform2f(u("uSize"), canvas.width, canvas.height);
-      gl.uniform1f(u("uCell"), cell * dpr);
+      gl.uniform1f(u("uCell"), deviceCell());
       gl.uniform1f(u("uTexH"), texH);
-      gl.uniform1f(u("uReveal"), reveal);
+      gl.uniform1f(u("uReveal"), Math.min(reveal, seam));
       gl.uniform3f(u("uLens"), lx, ly, lens);
       gl.uniform1f(u("uLensR"), lensRadius * dpr);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
-    /* The finer patch needs at least 4 device pixels per square to halve. */
-    const canWander = () => !reduce && cell * dpr >= 4;
+    /* The finer patch needs at least 4 device pixels per square to halve,
+       and a moving picture shows none. */
+    const patch = !piece.video;
+    const canWander = () => patch && !reduce && deviceCell() >= 4;
     const tick = (now: number) => {
       raf = 0;
       if (!visible || document.hidden) {
@@ -157,21 +189,48 @@ export function DitherArt({
       lens += (lensTo - lens) * k;
       lx += (tx - lx) * k;
       ly += (ty - ly) * k;
+      /* a new video frame becomes the ink map */
+      if (video && video.readyState >= video.HAVE_CURRENT_DATA && video.currentTime !== videoTime) {
+        upload(video);
+        videoTime = video.currentTime;
+        const edge = Math.min(videoTime, video.duration - videoTime) / SEAM_S;
+        seam = brandEase(Math.max(0, Math.min(1, edge)));
+      }
       frame += 1;
       if (!low || frame % 2 === 0) draw();
-      const busy = (revealFrom >= 0 && reveal < 1) || canWander() || Math.abs(lensTo - lens) > 0.002 || Math.hypot(tx - lx, ty - ly) > 0.5;
+      const busy =
+        (revealFrom >= 0 && reveal < 1) ||
+        canWander() ||
+        (video !== null && !video.paused) ||
+        Math.abs(lensTo - lens) > 0.002 ||
+        Math.hypot(tx - lx, ty - ly) > 0.5;
       if (busy) raf = requestAnimationFrame(tick);
       else last = 0;
     };
     const kick = () => {
       if (!raf) raf = requestAnimationFrame(tick);
     };
+    const upload = (source: TexImageSource) => {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    };
+    /* The video plays only while the piece is on screen with the tab
+       visible, and waits paused otherwise. */
+    const syncVideo = () => {
+      if (!video) return;
+      if (visible && !document.hidden) {
+        video.play().then(kick, () => {});
+      } else {
+        video.pause();
+      }
+    };
 
     /* Listened for on the window, not the image: in the hero the text
        layer lies over it and would swallow the pointer. The lens is on
        while the pointer is over the image itself. */
     const onMove = (e: PointerEvent) => {
-      if (reduce || !ready) return;
+      if (reduce || !ready || !patch) return;
       const rect = wrap.getBoundingClientRect();
       over = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
       if (!over) {
@@ -203,6 +262,7 @@ export function DitherArt({
       e.preventDefault();
       cancelAnimationFrame(raf);
       raf = 0;
+      video?.pause();
       fallback();
     };
     canvas.addEventListener("webglcontextlost", onLost);
@@ -218,21 +278,23 @@ export function DitherArt({
         visible = entries.some((en) => en.isIntersecting);
         if (visible && revealFrom < 0) revealFrom = performance.now();
         if (visible) kick();
+        syncVideo();
       },
       { threshold: 0.15 },
     );
-    const onVisibility = () => kick();
+    const onVisibility = () => {
+      kick();
+      syncVideo();
+    };
     document.addEventListener("visibilitychange", onVisibility);
 
     const img = new Image();
     img.decoding = "async";
     img.onload = () => {
       tex = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
       gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.generateMipmap(gl.TEXTURE_2D);
+      upload(img);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -243,15 +305,49 @@ export function DitherArt({
       wrap.dataset.state = "live";
       resize();
       if (reduce) draw();
+      if (piece.video && !reduce) {
+        /* In the page, invisible, so every browser decodes it. It starts on
+           the frame the still shows, so nothing jumps when it begins. */
+        video = document.createElement("video");
+        video.className = styles.source;
+        Object.assign(video.style, { position: "absolute", width: "1px", height: "1px", opacity: "0", pointerEvents: "none" });
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = "auto";
+        video.setAttribute("aria-hidden", "true");
+        video.src = piece.video;
+        video.currentTime = piece.videoStart ?? 0;
+        wrap.appendChild(video);
+      }
       io.observe(wrap);
     };
     img.onerror = fallback;
-    img.src = piece.tone;
+    /* Nothing is fetched until the piece is within a screen of being seen.
+       A piece the page hides (the hero, below 900px) is never laid out, so
+       it never comes near, and a phone does not download a film it would
+       never show. */
+    const near = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((en) => en.isIntersecting)) return;
+        near.disconnect();
+        img.src = piece.tone;
+      },
+      { rootMargin: "100% 0px" },
+    );
+    near.observe(wrap);
 
     return () => {
+      near.disconnect();
       /* An image still loading would otherwise wake this run back up
          after it ended, drawing with a program that is gone. */
       img.onload = img.onerror = null;
+      if (video) {
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+        video.remove();
+      }
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
@@ -265,17 +361,25 @@ export function DitherArt({
          exactly one, and React runs effects twice in development, so a
          lost context would be all the second run ever got. */
     };
-  }, [piece.tone, cell, lensRadius]);
+  }, [piece.tone, piece.video, piece.videoStart, piece.oneTone, cell, lensRadius]);
 
+  /* The still and the canvas fill an inner frame positioned inline, not
+     only from the stylesheet: a page whose styles arrived late, or a tab
+     left open across a rebuild, otherwise showed the still at its own
+     pixel size, several times the box. The box clips them for the same
+     reason. The frame is separate because the box itself takes its
+     position from the page (the hero's is absolute). */
   return (
     <div
       ref={wrapRef}
       className={`${styles.art} ${className ?? ""}`}
-      style={{ aspectRatio: String(piece.ratio) }}
+      style={{ aspectRatio: String(piece.ratio), overflow: "hidden" }}
       data-state="init"
     >
-      <img src={piece.still} alt={piece.alt} className={styles.still} draggable={false} />
-      <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
+      <div style={FRAME}>
+        <img src={piece.still} alt={piece.alt} className={styles.still} style={FILL} draggable={false} />
+        <canvas ref={canvasRef} className={styles.canvas} style={FILL} aria-hidden="true" />
+      </div>
     </div>
   );
 }

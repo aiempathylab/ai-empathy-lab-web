@@ -45,10 +45,19 @@
    room beside the headline, so it steps out. */
 .heroArt {
   position: absolute;
-  right: clamp(1.25rem, 4vw, 2.5rem);
+  /* the container's right content edge, 1352 at 1440, wherever the screen
+     is wider than the container */
+  right: calc(max(0px, (100% - 84rem) / 2) + clamp(1.25rem, 4vw, 2.5rem));
   bottom: 0;
   height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 42vw, 600px);
   z-index: 0;
+}
+/* Narrower screens bring the headline's end closer, so the picture is held
+   to a third of the screen's width there and keeps clear of it. */
+@media (max-width: 1260px) {
+  .heroArt {
+    height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 33vw, 600px);
+  }
 }
 @media (max-width: 900px) {
   .heroArt {

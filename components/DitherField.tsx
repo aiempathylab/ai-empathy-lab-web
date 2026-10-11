@@ -8,9 +8,10 @@ import styles from "./DitherArt.module.css";
 /**
  * Abstract moving pictures in the site's squares, drawn with WebGL in the
  * same two-shade ordered dither as DitherArt:
- *   bars     a benchmark's bars, re-ranking non-stop (the Index): a new
- *            edition every couple of seconds, taken bar by bar from the
- *            left, and every bar breathing a little in between
+ *   chat     a conversation (the research platform): the participant's
+ *            messages on the left in the light shade, the agent's replies
+ *            on the right in the dark, one arriving every couple of
+ *            seconds while the older ones rise and dissolve
  *   ripples  waves from three voices meeting (the Symposium)
  *   voice    "I understand how you feel" as a waveform, a listening window
  *            travelling along it
@@ -21,7 +22,7 @@ import styles from "./DitherArt.module.css";
  * frames a second at 1x pixels. Without WebGL2 the field steps out of the
  * layout. Purely decorative, so hidden from assistive tech.
  */
-export type FieldScene = "bars" | "ripples" | "voice";
+export type FieldScene = "chat" | "ripples" | "voice";
 
 const FRAG = `#version 300 es
 precision highp float;
@@ -29,20 +30,45 @@ uniform vec2 uSize;
 uniform float uCell;
 uniform float uTime;
 uniform int uScene;
-uniform float uBars[9];
 uniform float uPlay;
 uniform vec3 uInk;
 uniform vec3 uMid;
 out vec4 o;
 ${BAYER8}
 
-float bars(vec2 uv) {
-  float slot = uv.x * 9.0;
-  float f = fract(slot);
-  if (f < 0.14 || f > 0.86) return 0.0;
-  float h = uBars[int(min(floor(slot), 8.0))];
-  if (uv.y > h) return 0.0;
-  return 0.42 + 0.58 * smoothstep(0.0, 1.0, uv.y / max(h, 0.001));
+float hash(float n) { return fract(sin(n * 12.9898 + 4.1) * 43758.5453); }
+float chat(vec2 idx, float t) {
+  vec2 grid = floor(uSize / uCell);
+  // Each message takes seven rows: a bubble five squares tall and a gap.
+  float slot = 7.0;
+  float k = floor(t / 1.8);
+  float e = 1.0 - pow(1.0 - clamp(fract(t / 1.8) / 0.3, 0.0, 1.0), 3.0);
+  // Rows counted up from the bottom, the newest message easing in from below.
+  float y = grid.y - 2.0 - idx.y + (1.0 - e) * slot;
+  if (y < 0.0) return 0.0;
+  float j = floor(y / slot);
+  float m = k - j;
+  float ly = y - j * slot;
+  if (ly >= 5.0) return 0.0;
+  bool agent = mod(m, 2.0) > 0.5;
+  float w = floor(grid.x * (agent ? 0.42 + 0.3 * hash(m) : 0.28 + 0.26 * hash(m)));
+  float lx = idx.x - (agent ? grid.x - 2.0 - w : 2.0);
+  if (lx < 0.0 || lx >= w) return 0.0;
+  // Rounded corners: the four corner squares stay empty.
+  if ((ly < 0.5 || ly > 3.5) && (lx < 0.5 || lx > w - 1.5)) return 0.0;
+  // A line of words knocked out of the middle row.
+  if (abs(ly - 2.0) < 0.5 && lx > 1.5 && lx < w - 2.5) {
+    float start = 2.0;
+    for (int i = 0; i < 16; i++) {
+      float len = 2.0 + floor(hash(m * 31.0 + float(i)) * 3.0);
+      if (lx < start + len) break;
+      if (lx < start + len + 1.0) return 0.0;
+      start += len + 1.0;
+    }
+  }
+  // The oldest messages dissolve as they reach the top.
+  float fade = clamp(idx.y / 7.0, 0.0, 1.0);
+  return (agent ? 1.0 : 0.5) * fade;
 }
 float ripples(vec2 p, float t) {
   vec2 s[3] = vec2[3](vec2(0.16, 0.58), vec2(0.5, 0.26), vec2(0.86, 0.66));
@@ -82,36 +108,27 @@ void main() {
   vec2 idx = floor(frag / uCell);
   vec2 center = (idx + 0.5) * uCell;
   vec2 uv = vec2(center.x / uSize.x, 1.0 - center.y / uSize.y);
-  float v = uScene == 0 ? bars(uv) : (uScene == 1 ? ripples(center, uTime) : voice(uv));
+  float v = uScene == 0 ? chat(idx, uTime) : (uScene == 1 ? ripples(center, uTime) : voice(uv));
   float level = min(floor(v * 2.0 + bayer8(idx)), 2.0);
   vec2 local = frag - idx * uCell;
-  float gap = uCell * 0.16;
+  // In whole pixels, so the squares keep their look at any zoom.
+  float gap = uCell < 4.0 ? 0.0 : 1.0;
   bool inside = all(greaterThanEqual(local, vec2(gap))) && all(lessThan(local, vec2(uCell - gap)));
   if (level < 1.0 || !inside) { o = vec4(0.0); return; }
   o = vec4(level > 1.5 ? uInk : uMid, 1.0);
 }`;
 
-const SCENE_ID: Record<FieldScene, number> = { bars: 0, ripples: 1, voice: 2 };
+const SCENE_ID: Record<FieldScene, number> = { chat: 0, ripples: 1, voice: 2 };
 const PALETTES = {
   indigo: ["--ael-indigo-700", "--ael-indigo-400"],
   iris: ["--ael-iris-600", "--ael-iris-400"],
 } as const;
 
-/** Editions of a benchmark: the bars rise into the first, then trade
- *  heights from one edition to the next, without a pause. */
-const RANKINGS = [
-  [0.94, 0.86, 0.79, 0.71, 0.62, 0.55, 0.47, 0.38, 0.3],
-  [0.9, 0.91, 0.7, 0.8, 0.52, 0.64, 0.5, 0.33, 0.37],
-  [0.82, 0.95, 0.76, 0.68, 0.7, 0.49, 0.58, 0.41, 0.29],
-  [0.96, 0.8, 0.84, 0.62, 0.66, 0.57, 0.4, 0.45, 0.34],
-  [0.86, 0.88, 0.9, 0.58, 0.72, 0.6, 0.54, 0.36, 0.42],
-  [0.92, 0.84, 0.74, 0.77, 0.58, 0.68, 0.44, 0.5, 0.31],
-];
-const EDITION_S = 1.9;
-/** each bar takes the new edition this long after the one to its left */
-const STAGGER_S = 0.09;
 /** one lap of the listening window along the sentence */
 const SWEEP_S = 3.6;
+
+const FRAME = { position: "relative", width: "100%", height: "100%" } as const;
+const FILL = { position: "absolute", inset: 0, width: "100%", height: "100%" } as const;
 
 export function DitherField({
   scene,
@@ -153,13 +170,6 @@ export function DitherField({
     let frame = 0;
     let clock = 0;
     let visible = false;
-    const heights = new Float32Array(9);
-    const velocity = new Float32Array(9);
-    const shown = new Float32Array(9);
-    if (reduce) {
-      heights.set(RANKINGS[0]);
-      shown.set(RANKINGS[0]);
-    }
 
     const resize = () => {
       const rect = wrap.getBoundingClientRect();
@@ -172,9 +182,8 @@ export function DitherField({
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform2f(u("uSize"), canvas.width, canvas.height);
-      gl.uniform1f(u("uCell"), cell * dpr);
+      gl.uniform1f(u("uCell"), Math.max(Math.round(cell * dpr), 2));
       gl.uniform1f(u("uTime"), 0.9 + clock);
-      gl.uniform1fv(u("uBars"), shown);
       gl.uniform1f(u("uPlay"), reduce ? 0.5 : -0.2 + 1.4 * ((clock % SWEEP_S) / SWEEP_S));
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
@@ -188,20 +197,6 @@ export function DitherField({
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
       clock += dt;
-      if (scene === "bars") {
-        for (let i = 0; i < 9; i++) {
-          /* each bar takes the next edition a beat after its neighbour, so
-             a wave of change keeps running across the chart */
-          const t = clock - i * STAGGER_S;
-          if (t < 0) continue;
-          const target = RANKINGS[Math.floor(t / EDITION_S) % RANKINGS.length][i];
-          /* a spring with a hair of overshoot, the site's chip feel */
-          velocity[i] += (120 * (target - heights[i]) - 17 * velocity[i]) * dt;
-          heights[i] += velocity[i] * dt;
-          /* and a small breath of its own, so no bar is ever quite still */
-          shown[i] = Math.max(0, heights[i] * (1 + 0.035 * Math.sin(clock * 2.3 + i * 0.9)));
-        }
-      }
       frame += 1;
       if (!low || frame % 2 === 0) draw();
       raf = requestAnimationFrame(tick);
@@ -235,9 +230,19 @@ export function DitherField({
     };
   }, [scene, palette, cell]);
 
+  /* The canvas fills an inner frame positioned inline, as in DitherArt, so
+     it keeps to its box even when the stylesheet has not arrived. */
   return (
-    <div ref={wrapRef} className={`${styles.art} ${styles.field} ${className ?? ""}`} aria-hidden="true" data-state="init">
-      <canvas ref={canvasRef} className={styles.canvas} />
+    <div
+      ref={wrapRef}
+      className={`${styles.art} ${styles.field} ${className ?? ""}`}
+      style={{ overflow: "hidden" }}
+      aria-hidden="true"
+      data-state="init"
+    >
+      <div style={FRAME}>
+        <canvas ref={canvasRef} className={styles.canvas} style={FILL} />
+      </div>
     </div>
   );
 }

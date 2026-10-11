@@ -1,0 +1,219 @@
+/* The contact form: one panel, fields in the kit's control sizes, the
+   kit's own focus outline, and every message in words beside its field. */
+.form,
+.done {
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-hairline);
+  border-radius: var(--ael-radius-panel);
+  box-shadow: var(--ael-shadow-sm);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+.form {
+  position: relative;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  gap: 1.4rem 1rem;
+}
+.field {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+.label {
+  font: 500 0.9375rem/1.3 var(--ael-font-text);
+  color: var(--ael-text-primary);
+}
+.optional {
+  font-weight: 400;
+  color: var(--ael-text-muted);
+}
+
+.input {
+  width: 100%;
+  height: var(--ael-control-h-md);
+  padding: 0 0.95rem;
+  font: var(--ael-text-body);
+  color: var(--ael-text-primary);
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-input);
+  border-radius: var(--ael-radius-control);
+  transition: border-color var(--ael-dur-micro) var(--ael-ease);
+}
+.input:hover {
+  border-color: var(--ael-border-strong);
+}
+.input:focus-visible {
+  border-color: var(--ael-accent);
+}
+.input[aria-invalid="true"] {
+  border-color: var(--ael-status-error);
+}
+.textarea {
+  height: auto;
+  min-height: 9.5rem;
+  padding: 0.75rem 0.95rem;
+  resize: vertical;
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: var(--ael-text-small);
+  color: var(--ael-status-error);
+}
+
+/* Topics: a radio group drawn as pills. The radio itself stays in place,
+   invisible, so the keyboard and screen readers get a real radio group. */
+.topics {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.topics legend {
+  padding: 0;
+  margin-bottom: 0.7rem;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: var(--ael-control-h-sm);
+  padding: 0 0.95rem;
+  border: 1px solid var(--ael-border-strong);
+  border-radius: var(--ael-radius-pill);
+  background: var(--ael-bg-surface);
+  font: 500 0.9rem/1 var(--ael-font-text);
+  color: var(--ael-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--ael-dur-micro) var(--ael-ease),
+    border-color var(--ael-dur-micro) var(--ael-ease),
+    color var(--ael-dur-micro) var(--ael-ease);
+}
+.chip:hover {
+  border-color: var(--ael-accent);
+  color: var(--ael-text-primary);
+}
+.chip[data-on="true"] {
+  background: var(--ael-accent-soft);
+  border-color: var(--ael-accent);
+  color: var(--ael-text-link);
+}
+.chip:has(.chipInput:focus-visible) {
+  outline: 2px solid var(--ael-focus-ring);
+  outline-offset: 2px;
+}
+.chipInput {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* The bot trap, off screen rather than display: none, which some bots
+   know to skip. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--ael-radius-control);
+  background: var(--ael-status-error-bg);
+  color: var(--ael-status-error);
+  font: var(--ael-text-small);
+}
+.notice svg {
+  flex: none;
+  margin-top: 0.1rem;
+}
+.notice a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.noticeInfo {
+  background: var(--ael-status-info-bg);
+  color: var(--ael-status-info);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.actions :global(.btn:disabled) {
+  opacity: 0.75;
+  cursor: progress;
+}
+.privacy {
+  font: var(--ael-text-small);
+  color: var(--ael-text-muted);
+  max-width: 36ch;
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
+
+/* Sent: the panel thanks the visitor in place of the form. */
+.done {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+}
+.doneIcon {
+  color: var(--ael-status-success);
+}
+.doneTitle {
+  font: 600 1.45rem/1.25 var(--ael-font-display);
+  letter-spacing: -0.01em;
+}
+.doneTitle:focus {
+  outline: none;
+}
+.doneBody {
+  color: var(--ael-text-secondary);
+}
+.again {
+  appearance: none;
+  margin-top: 0.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 500 1rem/1.4 var(--ael-font-text);
+  color: var(--ael-text-link);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}

@@ -4,13 +4,14 @@ import { SITE } from "@/content/site";
 /**
  * Per-page metadata. Titles and descriptions come from the SEO plan
  * verbatim, so every page passes its FULL title — no layout template.
- * Articles (the explainers) say so in Open Graph, with their review date.
+ * Articles (the explainers) say so in Open Graph, with the date each went
+ * live and the date of its last review.
  */
 export function pageMetadata(page: {
   title: string;
   description: string;
   path: string;
-  article?: { modified: string };
+  article?: { published: string; modified: string };
 }): Metadata {
   return {
     title: { absolute: page.title },
@@ -24,7 +25,7 @@ export function pageMetadata(page: {
           siteName: SITE.name,
           images: ["/brand/og.png"],
           type: "article",
-          publishedTime: page.article.modified,
+          publishedTime: page.article.published,
           modifiedTime: page.article.modified,
         }
       : {

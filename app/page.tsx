@@ -36,13 +36,11 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section className={styles.hero}>
-        <div className={`${styles.glow} ${styles.glowA}`} aria-hidden="true" />
-        <div className={`${styles.glow} ${styles.glowB}`} aria-hidden="true" />
         <div className="grain" aria-hidden="true" />
-        {/* The lab's medium, the voice, as a machine sees it. It resolves
-            on load, then a finer patch drifts across it, the machine
-            looking closer, and follows the pointer when it rests there. */}
-        <DitherArt piece={ART.heroMicrophone} className={styles.heroArt} />
+        {/* Empathy from a machine, as a machine sees it: a robot arm offers a
+            woman a flower, in one tone of the site's indigo at the finest
+            squares, on a loop. */}
+        <DitherArt piece={ART.heroRobot} cell={1} className={styles.heroArt} />
         <div className={`container ${styles.heroInner}`}>
           <h1 className={styles.heroTitle}>
             Making sense of machines that{" "}
@@ -79,9 +77,10 @@ export default function HomePage() {
           </div>
           <div className="prose">
             <p className="t-lead">
-              The AI Empathy Lab brings together a new generation of academics
-              to investigate how empathic AI, in the form of assistants,
-              agents, and companions, shapes consumer behavior.
+              The AI Empathy Lab brings together researchers in marketing,
+              psychology, behavioral science, and computer science to
+              investigate how empathic AI, in the form of assistants, agents,
+              and companions, shapes consumer behavior.
             </p>
             <p>
               Our approach is distinctly experimental, and our medium is the
@@ -97,6 +96,21 @@ export default function HomePage() {
               </Link>
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* ── News, right after who we are, so the page opens on what is new ── */}
+      <section className={`${styles.section} band-rule`}>
+        <div className="container" data-reveal>
+          <div className="section-head">
+            <div>
+              <h2 className="t-h2">Latest from the team</h2>
+            </div>
+            <Link href="/news/" className="link-arrow">
+              All updates <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </div>
+          <NewsList items={getNews().slice(0, 3)} />
         </div>
       </section>
 
@@ -121,7 +135,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-head" data-reveal>
             <div>
-              <h2 className="t-h2">Latest on AI empathy</h2>
+              <h2 className="t-h2">Latest research</h2>
             </div>
             <Link href="/publications/" className="link-arrow">
               All publications <ArrowRight size={16} aria-hidden="true" />
@@ -149,19 +163,19 @@ export default function HomePage() {
           </div>
           <div className={styles.initGrid}>
             <div data-reveal>
-              <Link href="/ai-empathy-index/" className={`${styles.initCard} ${styles.initIndigo}`}>
-                {/* A benchmark: bars re-ranking edition after edition. */}
-                <DitherField scene="bars" palette="indigo" className={styles.initArt} />
+              <Link href="/resources/#platform" className={`${styles.initCard} ${styles.initIndigo}`}>
+                {/* The platform: a participant and an agent in conversation. */}
+                <DitherField scene="chat" palette="indigo" className={styles.initArt} />
                 <span className={styles.initChipRow}>
-                  <span className="chip chip-accent">Coming soon</span>
+                  <span className="chip chip-accent">Open to research groups</span>
                 </span>
-                <span className={styles.initTitle}>AI Empathy Index</span>
+                <span className={styles.initTitle}>Research Platform</span>
                 <span className={styles.initBody}>
-                  A recurring, research-grade benchmark of how empathic today&apos;s
-                  AI assistants and companions really are.
+                  The infrastructure behind every experiment we publish, where
+                  participants talk to live, working AI agents.
                 </span>
                 <span className={styles.initGo}>
-                  About the Index <ArrowRight size={16} aria-hidden="true" />
+                  About the platform <ArrowRight size={16} aria-hidden="true" />
                 </span>
               </Link>
             </div>
@@ -186,20 +200,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── News ── */}
-      <section className={`${styles.section} band-rule`}>
-        <div className="container" data-reveal>
-          <div className="section-head">
-            <div>
-              <h2 className="t-h2">Latest from the team</h2>
-            </div>
-            <Link href="/news/" className="link-arrow">
-              All updates <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          </div>
-          <NewsList items={getNews().slice(0, 3)} />
-        </div>
-      </section>
       {/* ── Partners: the page's closing acknowledgment, the way a paper
              ends with its funding note. Same cells as the About page — one
              component, so the two can never drift. ── */}

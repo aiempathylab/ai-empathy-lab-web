@@ -2,10 +2,13 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DitherArt } from "@/components/DitherArt";
+import { ProjectJsonLd } from "@/components/JsonLd";
 import { PublicationItem } from "@/components/PublicationItem";
+import { explainerItems, QuestionList } from "@/components/QuestionRow";
 import { PROGRAMME_ART } from "@/content/art";
 import { publicationsForProject } from "@/content/publications";
 import { projectBySlug, RESEARCH_PROJECTS } from "@/content/research";
+import { EXPLAINERS } from "@/content/resources";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -38,12 +41,19 @@ export default async function ResearchProjectPage({
   if (!project) notFound();
 
   const art = PROGRAMME_ART[project.slug];
-  const related = publicationsForProject(project.slug).filter(
+  const papers = publicationsForProject(project.slug);
+  const related = papers.filter(
     (publication) => publication.href !== project.workSample?.href,
+  );
+  /* The explainers that name this programme as their related research,
+     so the link between the two runs both ways. */
+  const explainers = EXPLAINERS.filter((explainer) =>
+    explainer.related.includes(project.slug),
   );
 
   return (
     <div className="container">
+      <ProjectJsonLd project={project} publications={papers} />
       <header className="page-hero">
         <div className="hero-split">
           <div className="hero-split-left">
@@ -112,6 +122,17 @@ export default async function ResearchProjectPage({
               <PublicationItem key={publication.id} publication={publication} />
             ))}
           </div>
+        </section>
+      ) : null}
+
+      {explainers.length ? (
+        <section className="band">
+          <div className="section-head">
+            <div>
+              <h2 className="t-h2">Related explainers</h2>
+            </div>
+          </div>
+          <QuestionList items={explainerItems(explainers)} />
         </section>
       ) : null}
 

@@ -57,6 +57,8 @@ export interface Explainer {
   answer: string;
   seoTitle: string;
   seoDescription: string;
+  /** ISO date the page first went live. Never moves. */
+  published: string;
   /** ISO date of the last full fact check. */
   reviewed: string;
   sections: ExplainerSection[];
@@ -196,6 +198,7 @@ export const EXPLAINERS: Explainer[] = [
     seoTitle: "What Is AI Empathy? Definition & Evidence | AI Empathy Lab",
     seoDescription:
       "AI empathy is a machine’s ability to recognize how someone feels, understand why, and respond helpfully. What it is, what it is not, and what research shows.",
+    published: "2026-10-04",
     reviewed: "2026-10-04",
     related: [
       "ai-empathy-agentic-commerce",
@@ -363,6 +366,7 @@ export const EXPLAINERS: Explainer[] = [
     seoTitle: "Empathic AI vs Emotional AI vs Affective Computing",
     seoDescription:
       "Affective computing is the field, emotional AI reads emotion, empathic AI responds to it. Clear definitions, examples, and how the EU AI Act treats each.",
+    published: "2026-10-04",
     reviewed: "2026-10-04",
     related: ["ai-emotion-measurement"],
     terms: [
@@ -574,6 +578,7 @@ export const EXPLAINERS: Explainer[] = [
     seoTitle: "How to Measure Empathy in AI | AI Empathy Lab",
     seoDescription:
       "How researchers measure empathy in AI: rating what a system says, perceived empathy scales, benchmarks, and experiments that track what people feel and do.",
+    published: "2026-10-04",
     reviewed: "2026-10-04",
     related: ["ai-emotion-measurement", "ai-empathy-customer-service"],
     sections: [
@@ -749,6 +754,7 @@ export const EXPLAINERS: Explainer[] = [
     seoTitle: "AI Companions, Loneliness & Well-being | AI Empathy Lab",
     seoDescription:
       "Do AI companions reduce loneliness or deepen it? What research shows about benefits, dependence, memory, and older adults, and what a good companion does.",
+    published: "2026-10-04",
     reviewed: "2026-10-04",
     related: ["ai-companions-healthy-aging"],
     sections: [
@@ -942,6 +948,7 @@ export const EXPLAINERS: Explainer[] = [
     seoTitle: "When AI Persuasion Becomes Manipulation | AI Empathy Lab",
     seoDescription:
       "Where persuasion ends and manipulation begins for AI that reads emotions. Definitions, evidence on AI persuasion, five practical tests, and the EU AI Act.",
+    published: "2026-10-04",
     reviewed: "2026-10-04",
     related: ["ai-empathy-sustainable-consumption", "ai-empathy-agentic-commerce"],
     sections: [

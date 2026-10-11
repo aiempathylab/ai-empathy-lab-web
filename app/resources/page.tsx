@@ -1,4 +1,13 @@
-import { ArrowUpRight, Mail } from "lucide-react";
+import {
+  ArrowUpRight,
+  AudioLines,
+  CalendarRange,
+  ClipboardList,
+  Mail,
+  MessageSquareText,
+  type LucideIcon,
+} from "lucide-react";
+import Link from "next/link";
 import { explainerItems, QuestionList } from "@/components/QuestionRow";
 import { EXPLAINERS } from "@/content/resources";
 import { SITE } from "@/content/site";
@@ -18,6 +27,30 @@ const PLATFORM_POINTS = [
   "Emotion-triggered experimental manipulation, with every trigger firing logged as data.",
   "Recruitment-aware participant IDs, concurrency caps with a fair waiting queue, and consent gates.",
   "Daily drift monitoring that reports provider changes instead of silently substituting models mid-study.",
+];
+
+/** The kinds of study the platform runs, as the boxes under the points. */
+const PLATFORM_FORMATS: { icon: LucideIcon; title: string; body: string }[] = [
+  {
+    icon: AudioLines,
+    title: "Voice conversations",
+    body: "Participants talk out loud with a live, empathic voice agent, in the same interface whichever AI service runs it.",
+  },
+  {
+    icon: ClipboardList,
+    title: "AI interviewer",
+    body: "A voice interviewer works through your questions, and a participant whose call drops can rejoin where they left off.",
+  },
+  {
+    icon: MessageSquareText,
+    title: "Text chat",
+    body: "Participants type instead of talking, and every message is kept for analysis.",
+  },
+  {
+    icon: CalendarRange,
+    title: "Multi-session studies",
+    body: "Participants come back for a series of sessions, and the agent can remember what was said before.",
+  },
 ];
 
 export default function ResourcesPage() {
@@ -48,7 +81,8 @@ export default function ResourcesPage() {
         <QuestionList items={explainerItems(EXPLAINERS)} />
       </section>
 
-      <section className="band band-rule">
+      {/* The home page's Research Platform card links here. */}
+      <section id="platform" className={`band band-rule ${styles.platform}`}>
         <div className="rail-split">
           <div className={styles.platformIntro}>
             <h2 className="t-h2">
@@ -71,9 +105,9 @@ export default function ResourcesPage() {
               >
                 Open the platform <ArrowUpRight size={17} aria-hidden="true" />
               </a>
-              <a href={`mailto:${SITE.email}`} className="link-arrow">
+              <Link href="/contact/?topic=platform" className="link-arrow">
                 <Mail size={16} aria-hidden="true" /> Ask about access
-              </a>
+              </Link>
             </div>
           </div>
           <ol className={styles.platformList}>
@@ -86,6 +120,20 @@ export default function ResourcesPage() {
               </li>
             ))}
           </ol>
+        </div>
+        <div className={styles.formats}>
+          <h3 className={styles.formatsHead}>What you can run on it</h3>
+          <ul className={styles.formatGrid}>
+            {PLATFORM_FORMATS.map((format) => (
+              <li key={format.title} className={styles.format}>
+                <span className={styles.formatIcon} aria-hidden="true">
+                  <format.icon size={20} strokeWidth={1.75} />
+                </span>
+                <h4 className={styles.formatTitle}>{format.title}</h4>
+                <p className={styles.formatBody}>{format.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

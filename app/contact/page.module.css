@@ -1,0 +1,17 @@
+.aside {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
+  padding-top: 0.5rem;
+}
+.way {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: start;
+}
+.wayHead {
+  font: 500 0.75rem/1.4 var(--ael-font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+}

@@ -7,8 +7,8 @@ import styles from "./SiteFooter.module.css";
  * Two rows: every section of the site with Contact at the far end, then the
  * copyright and LinkedIn. It used to be three columns of fifteen links, most
  * of them repeating the navbar or a page's own list, in a card over 550px
- * tall. Programme pages are one click from /research/, and the Index and
- * Symposium from the home page's "What is coming" cards.
+ * tall. Programme pages are one click from /research/, and the Symposium
+ * from the home page's "What is coming" card.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -22,9 +22,9 @@ export function SiteFooter() {
                 {item.label}
               </Link>
             ))}
-            <a href={`mailto:${SITE.email}`} className={`${styles.link} ${styles.contact}`}>
+            <Link href="/contact/" className={`${styles.link} ${styles.contact}`}>
               Contact
-            </a>
+            </Link>
           </nav>
 
           <div className={styles.bottom}>

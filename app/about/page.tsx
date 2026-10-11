@@ -1,5 +1,9 @@
+import Link from "next/link";
+import { LabPageJsonLd } from "@/components/JsonLd";
 import { PartnerLogos } from "@/components/PartnerLogos";
+import { RESEARCH_PROJECTS } from "@/content/research";
 import { SITE } from "@/content/site";
+import { TEAM } from "@/content/team";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -10,9 +14,18 @@ export const metadata = pageMetadata({
   path: "/about/",
 });
 
+/** A count as the facts panel writes it, "Nine". Counted from the data, so
+ *  the panel stays true as people join: it said eight for a while after the
+ *  team had grown to nine. */
+const WORDS = ["None", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+function spelled(n: number): string {
+  return WORDS[n] ?? String(n);
+}
+
 export default function AboutPage() {
   return (
     <div className="container">
+      <LabPageJsonLd type="AboutPage" path="/about/" />
       <header className="page-hero">
         <div className="hero-split">
         <h1 className="t-h1">About the AI Empathy Lab</h1>
@@ -28,9 +41,10 @@ export default function AboutPage() {
       <section className="band rail-split" data-reveal>
         <div className="prose">
         <p>
-          The AI Empathy Lab brings together a new generation of academics to
-          investigate how empathic AI, in the form of assistants, agents, and
-          companions, shapes consumer behavior.
+          The AI Empathy Lab brings together researchers in marketing,
+          psychology, behavioral science, and computer science to investigate
+          how empathic AI, in the form of assistants, agents, and companions,
+          shapes consumer behavior.
         </p>
         <p>
           Our approach is distinctly experimental, and our medium is the
@@ -87,11 +101,11 @@ export default function AboutPage() {
             </div>
             <div className={styles.fact}>
               <dt>Programmes</dt>
-              <dd>Five research programmes, from agentic commerce to emotion measurement</dd>
+              <dd>{spelled(RESEARCH_PROJECTS.length)} research programmes, from agentic commerce to emotion measurement</dd>
             </div>
             <div className={styles.fact}>
               <dt>Team</dt>
-              <dd>Eight researchers and technologists</dd>
+              <dd>{spelled(TEAM.length)} researchers and technologists</dd>
             </div>
           </dl>
         </aside>
@@ -123,9 +137,9 @@ export default function AboutPage() {
           <p className={styles.collabBody}>{SITE.collaborate}</p>
         </div>
         <div className={styles.collabActions}>
-          <a href={`mailto:${SITE.email}`} className="btn btn-primary">
+          <Link href="/contact/?topic=collaboration" className="btn btn-primary">
             Get in touch
-          </a>
+          </Link>
         </div>
         </div>
       </section>

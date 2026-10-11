@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getNews } from "@/content/news";
 import { RESEARCH_PROJECTS } from "@/content/research";
 import { EXPLAINERS } from "@/content/resources";
 import { SITE } from "@/content/site";
@@ -16,12 +17,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/team/",
     ...TEAM.map((person) => `/team/${person.id}/`),
     "/resources/",
-    "/news/",
+    "/contact/",
     "/ai-empathy-index/",
     "/symposium/",
   ];
+  /* A date only where the page has a true one: the news page changes
+     when an item is added, an explainer when it is reviewed. */
+  const latestNews = getNews()[0]?.date;
   return [
     ...paths.map((path) => ({ url: `${SITE.url}${path}` })),
+    { url: `${SITE.url}/news/`, ...(latestNews ? { lastModified: latestNews } : {}) },
     ...EXPLAINERS.map((explainer) => ({
       url: `${SITE.url}/resources/${explainer.slug}/`,
       lastModified: explainer.reviewed,

@@ -1,11 +1,13 @@
 /** Global site facts. Everything participant-visible on every page reads from here. */
 export const SITE = {
   name: "AI Empathy Lab",
-  /* The bare apex is the site's one true address. Vercel serves it directly
-     and redirects www to it, so canonicals, og:url, the sitemap and
-     robots.txt all name this. Keep the two in step: whichever host Vercel
-     serves is the one this must say. */
-  url: "https://aiempathylab.com",
+  /* The site's one true address. Vercel serves the www host and
+     redirects the bare domain to it, so canonicals, og:url, the sitemap
+     and robots.txt all name this. Keep the two in step: whichever host
+     Vercel serves is the one this must say. A canonical naming the other
+     one points every page at a redirect, and the sitemap then lists
+     nothing but redirects (it did until October 2026). */
+  url: "https://www.aiempathylab.com",
   platformUrl: "https://app.aiempathylab.com",
   /**
    * As a sentence (prose, OG card) the tagline keeps its period; in display
@@ -21,6 +23,14 @@ export const SITE = {
     "We study the effects of empathic AI on human judgment, decision-making, and well-being through rigorous experiments with AI voice agents.",
   /** The lab's contact address, confirmed by Danylo 2026-08-28. */
   email: "info@caryally.com",
+  /**
+   * Where the contact form sends, a Formspree form's address
+   * (https://formspree.io/f/<id>). Formspree emails each message on with
+   * the sender as reply-to and keeps a copy in its dashboard. While this is
+   * empty the form opens the visitor's email app instead, addressed to
+   * `email`, so the page works before the form service is set up.
+   */
+  formEndpoint: "" as string,
   linkedin: "https://www.linkedin.com/company/aiempathy/",
   /** Footer support & collaborations paragraph — verbatim from the content document. */
   support:
@@ -45,8 +55,11 @@ export interface NavItem {
  *   News       the "Latest from the team" section's "All updates"
  *   Resources  the hero's "What is AI empathy?", whose explainer lists the
  *              other four and links back to /resources/
- *   Index, Symposium  the "What is coming" cards
- * Index and Symposium earn a slot when they launch, not before.
+ *   Symposium  its "What is coming" card, beside the research platform's
+ *   Contact    the footer, and every "Get in touch" on the site
+ * The Symposium earns a slot when it launches, not before. The Index page
+ * has had no link since Alex's review of October 2026: it is reachable by
+ * its address only, until the directors decide its future.
  */
 export const NAV: NavItem[] = [
   { label: "Research", href: "/research/" },

@@ -2,22 +2,66 @@
   font: 500 0.85rem/1.5 var(--ael-font-mono);
   color: var(--ael-text-muted);
 }
-/* Closing call: centred inside the initiative's own tinted panel — the
-   same surface as its card on the home page, so page and card share an
-   identity. */
+/* The opening's ground, the home hero's own: the lavender gradient with
+   the grain over it, the full width of the page, so the microphone looks
+   exactly as it did there. */
+.veil {
+  position: relative;
+  background: var(--ael-gradient-veil);
+  overflow: hidden;
+}
+.veil > :global(.container) {
+  position: relative;
+  z-index: 1;
+}
+.after {
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* The opening: the words and the microphone level with each other, the
+   microphone's right edge on the content grid, as the home hero's was, at
+   about the size it had there. Stacked, it stands centred under the words. */
+.opening {
+  align-items: center;
+  padding-block: clamp(0.5rem, 1.5vw, 1rem) clamp(2.5rem, 6vw, 4.5rem);
+}
+.mic {
+  justify-self: end;
+  height: clamp(320px, 34vw, 470px);
+}
+@media (max-width: 1000px) {
+  .mic {
+    justify-self: center;
+    height: 380px;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Closing call: a quiet banner, the words on the left and the button on
+   the right, inside the initiative's own tinted panel, the same surface as
+   its card on the home page, so page and card share an identity. Stacked,
+   the button comes under the words. */
 .cta {
-  justify-items: center;
   display: grid;
-  gap: 0.85rem;
-  text-align: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem 2.5rem;
   background: linear-gradient(135deg, var(--ael-iris-100) 0%, var(--ael-iris-50) 100%);
   border: 1px solid var(--ael-iris-200);
   border-radius: var(--ael-radius-panel);
-  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.75rem, 4.5vw, 3.25rem);
+  margin-bottom: clamp(3rem, 7vw, 5.25rem);
 }
-.cta :global(.btn) {
-  margin-top: 1.4rem;
+.ctaText {
+  display: grid;
+  gap: 0.55rem;
 }
 .ctaBody {
   color: var(--ael-text-secondary);
+}
+@media (max-width: 760px) {
+  .cta {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
 }

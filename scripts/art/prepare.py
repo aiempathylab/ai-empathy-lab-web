@@ -20,13 +20,12 @@ square colours are read from styles/tokens.css, never typed here.
 Needs Pillow and NumPy.
 """
 import argparse
-import re
-from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageFilter
 
-ROOT = Path(__file__).resolve().parents[2]
+from squares import ROOT, draw_still, token
+
 p = argparse.ArgumentParser()
 p.add_argument("src")
 p.add_argument("name")
@@ -40,10 +39,6 @@ p.add_argument("--contrast", type=float, default=1.6, help="midtone S-curve stre
 p.add_argument("--mid", default="--ael-indigo-400", help="token for the light squares")
 a = p.parse_args()
 
-tokens = (ROOT / "styles" / "tokens.css").read_text()
-def token(name):
-    hex_ = re.search(re.escape(name) + r":\s*(#[0-9A-Fa-f]{6})", tokens).group(1)
-    return hex_, tuple(int(hex_[i:i + 2], 16) for i in (1, 3, 5))
 ink_hex, INK = token("--ael-indigo-700")
 mid_hex, MID = token(a.mid)
 
@@ -80,26 +75,7 @@ out.mkdir(parents=True, exist_ok=True)
 la = np.dstack([np.round(ink * 63) / 63 * 255, alpha * 255]).astype(np.uint8)
 Image.fromarray(la).save(out / f"{a.name}-tone.png", optimize=True)
 
-# The fallback: the same squares the browser draws, at 2x for sharp screens.
-def bayer(n=8):
-    m = np.array([[0]])
-    while m.shape[0] < n:
-        m = np.block([[4 * m, 4 * m + 2], [4 * m + 3, 4 * m + 1]])
-    return (m + 0.5) / (n * n)
-
-rows = a.still_height // a.cell
-cols = round(rows * w / a.height)
-small_ink = np.asarray(Image.fromarray((ink * 255).astype(np.uint8)).resize((cols, rows), Image.BOX)).astype(np.float64) / 255
-small_mask = np.asarray(Image.fromarray((alpha * 255).astype(np.uint8)).resize((cols, rows), Image.BOX)) > 127
-th = np.tile(bayer(), (rows // 8 + 1, cols // 8 + 1))[:rows, :cols]
-level = np.clip(np.floor(small_ink * 2 + th), 0, 2) * small_mask
-scale = 2
-c = a.cell * scale
-gap = max(1, round(c * 0.16))
-still = Image.new("RGBA", (cols * c, rows * c), (0, 0, 0, 0))
-d = ImageDraw.Draw(still)
-for y, x in zip(*np.nonzero(level)):
-    fill = INK if level[y, x] == 2 else MID
-    d.rectangle([x * c + gap, y * c + gap, (x + 1) * c - gap - 1, (y + 1) * c - gap - 1], fill=fill + (255,))
+# The fallback: the same squares the browser draws.
+still = draw_still(ink, alpha, a.still_height, a.cell, INK, MID)
 still.save(out / f"{a.name}.png", optimize=True)
 print(f"{a.name}: tone {w}x{a.height}, still {still.width}x{still.height}, ratio {w / a.height:.4f}, ink {ink_hex} + {mid_hex}")

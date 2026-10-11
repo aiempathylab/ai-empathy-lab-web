@@ -34,7 +34,7 @@ export async function generateMetadata({
     title: explainer.seoTitle,
     description: explainer.seoDescription,
     path: `/resources/${explainer.slug}/`,
-    article: { modified: explainer.reviewed },
+    article: { published: explainer.published, modified: explainer.reviewed },
   });
 }
 
@@ -111,7 +111,7 @@ function structuredData(explainer: Explainer) {
     mainEntityOfPage: url,
     image: `${SITE.url}/brand/og.png`,
     inLanguage: "en",
-    datePublished: explainer.reviewed,
+    datePublished: explainer.published,
     dateModified: explainer.reviewed,
     author: ORGANIZATION,
     publisher: ORGANIZATION,

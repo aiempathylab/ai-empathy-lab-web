@@ -28,3 +28,13 @@
 .field[data-state="none"] {
   display: none;
 }
+
+/* A piece's video, decoding in the page but never seen: the canvas draws
+   its frames. */
+.source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

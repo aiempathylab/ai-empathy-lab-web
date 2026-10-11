@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 /**
@@ -22,6 +22,9 @@ export interface NewsItem {
   text: string;
   /** Where the item leads: a full web address, or a path on this site. */
   href?: string;
+  /** The small picture beside the item, a path under /media/news/. Without
+   *  one the row shows its type's icon instead. */
+  image?: string;
 }
 
 const NEWS_DIR = path.join(process.cwd(), "data", "news");
@@ -57,7 +60,15 @@ function parseNewsItem(file: string): NewsItem {
     throw new Error(`${where}: "href" must start with https:// or /, got "${href}".`);
   }
 
-  return { id: file.replace(/\.json$/, ""), date, type, text, href };
+  const image = optionalString(data.image);
+  if (image && !/^\/media\/news\/[^/]+$/.test(image)) {
+    throw new Error(`${where}: "image" must be a picture in /media/news/, got "${image}".`);
+  }
+  if (image && !existsSync(path.join(process.cwd(), "public", image))) {
+    throw new Error(`${where}: the picture ${image} is not in public/media/news/.`);
+  }
+
+  return { id: file.replace(/\.json$/, ""), date, type, text, href, image };
 }
 
 /** Pages CMS saves an empty field as "", hand edits may leave null. */

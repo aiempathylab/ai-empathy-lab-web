@@ -1,7 +1,10 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProfileJsonLd } from "@/components/JsonLd";
 import { ProfileLinkIcon } from "@/components/ProfileLinkIcon";
+import { PublicationItem } from "@/components/PublicationItem";
+import { publicationsBy } from "@/content/publications";
 import { initialsOf, personById, photoFor, TEAM } from "@/content/team";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -37,9 +40,11 @@ export default async function PersonPage({
   if (!person) notFound();
 
   const photo = photoFor(person.id);
+  const papers = publicationsBy(person);
 
   return (
     <div className="container">
+      <ProfileJsonLd person={person} />
       {/* One grid for the whole profile: the reading column runs name, role,
           affiliation, bio without pausing, and the portrait and its panel
           stack down the support rail on their own. Splitting this into a
@@ -119,6 +124,23 @@ export default async function PersonPage({
           ) : null}
         </div>
       </div>
+
+      {/* Their papers in the lab's library, in the programme pages' row
+          grammar: a profile's evidence, and its links to the work. */}
+      {papers.length ? (
+        <section className="band">
+          <div className="section-head">
+            <div>
+              <h2 className="t-h2">Publications</h2>
+            </div>
+          </div>
+          <div>
+            {papers.map((publication) => (
+              <PublicationItem key={publication.id} publication={publication} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <nav className={styles.back}>
         <Link href="/team/" className={styles.backLink}>

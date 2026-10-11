@@ -4,7 +4,7 @@
 #
 # Only the lists that change regularly live here: News, which also feeds
 # the home page's "Latest from the team", and Publications, which also
-# feed the home page's "Latest on AI empathy" and the programme pages.
+# feed the home page's "Latest research" and the programme pages.
 # Team, research programmes, explainers, partners and page copy stay in
 # code on purpose: they change rarely, and a slip there costs more.
 #
@@ -21,6 +21,16 @@
 settings:
   # The editor for this file. Changes here are code changes, made in git.
   hide: true
+
+# Pictures uploaded in the editor. A news picture is saved to
+# public/media/news/ and the item keeps its path, /media/news/<file>.
+media:
+  - name: news
+    label: News pictures
+    input: public/media/news
+    output: /media/news
+    categories: [image]
+    rename: safe
 
 content:
   - name: news
@@ -80,6 +90,12 @@ content:
         pattern:
           regex: "^(https?://\\S+|/\\S*)?$"
           message: "Paste the full web address, starting with https://"
+      - name: image
+        label: Picture
+        type: image
+        description: "Optional. The small picture beside the item, for example the video's thumbnail or a photo from the event. Landscape pictures work best. Without one, the item shows an icon for its type."
+        options:
+          media: news
 
   - name: publications
     label: Publications
@@ -91,7 +107,7 @@ content:
     fields:
       - name: publications
         label: Publications
-        description: "Drag to reorder. Working papers appear in this order under Latest on AI empathy, and the first four on the home page too. Published work appears in this order under Selected publications."
+        description: "Drag to reorder. Working papers appear in this order under Latest on AI empathy on the Publications page, and the first four under Latest research on the home page. Published work appears in this order under Selected publications."
         type: object
         list:
           collapsible:

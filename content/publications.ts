@@ -1,5 +1,6 @@
 import data from "@/data/publications.json";
 import { RESEARCH_PROJECTS } from "./research";
+import { TEAM, type Person } from "./team";
 
 /**
  * The publication library, kept in data/publications.json and edited
@@ -101,4 +102,50 @@ export const ALL_PUBLICATIONS: Publication[] = [...WORKING_PAPERS, ...SELECTED_P
 
 export function publicationsForProject(slug: string): Publication[] {
   return ALL_PUBLICATIONS.filter((p) => p.projects?.includes(slug));
+}
+
+export interface Author {
+  /** As a reader would say it: "A. Javornik". */
+  name: string;
+  /** The team member this author is, when it is one of us. */
+  person?: Person;
+}
+
+/** Letters only, without accents or case, so "Bezençon" meets "Bezencon". */
+function folded(text: string): string {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+/** The person's surname and first initial, from "Dr. Alex Mari". */
+function nameParts(person: Person): { surname: string; initial: string } {
+  const parts = person.name.replace(/^Dr\.\s+/, "").split(/\s+/);
+  return { surname: folded(parts[parts.length - 1]), initial: parts[0][0].toUpperCase() };
+}
+
+/**
+ * A publication's authors, read from the APA list the library keeps
+ * ("Mari, A., Uysal, D. E., & Brooks, J."). An author is a team member when
+ * the surname matches and the initials include that member's first initial,
+ * so a namesake with other initials is never taken for one of us. A list
+ * that is not in that form comes back whole, as one name.
+ */
+export function authorsOf(publication: Publication): Author[] {
+  const found = [...publication.authors.matchAll(/([^,&…]+?),\s*((?:[A-Z]\.[\s-]*)+)/g)];
+  if (!found.length) return [{ name: publication.authors }];
+  return found.map(([, surnameText, initialsText]) => {
+    const surname = surnameText.trim();
+    const initials = initialsText.trim();
+    const person = TEAM.find((member) => {
+      const parts = nameParts(member);
+      return parts.surname === folded(surname) && initials.includes(`${parts.initial}.`);
+    });
+    return { name: `${initials} ${surname}`, person };
+  });
+}
+
+/** The library's papers a team member wrote, in the library's order. */
+export function publicationsBy(person: Person): Publication[] {
+  return ALL_PUBLICATIONS.filter((publication) =>
+    authorsOf(publication).some((author) => author.person?.id === person.id),
+  );
 }
