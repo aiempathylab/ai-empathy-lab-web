@@ -947,6 +947,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "ai-persuasion-and-manipulation",
     tag: "Ethics",
+    film: "persuasion",
     question: "When does AI persuasion become manipulation?",
     summary:
       "Persuasion works through reasons people can weigh. Manipulation works around them. Five questions that tell the two apart.",

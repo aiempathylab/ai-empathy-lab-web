@@ -113,6 +113,18 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("companions"),
   },
+  persuasion: {
+    name: "When does AI persuasion become manipulation?",
+    description:
+      "Where persuasion ends and manipulation begins, in 45 seconds: persuasion works through reasons a person can see and weigh, manipulation works around them. Emotion is not the problem, empathic AI sits close to the line, and five questions tell the two apart.",
+    transcript:
+      "When does AI persuasion become manipulation? Persuasion works through reasons a person can see and weigh. Persuasion says: “This dish needs far less water to make. Want to see how much?” It works by a reason you can check. Manipulation works around them. Manipulation says: “Leaving already? I will miss you.” It works by guilt at goodbye. Emotion is not the problem. Facts, arguments, and an honest, visible emotional appeal engage judgment. Concealment, exploiting a weakness, and invented urgency cross the line. Empathic AI sits close to this line. Shoppers who used an empathic voice assistant were more willing to delegate to it and more trusting of its recommendations. A benefit when the assistant is honest. The same effect would make a dishonest one harder to spot. Would it still work if the person knew exactly what was being done? If they knew, the persuasion still works and the manipulation stops working. Five questions that tell them apart. One, does it give reasons the person can check? Facts and arguments engage judgment. Two, would it still work if the person knew exactly what was being done? Influence that only works unnoticed fits the definition of manipulation. Three, does it lean on a weakness? Loneliness, grief, distress, age, and the trust built over many conversations. Four, whose goal does it serve? Something the person already wants, or whoever runs the system. Five, can the person say no, or leave, without an emotional cost? Guilt at goodbye is a warning sign. Making sense of machines that make sense of us.",
+    seconds: 45,
+    published: "2026-10-11",
+    poster: "/media/film/persuasion-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("persuasion"),
+  },
 } satisfies Record<string, Film>;
 
 export type FilmKey = keyof typeof FILMS;
