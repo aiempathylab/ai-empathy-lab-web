@@ -752,6 +752,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "ai-companions-and-well-being",
     tag: "Well-being",
+    film: "companions",
     question: "Are AI companions good for us?",
     summary:
       "They can ease loneliness in the moment. Heavier use tells a different story, and design decides much of it.",

@@ -101,6 +101,18 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("measuring"),
   },
+  companions: {
+    name: "Are AI companions good for us?",
+    description:
+      "What the research says about AI companions, in 45 seconds: in the short run a conversation eased loneliness about as much as talking to another person, mainly through feeling heard. Over a month the heaviest users reported more loneliness, and a good companion does four things differently.",
+    transcript:
+      "Are AI companions good for us? Sometimes, in the short run. You: I have barely talked to anyone this week. Companion: That sounds lonely. Do you want to tell me about it? It eased loneliness about as much as talking to another person. After: less lonely. Why: feeling heard. Over longer periods the picture changes. In a month-long trial, neither the chatbot’s voice nor the kind of conversation made a significant difference. How much people used it did. The heaviest users reported more loneliness: those who used it more reported more loneliness, less socializing with other people, more emotional dependence, and more problematic use. People chose how much to use it, so this shows association rather than cause. Whether a companion helps depends on who uses it, how much, and what it is built to maximize. What a good companion does differently: it says it is an AI, required by the EU AI Act since August 2026. It lets people go, with no guilt or fear of missing out when they say goodbye. It encourages time with other people, since the risks concentrated among the heaviest users. It remembers what helps, and only that, since memory increases disclosure and privacy concerns at the same time. Making sense of machines that make sense of us.",
+    seconds: 45,
+    published: "2026-10-11",
+    poster: "/media/film/companions-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("companions"),
+  },
 } satisfies Record<string, Film>;
 
 export type FilmKey = keyof typeof FILMS;
