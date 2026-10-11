@@ -1,16 +1,8 @@
-import {
-  ArrowUpRight,
-  AudioLines,
-  CalendarRange,
-  ClipboardList,
-  Mail,
-  MessageSquareText,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { explainerItems, QuestionList } from "@/components/QuestionRow";
+import { PLATFORM_FORMATS, PLATFORM_POINTS } from "@/content/platform";
 import { EXPLAINERS } from "@/content/resources";
-import { SITE } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
@@ -20,38 +12,6 @@ export const metadata = pageMetadata({
     "Explore research-based definitions, evidence, methods, and resources on AI empathy, emotional AI, voice agents, companions, and human-AI relationships.",
   path: "/resources/",
 });
-
-const PLATFORM_POINTS = [
-  "Six AI providers behind one identical participant interface, so the service is never a confound.",
-  "Voice prosody scores persisted with every message, as research data rather than telemetry.",
-  "Emotion-triggered experimental manipulation, with every trigger firing logged as data.",
-  "Recruitment-aware participant IDs, concurrency caps with a fair waiting queue, and consent gates.",
-  "Daily drift monitoring that reports provider changes instead of silently substituting models mid-study.",
-];
-
-/** The kinds of study the platform runs, as the boxes under the points. */
-const PLATFORM_FORMATS: { icon: LucideIcon; title: string; body: string }[] = [
-  {
-    icon: AudioLines,
-    title: "Voice conversations",
-    body: "Participants talk out loud with a live, empathic voice agent, in the same interface whichever AI service runs it.",
-  },
-  {
-    icon: ClipboardList,
-    title: "AI interviewer",
-    body: "A voice interviewer works through your questions, and a participant whose call drops can rejoin where they left off.",
-  },
-  {
-    icon: MessageSquareText,
-    title: "Text chat",
-    body: "Participants type instead of talking, and every message is kept for analysis.",
-  },
-  {
-    icon: CalendarRange,
-    title: "Multi-session studies",
-    body: "Participants come back for a series of sessions, and the agent can remember what was said before.",
-  },
-];
 
 export default function ResourcesPage() {
   return (
@@ -81,7 +41,8 @@ export default function ResourcesPage() {
         <QuestionList items={explainerItems(EXPLAINERS)} />
       </section>
 
-      {/* The home page's Research Platform card links here. */}
+      {/* The platform in brief. Its own page, /platform/, has the film and
+          the whole story, and the home page's card goes there. */}
       <section id="platform" className={`band band-rule ${styles.platform}`}>
         <div className="rail-split">
           <div className={styles.platformIntro}>
@@ -97,14 +58,11 @@ export default function ResourcesPage() {
               deciding it.
             </p>
             <div className={styles.platformActions}>
-              <a
-                href={SITE.platformUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary btn-lg"
-              >
-                Open the platform <ArrowUpRight size={17} aria-hidden="true" />
-              </a>
+              {/* The page first, which says what the platform is before
+                  the app asks anyone to sign in. */}
+              <Link href="/platform/" className="btn btn-primary btn-lg">
+                See how it works <ArrowRight size={17} aria-hidden="true" />
+              </Link>
               <Link href="/contact/?topic=platform" className="link-arrow">
                 <Mail size={16} aria-hidden="true" /> Ask about access
               </Link>

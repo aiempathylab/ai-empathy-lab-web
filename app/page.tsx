@@ -163,7 +163,7 @@ export default function HomePage() {
           </div>
           <div className={styles.initGrid}>
             <div data-reveal>
-              <Link href="/resources/#platform" className={`${styles.initCard} ${styles.initIndigo}`}>
+              <Link href="/platform/" className={`${styles.initCard} ${styles.initIndigo}`}>
                 {/* The platform: a participant and an agent in conversation. */}
                 <DitherField scene="chat" palette="indigo" className={styles.initArt} />
                 <span className={styles.initChipRow}>

@@ -1,3 +1,4 @@
+import type { Film } from "@/content/films";
 import { authorsOf, type Publication } from "@/content/publications";
 import { RESEARCH_PROJECTS } from "@/content/research";
 import { SITE } from "@/content/site";
@@ -242,6 +243,56 @@ export function ProjectJsonLd({
             { name: "Home", path: "/" },
             { name: "Research", path: "/research/" },
             { name: project.h1, path },
+          ]),
+        ],
+      }}
+    />
+  );
+}
+
+/* ── The platform ── */
+
+/**
+ * /platform/: the platform itself as a web application, the film that shows
+ * it, and the page's place in the site. The film points at its H.264 file,
+ * the one every engine's video tools can read, and carries the words on
+ * screen as its transcript.
+ */
+export function PlatformJsonLd({ film }: { film: Film }) {
+  const url = `${SITE.url}/platform/`;
+  const readable = film.sources.find((source) => source.codec === "h264") ?? film.sources[0];
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": `${url}#platform`,
+            name: `${SITE.name} research platform`,
+            url: SITE.platformUrl,
+            applicationCategory: "Research",
+            operatingSystem: "Any web browser",
+            creator: ORGANIZATION_REF,
+            subjectOf: { "@id": `${url}#film` },
+          },
+          {
+            "@type": "VideoObject",
+            "@id": `${url}#film`,
+            name: film.name,
+            description: film.description,
+            transcript: film.transcript,
+            thumbnailUrl: film.posterWidths.map((w) => `${SITE.url}${film.poster}-${w}.jpg`),
+            uploadDate: film.published,
+            duration: `PT${film.seconds}S`,
+            contentUrl: `${SITE.url}${readable.src}`,
+            inLanguage: "en",
+            publisher: ORGANIZATION_REF,
+            about: { "@id": `${url}#platform` },
+          },
+          breadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Platform", path: "/platform/" },
           ]),
         ],
       }}

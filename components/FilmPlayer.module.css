@@ -1,0 +1,112 @@
+/* A film in the page's own furniture: the card silhouette every other
+   surface here uses, and nothing that moves until it is asked to. */
+.wrap {
+  margin: 0;
+}
+.frame {
+  position: relative;
+  border-radius: var(--ael-radius-panel);
+  overflow: hidden;
+  border: 1px solid var(--ael-border-hairline);
+  box-shadow: var(--ael-shadow-lg);
+  background: var(--ael-mist-100);
+  aspect-ratio: 16 / 9;
+}
+.video,
+.poster,
+.poster img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The whole frame is the target, and the cue sits low and to the left,
+   where the poster's lockup is not: a reader who wants to watch should not
+   have to find a small disc inside a large picture. */
+.play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: end;
+  justify-items: start;
+  padding: clamp(0.85rem, 2.4vw, 1.5rem);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-radius: var(--ael-radius-pill);
+  background: var(--ael-bg-surface);
+  box-shadow: var(--ael-shadow-lg);
+  transition: transform var(--ael-dur-micro) var(--ael-ease);
+}
+.disc {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--ael-accent);
+  color: var(--ael-text-on-accent);
+}
+.disc svg {
+  /* the triangle's visual centre sits right of its box */
+  translate: 1px 0;
+  fill: currentColor;
+}
+/* Pressed and waiting for the first picture: the disc breathes. */
+.disc[data-starting] {
+  animation: breathe 1.1s var(--ael-ease) infinite alternate;
+}
+@keyframes breathe {
+  to {
+    opacity: 0.55;
+  }
+}
+.label {
+  font: 500 0.78rem/1.4 var(--ael-font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ael-text-secondary);
+}
+.play:hover .pill,
+.play:focus-visible .pill {
+  transform: translateY(-2px);
+}
+.play:focus-visible {
+  outline: none;
+}
+.play:focus-visible .pill {
+  outline: 2px solid var(--ael-accent);
+  outline-offset: 3px;
+}
+/* On a phone the frame is a few inches wide and the words would cover the
+   poster's own: the disc alone says play, and the button still names it. */
+@media (max-width: 640px) {
+  .label {
+    display: none;
+  }
+  .pill {
+    padding: 0.3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+  .play:hover .pill,
+  .play:focus-visible .pill {
+    transform: none;
+  }
+  .disc[data-starting] {
+    animation: none;
+  }
+}

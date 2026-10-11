@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/team/",
     ...TEAM.map((person) => `/team/${person.id}/`),
     "/resources/",
+    "/platform/",
     "/contact/",
     "/ai-empathy-index/",
     "/symposium/",

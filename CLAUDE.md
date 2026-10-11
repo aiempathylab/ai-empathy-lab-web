@@ -202,6 +202,31 @@ square, a light one, a dark one.
   phone never downloads its film (about 570 KB, a third of the home page,
   until October 2026).
 
+## Films
+
+A film (the platform's, on /platform/) is a master from the motion studio
+(`../ai-empathy-lab-motion`, which owns the film), turned into the files
+the site serves by `scripts/film/prepare_film.sh` and registered in
+`content/films.ts`. `components/FilmPlayer.tsx` plays it.
+
+- Five files per film: AV1 and HEVC at 1080 and 720, both 10-bit, and an
+  H.264 720 fallback. 10-bit because the films are soft gradients behind
+  sharp text: at 8 bits every encoder broke the gradients into blocks. The
+  player takes AV1, then HEVC (every Apple device decodes it in hardware),
+  then H.264, and 1080 only where the frame has the pixels for it.
+- Nothing downloads until a visitor shows intent: the page carries a poster
+  of a few kilobytes (AVIF, JPEG fallback, three widths). The film starts
+  arriving when the pointer reaches the button or a finger touches it, and
+  plays on the click. No autoplay, with sound, the browser's controls once
+  it runs.
+- A film is harder to correct than a sentence, and this repository is
+  PUBLIC: once a film's file is committed it is in the history for good.
+  Check every fact a film shows against the deployed platform BEFORE its
+  files are committed. A service the platform offers only to some
+  organizations is never named, in a film or anywhere on the site.
+- The platform's master is 45 s at 1080p60, 10.5 MB. Its web files are
+  1.7 to 2.5 MB each with the sound (VMAF 96 against the master).
+
 ## Search and answer engines
 
 - `SITE.url` is the host Vercel SERVES (www; the bare domain redirects to
