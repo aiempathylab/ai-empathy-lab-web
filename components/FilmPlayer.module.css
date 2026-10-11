@@ -93,8 +93,21 @@
   .label {
     display: none;
   }
+  /* Smaller and tighter to the corner too: the frame is about 200px tall
+     here, and a full-size disc reached into whatever the poster centres. */
+  .play {
+    padding: 0.6rem;
+  }
   .pill {
-    padding: 0.3rem;
+    padding: 0.25rem;
+  }
+  .disc {
+    width: 2rem;
+    height: 2rem;
+  }
+  .disc svg {
+    width: 15px;
+    height: 15px;
   }
 }
 

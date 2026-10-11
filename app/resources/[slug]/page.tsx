@@ -1,10 +1,12 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FilmPlayer } from "@/components/FilmPlayer";
 import { InlineText } from "@/components/InlineText";
-import { JsonLd, ORGANIZATION } from "@/components/JsonLd";
+import { JsonLd, ORGANIZATION, videoObject } from "@/components/JsonLd";
 import { PublicationItem } from "@/components/PublicationItem";
 import { explainerItems, QuestionList } from "@/components/QuestionRow";
+import { FILMS } from "@/content/films";
 import { projectBySlug } from "@/content/research";
 import {
   EXPLAINERS,
@@ -120,6 +122,7 @@ function structuredData(explainer: Explainer) {
       name: "AI Empathy Resources and Definitions",
       url: `${SITE.url}/resources/`,
     },
+    ...(explainer.film ? { video: videoObject(FILMS[explainer.film], url) } : {}),
     ...(explainer.terms
       ? {
           about: explainer.terms.map((term) => ({
@@ -212,6 +215,14 @@ export default async function ExplainerPage({
           <p className="t-lead">{explainer.answer}</p>
         </div>
       </header>
+
+      {/* The film under the short answer: the same answer in forty-five
+          seconds, full width so its smallest words stay readable. */}
+      {explainer.film ? (
+        <section className="band">
+          <FilmPlayer film={FILMS[explainer.film]} />
+        </section>
+      ) : null}
 
       {/* The reading rail and its one supporting object, as on every other
           page: the article on the left, contents and related research on

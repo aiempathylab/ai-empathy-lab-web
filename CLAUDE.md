@@ -204,10 +204,20 @@ square, a light one, a dark one.
 
 ## Films
 
-A film (the platform's, on /platform/) is a master from the motion studio
-(`../ai-empathy-lab-motion`, which owns the film), turned into the files
-the site serves by `scripts/film/prepare_film.sh` and registered in
-`content/films.ts`. `components/FilmPlayer.tsx` plays it.
+A film is a master from the motion studio (`../ai-empathy-lab-motion`,
+which owns the film), turned into the files the site serves by
+`scripts/film/prepare_film.sh` and registered in `content/films.ts`.
+`components/FilmPlayer.tsx` plays it. Two so far: the platform's, on
+/platform/, and "What is AI empathy?", the first of one per explainer.
+
+- An explainer names its film with `film` in `content/resources.ts`. The
+  page shows it full width under the short answer (in the article column
+  its smallest words would be 8px), and its Article carries the film as
+  `video`, built by `videoObject` in `components/JsonLd.tsx`, the same
+  builder /platform/ uses.
+- An explainer film's poster is a frame from inside it that shows the idea
+  (the definition card, for the first one), not the end card: under the
+  page's own H1 a title or a logo says nothing the page does not.
 
 - Five files per film: AV1 and HEVC at 1080 and 720, both 10-bit, and an
   H.264 720 fallback. 10-bit because the films are soft gradients behind

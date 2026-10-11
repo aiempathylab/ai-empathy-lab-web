@@ -14,6 +14,7 @@
  * preprints are labelled as such wherever they are cited. Note the 2026
  * correction to the GPT-4 persuasion study before quoting it anywhere else.
  */
+import type { FilmKey } from "./films";
 
 export interface ExplainerSource {
   authors: string;
@@ -68,6 +69,8 @@ export interface Explainer {
   related: string[];
   /** Terms the page defines, for schema.org DefinedTerm markup. */
   terms?: { name: string; description: string }[];
+  /** Its film in content/films.ts, shown under the short answer. */
+  film?: FilmKey;
 }
 
 /* Sources cited by more than one explainer, written once. */
@@ -190,6 +193,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "what-is-ai-empathy",
     tag: "Definition",
+    film: "whatIsAiEmpathy",
     question: "What is AI empathy?",
     summary:
       "A machine’s ability to recognize how someone feels, understand why, and respond in a way that helps.",

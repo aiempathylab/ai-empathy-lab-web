@@ -63,4 +63,19 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("the-platform"),
   },
+  /** The first of one film per explainer, on /resources/what-is-ai-empathy/. */
+  whatIsAiEmpathy: {
+    name: "What is AI empathy?",
+    description:
+      "AI empathy in 45 seconds: a machine that recognizes how someone feels, understands why, and responds in a way that helps. It describes behavior, not an inner experience, and people often rate it above a human's until they learn a machine wrote it.",
+    transcript:
+      "What is AI empathy? It recognizes how someone feels. A person says: it has been three weeks, and nobody has got back to me. The agent reads frustration, and understands why: no answer in three weeks. And it responds in a way that helps: three weeks is far too long, I am sorry, and I will sort it out today. Behavior, not an inner experience: what it does is recognize how a person feels, understand why, and respond in a way that helps, and there is no evidence it shares the feeling. People often rate it above a human’s, until they learn a machine wrote it. Built into what people talk to every day: customer service agents, shopping assistants, voice assistants, and companion apps. Making sense of machines that make sense of us.",
+    seconds: 45,
+    published: "2026-10-11",
+    poster: "/media/film/what-is-ai-empathy-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("what-is-ai-empathy"),
+  },
 } satisfies Record<string, Film>;
+
+export type FilmKey = keyof typeof FILMS;

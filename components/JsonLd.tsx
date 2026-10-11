@@ -250,6 +250,31 @@ export function ProjectJsonLd({
   );
 }
 
+/* ── Films ── */
+
+/**
+ * A film as search engines want it, on the page at `pageUrl`. It points at
+ * the H.264 file, the one every engine's video tools can read, and carries
+ * the words on screen as its transcript, which is what an answer engine
+ * reads of a film it cannot watch.
+ */
+export function videoObject(film: Film, pageUrl: string) {
+  const readable = film.sources.find((source) => source.codec === "h264") ?? film.sources[0];
+  return {
+    "@type": "VideoObject",
+    "@id": `${pageUrl}#film`,
+    name: film.name,
+    description: film.description,
+    transcript: film.transcript,
+    thumbnailUrl: film.posterWidths.map((w) => `${SITE.url}${film.poster}-${w}.jpg`),
+    uploadDate: film.published,
+    duration: `PT${film.seconds}S`,
+    contentUrl: `${SITE.url}${readable.src}`,
+    inLanguage: "en",
+    publisher: ORGANIZATION_REF,
+  };
+}
+
 /* ── The platform ── */
 
 /**
@@ -260,7 +285,6 @@ export function ProjectJsonLd({
  */
 export function PlatformJsonLd({ film }: { film: Film }) {
   const url = `${SITE.url}/platform/`;
-  const readable = film.sources.find((source) => source.codec === "h264") ?? film.sources[0];
   return (
     <JsonLd
       data={{
@@ -276,20 +300,7 @@ export function PlatformJsonLd({ film }: { film: Film }) {
             creator: ORGANIZATION_REF,
             subjectOf: { "@id": `${url}#film` },
           },
-          {
-            "@type": "VideoObject",
-            "@id": `${url}#film`,
-            name: film.name,
-            description: film.description,
-            transcript: film.transcript,
-            thumbnailUrl: film.posterWidths.map((w) => `${SITE.url}${film.poster}-${w}.jpg`),
-            uploadDate: film.published,
-            duration: `PT${film.seconds}S`,
-            contentUrl: `${SITE.url}${readable.src}`,
-            inLanguage: "en",
-            publisher: ORGANIZATION_REF,
-            about: { "@id": `${url}#platform` },
-          },
+          { ...videoObject(film, url), about: { "@id": `${url}#platform` } },
           breadcrumbList([
             { name: "Home", path: "/" },
             { name: "Platform", path: "/platform/" },
