@@ -575,6 +575,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "measuring-empathy-in-ai",
     tag: "Methods",
+    film: "measuring",
     question: "How do you measure empathy in a machine?",
     summary:
       "Researchers score what the system says, ask people what they perceived, and track what they do next.",

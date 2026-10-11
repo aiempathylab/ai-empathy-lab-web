@@ -89,6 +89,18 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("three-terms"),
   },
+  measuring: {
+    name: "How do you measure empathy in a machine?",
+    description:
+      "How researchers measure empathy in a machine, in 45 seconds: there is no single test, so they score what the system says, ask what the person perceived, and track what they do next. The most convincing evidence changes only the empathy, and a credible measurement answers yes to five questions.",
+    transcript:
+      "How do you measure empathy in a machine? There is no single test. There are three places to look: what it says, what they perceived, and what they do next. Score what the system says: people rate its replies, each reply coded as three moves, emotional reactions, interpretations, and explorations, each absent, weak, or strong. Ask what the person perceived: a questionnaire after the conversation, ten statements, such as “The system considered my mental state” and “The system understood my goals”. Track what they do next: what people decide or express in the moment, such as satisfaction, verbal aggression, sustainable choices, and donations. Their own voice is evidence too. The most convincing evidence changes only the empathy: two versions with the same task, voice, length, and disclosure, empathy off in version A and on in version B, and measure the difference. What a credible measurement looks like: only the empathy differs between the two versions, people noticed the difference on a validated scale, length, voice, task, and disclosure are held constant, it measures what people did, not only what they said, and emotions are measured during the conversation, not only after. Making sense of machines that make sense of us.",
+    seconds: 45,
+    published: "2026-10-11",
+    poster: "/media/film/measuring-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("measuring"),
+  },
 } satisfies Record<string, Film>;
 
 export type FilmKey = keyof typeof FILMS;
