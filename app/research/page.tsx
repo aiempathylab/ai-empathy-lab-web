@@ -1,4 +1,7 @@
+import { FilmPlayer } from "@/components/FilmPlayer";
+import { ResearchHubJsonLd } from "@/components/JsonLd";
 import { projectItems, QuestionList } from "@/components/QuestionRow";
+import { FILMS } from "@/content/films";
 import { RESEARCH_INTRO, RESEARCH_PROJECTS } from "@/content/research";
 import { pageMetadata } from "@/lib/seo";
 
@@ -12,12 +15,20 @@ export const metadata = pageMetadata({
 export default function ResearchHubPage() {
   return (
     <div className="container">
+      <ResearchHubJsonLd film={FILMS.howWeStudy} />
       <header className="page-hero">
         <div className="hero-split">
           <h1 className="t-h1">AI Empathy Research</h1>
           <p className="t-lead">{RESEARCH_INTRO}</p>
         </div>
       </header>
+
+      {/* The film first: how the lab studies AI empathy, ending on the five
+          programmes that the list below opens. */}
+      <section className="band">
+        <FilmPlayer film={FILMS.howWeStudy} />
+      </section>
+
       <div className="band band-tight" data-reveal>
         <QuestionList items={projectItems(RESEARCH_PROJECTS)} />
       </div>

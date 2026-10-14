@@ -275,6 +275,30 @@ export function videoObject(film: Film, pageUrl: string) {
   };
 }
 
+/* ── The research hub ── */
+
+/**
+ * /research/: the film that shows how the lab studies AI empathy, and the
+ * page's place in the site.
+ */
+export function ResearchHubJsonLd({ film }: { film: Film }) {
+  const url = `${SITE.url}/research/`;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          { ...videoObject(film, url), about: ORGANIZATION_REF },
+          breadcrumbList([
+            { name: "Home", path: "/" },
+            { name: "Research", path: "/research/" },
+          ]),
+        ],
+      }}
+    />
+  );
+}
+
 /* ── The platform ── */
 
 /**

@@ -125,6 +125,19 @@ export const FILMS = {
     posterWidths: [640, 1280, 1920],
     sources: sources("persuasion"),
   },
+  /** The lab's method in 30 seconds, on /research/: the studio's first film. */
+  howWeStudy: {
+    name: "How the AI Empathy Lab studies AI empathy",
+    description:
+      "How the lab studies AI empathy, in 30 seconds: controlled experiments with real, working AI voice agents in which one thing differs, such as the empathy the agent expresses, the way it persuades, or what it remembers. Emotion in the participant’s voice is measured in real time, along with what people decide, across five research programmes.",
+    transcript:
+      "AI voice agent: “I understand how you feel.” What happens when a machine says it? We run experiments with real, working AI voice agents. A participant talks to an AI voice agent. We vary what matters most: the empathy it expresses, the way it persuades, and what it remembers. Same conversation. One difference. Condition A: “Your order is delayed by two days.” Condition B: “I’m sorry, I know that’s frustrating. Your order is delayed by two days.” We measure emotion in the voice, in real time: calmness, interest, frustration. And what people decide: how satisfied are you with the service, from not at all to very. Across five research programmes: agentic commerce, sustainable consumption, companionship in later life, customer service, and emotion measurement. Making sense of machines that make sense of us.",
+    seconds: 30,
+    published: "2026-10-14",
+    poster: "/media/film/how-we-study-poster",
+    posterWidths: [640, 1280, 1920],
+    sources: sources("how-we-study"),
+  },
 } satisfies Record<string, Film>;
 
 export type FilmKey = keyof typeof FILMS;
