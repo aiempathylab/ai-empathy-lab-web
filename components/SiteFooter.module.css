@@ -40,10 +40,12 @@
   margin-block: -0.5rem;
 }
 
-.link:hover {
-  color: var(--ael-text-link);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--ael-text-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .contact {
@@ -68,9 +70,10 @@
 .social {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  margin-right: -10px;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-right: -12px;
   border-radius: var(--ael-radius-control);
   color: var(--ael-text-muted);
   transition:
@@ -78,9 +81,11 @@
     background-color var(--ael-dur-micro) var(--ael-ease);
 }
 
-.social:hover {
-  color: var(--ael-text-link);
-  background: var(--ael-bg-sunken);
+@media (hover: hover) {
+  .social:hover {
+    color: var(--ael-text-link);
+    background: var(--ael-bg-sunken);
+  }
 }
 
 /* ── The giant ghost wordmark, on the page ground ──

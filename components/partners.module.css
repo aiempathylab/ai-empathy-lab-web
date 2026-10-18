@@ -60,10 +60,15 @@
     border-color var(--ael-dur-standard) var(--ael-ease),
     box-shadow var(--ael-dur-standard) var(--ael-ease);
 }
-.card:hover,
 .card:focus-visible {
   border-color: var(--ael-border-strong);
   box-shadow: var(--ael-shadow-md);
+}
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--ael-border-strong);
+    box-shadow: var(--ael-shadow-md);
+  }
 }
 
 /* Grey at rest for cohesion, true colours on hover. The filter sits on the
@@ -78,10 +83,15 @@
     opacity var(--ael-dur-standard) var(--ael-ease),
     filter var(--ael-dur-standard) var(--ael-ease);
 }
-.card:hover .logo,
 .card:focus-visible .logo {
   filter: none;
   opacity: 1;
+}
+@media (hover: hover) {
+  .card:hover .logo {
+    filter: none;
+    opacity: 1;
+  }
 }
 .logo img {
   width: auto;
@@ -118,11 +128,17 @@
     border-color var(--ael-dur-micro) var(--ael-ease),
     box-shadow var(--ael-dur-micro) var(--ael-ease);
 }
-.arrow:hover,
 .arrow:focus-visible {
   color: var(--ael-accent);
   border-color: var(--ael-border-strong);
   box-shadow: var(--ael-shadow-md);
+}
+@media (hover: hover) {
+  .arrow:hover {
+    color: var(--ael-accent);
+    border-color: var(--ael-border-strong);
+    box-shadow: var(--ael-shadow-md);
+  }
 }
 .prev {
   left: -0.5rem;

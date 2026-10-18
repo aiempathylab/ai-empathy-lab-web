@@ -52,9 +52,11 @@
     background-color var(--ael-dur-micro) var(--ael-ease),
     color var(--ael-dur-micro) var(--ael-ease);
 }
-.qRow:hover .qIcon {
-  background: var(--ael-indigo-100);
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .qRow:hover .qIcon {
+    background: var(--ael-indigo-100);
+    color: var(--ael-accent);
+  }
 }
 /* A programme row: its icon alone where the label would be, and the
    question right beside it, not across a label's width of empty rail. The
@@ -94,12 +96,16 @@
     transform var(--ael-dur-micro) var(--ael-ease),
     color var(--ael-dur-micro) var(--ael-ease);
 }
-.qRow:hover .qQuestion {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .qRow:hover .qQuestion {
+    color: var(--ael-accent);
+  }
 }
-.qRow:hover .qArrow {
-  color: var(--ael-accent);
-  transform: translateX(4px);
+@media (hover: hover) {
+  .qRow:hover .qArrow {
+    color: var(--ael-accent);
+    transform: translateX(4px);
+  }
 }
 
 /* ── Working-paper cards ── */
@@ -118,10 +124,12 @@
     border-color var(--ael-dur-standard) var(--ael-ease),
     transform var(--ael-dur-standard) var(--ael-ease);
 }
-.pubCard:hover {
-  box-shadow: var(--ael-shadow-md);
-  border-color: var(--ael-border-strong);
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .pubCard:hover {
+    box-shadow: var(--ael-shadow-md);
+    border-color: var(--ael-border-strong);
+    transform: translateY(-3px);
+  }
 }
 .pubKind {
   display: flex;
@@ -148,8 +156,10 @@
   inset: 0;
   border-radius: var(--ael-radius-card);
 }
-.pubCard:hover .pubTitle a {
-  color: var(--ael-text-link);
+@media (hover: hover) {
+  .pubCard:hover .pubTitle a {
+    color: var(--ael-text-link);
+  }
 }
 .pubAuthors {
   font: var(--ael-text-small);
@@ -198,8 +208,10 @@
   position: absolute;
   inset: 0;
 }
-.pubItem:hover .pubItemTitle a {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .pubItem:hover .pubItemTitle a {
+    color: var(--ael-accent);
+  }
 }
 .pubItemVenue {
   grid-area: venue;
@@ -218,9 +230,11 @@
    slides along x. Shape is the only difference between the two, and it
    carries meaning: straight goes to another page here, diagonal leaves
    the site. */
-.pubItem:hover .pubItemGo {
-  color: var(--ael-accent);
-  transform: translate(3px, -3px);
+@media (hover: hover) {
+  .pubItem:hover .pubItemGo {
+    color: var(--ael-accent);
+    transform: translate(3px, -3px);
+  }
 }
 
 /* ── Team cards ──
@@ -242,10 +256,12 @@
     border-color var(--ael-dur-standard) var(--ael-ease),
     transform var(--ael-dur-standard) var(--ael-ease);
 }
-.teamCard:hover {
-  box-shadow: var(--ael-shadow-md);
-  border-color: var(--ael-border-strong);
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .teamCard:hover {
+    box-shadow: var(--ael-shadow-md);
+    border-color: var(--ael-border-strong);
+    transform: translateY(-3px);
+  }
 }
 .teamPhoto {
   display: block;
@@ -291,12 +307,16 @@
     transform var(--ael-dur-micro) var(--ael-ease),
     color var(--ael-dur-micro) var(--ael-ease);
 }
-.teamCard:hover .teamName {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .teamCard:hover .teamName {
+    color: var(--ael-accent);
+  }
 }
-.teamCard:hover .teamGo {
-  color: var(--ael-accent);
-  transform: translateX(4px);
+@media (hover: hover) {
+  .teamCard:hover .teamGo {
+    color: var(--ael-accent);
+    transform: translateX(4px);
+  }
 }
 .teamAff {
   font: var(--ael-text-small);
@@ -374,11 +394,13 @@
   position: absolute;
   inset: 0;
 }
-.newsTitle a:hover {
-  color: var(--ael-text-link);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+@media (hover: hover) {
+  .newsTitle a:hover {
+    color: var(--ael-text-link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
 }
 .newsExt {
   display: inline-block;

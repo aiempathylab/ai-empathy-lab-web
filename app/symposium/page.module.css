@@ -32,7 +32,7 @@
 }
 .mic {
   justify-self: end;
-  height: clamp(320px, 34vw, 470px);
+  height: clamp(20rem, 34vw, 29.375rem);
 }
 @media (max-width: 1000px) {
   .mic {

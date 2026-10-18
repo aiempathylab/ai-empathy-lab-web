@@ -128,6 +128,8 @@ export function PartnerLogos() {
                     src={partner.logo}
                     alt={partner.name}
                     style={{ height: partner.height }}
+                    loading="lazy"
+                    decoding="async"
                     draggable={false}
                   />
                   {partner.wordmark ? (

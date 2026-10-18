@@ -313,6 +313,35 @@ it changes.
 - `published` on an explainer is the day it went live and never moves.
   `reviewed` moves with each full fact check, and so does dateModified.
 
+## Phones, tablets and wide screens
+
+Checked in October 2026 at 320 to 3440px across every page (no horizontal
+overflow at any width) and on the production build, where a phone's home page
+runs at 60 fps with about 8 ms of script per second.
+
+- **Hover is for pointers.** Every `:hover` rule sits inside
+  `@media (hover: hover)`, so a tap on a phone does not leave a card lifted or
+  a link recoloured until the next tap. Focus rules stay outside it. A new
+  hover rule goes in the same wrapper.
+- **Very wide screens.** Every size is rem, so `styles/globals.css` raises the
+  root size at 2200px (18px) and 3000px (20px) and the whole page grows as one
+  piece; 2199px and below are untouched. Anything that must scale with it is
+  written in rem, not px (the nav height, the hero's height cap and the card
+  grids' minimum width were px until then). The kit's control heights are px,
+  so the same block steps them.
+- **Below-the-fold images are `loading="lazy"`.** React preloads every other
+  `<img>` in the server HTML, so a hero still that is `display: none` on a
+  phone and five partner logos cost about 130 KB on every phone visit until
+  October 2026. Only an image that is in the first screen may be left eager.
+- Tap targets are 44px (the footer's LinkedIn icon, the film scrubber); a
+  stretched card link such as a team card counts as the whole card.
+- The mobile menu closes on Escape, on a tap outside the bar and when the
+  screen grows past 900px.
+- The hero's picture stays out below 900px by decision (no download, no
+  WebGL on a phone or a tablet in portrait). The waveform and the small
+  squares in cards stay on every screen: they are cheap, pause off screen and
+  follow reduced motion.
+
 ## Gotchas
 
 - Sections fade in through `components/ScrollReveal.tsx`, which marks them
