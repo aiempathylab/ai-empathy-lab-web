@@ -1,3 +1,4 @@
+import type { AppLoop } from "@/content/app-loops";
 import type { Film } from "@/content/films";
 import { authorsOf, type Publication } from "@/content/publications";
 import { RESEARCH_PROJECTS } from "@/content/research";
@@ -269,6 +270,30 @@ export function videoObject(film: Film, pageUrl: string) {
     thumbnailUrl: film.posterWidths.map((w) => `${SITE.url}${film.poster}-${w}.jpg`),
     uploadDate: film.published,
     duration: `PT${film.seconds}S`,
+    contentUrl: `${SITE.url}${readable.src}`,
+    inLanguage: "en",
+    publisher: ORGANIZATION_REF,
+  };
+}
+
+/**
+ * A short film of the app in use, as search engines want it, on the page at
+ * `pageUrl`. Like a film it points at the H.264 file and carries the words on
+ * screen as its transcript. `key` keeps each film's @id apart on a page that
+ * has several.
+ */
+export function appLoopObject(loop: AppLoop, key: string, pageUrl: string) {
+  const { desktop } = loop;
+  const readable = desktop.sources.find((source) => source.codec === "h264") ?? desktop.sources[0];
+  return {
+    "@type": "VideoObject",
+    "@id": `${pageUrl}#${key}`,
+    name: loop.name,
+    description: loop.description,
+    transcript: loop.transcript,
+    thumbnailUrl: `${SITE.url}${desktop.poster}-${desktop.width}.jpg`,
+    uploadDate: loop.published,
+    duration: `PT${Math.round(desktop.seconds)}S`,
     contentUrl: `${SITE.url}${readable.src}`,
     inLanguage: "en",
     publisher: ORGANIZATION_REF,

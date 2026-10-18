@@ -1,0 +1,146 @@
+/* The two conditions in one pass: the columns named once at the top, the rows
+   grouped by when they matter, the rows that do not differ set apart and
+   quieter. A real table, so the conditions stay one object for readers and
+   for search; each group is a tbody under its own header row. Its rows take
+   the site's list rule. */
+.table {
+  --gap: clamp(1.25rem, 3vw, 2.5rem);
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.table thead td {
+  width: 26%;
+}
+.table thead th {
+  padding: 0.6rem var(--gap) clamp(1.5rem, 3vw, 2.25rem) 0;
+  text-align: left;
+  font-weight: inherit;
+}
+.table thead th:last-child {
+  padding-right: 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding-inline: 0.9rem;
+  border-radius: var(--ael-radius-pill);
+  font: 600 0.78rem/1 var(--ael-font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ael-text-secondary);
+  background: var(--ael-mist-200);
+}
+.chipOn {
+  color: var(--ael-text-on-accent);
+  background: var(--ael-accent);
+}
+
+.groupTitle {
+  padding: 0 0 0.7rem;
+  text-align: left;
+  font: 600 0.78rem/1.2 var(--ael-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+}
+.groupTitle > span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.table tbody + tbody .groupTitle {
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.table tbody tr + tr {
+  border-top: 1px solid var(--ael-rule);
+}
+.table tbody tr + tr > th,
+.table tbody tr + tr > td {
+  padding: 1.15rem var(--gap) 1.15rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+.table tbody tr + tr > td:last-child {
+  padding-right: 0;
+}
+.term {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font: 600 1.05rem/1.3 var(--ael-font-display);
+  letter-spacing: -0.005em;
+  color: var(--ael-text-primary);
+}
+.icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--ael-indigo-100);
+  color: var(--ael-indigo-700);
+}
+.cell {
+  font: 400 1rem/1.6 var(--ael-font-text);
+  text-wrap: pretty;
+}
+.cellA {
+  color: var(--ael-text-primary);
+  padding-left: 1rem;
+  border-left: 3px solid var(--ael-indigo-400);
+}
+.cellB {
+  color: var(--ael-text-secondary);
+  padding-left: 1rem;
+  border-left: 3px solid var(--ael-mist-300);
+}
+/* The rows that do not differ: quieter, with the colour bars removed. */
+.same .icon {
+  background: var(--ael-mist-200);
+  color: var(--ael-text-muted);
+}
+.same .cellA,
+.same .cellB {
+  color: var(--ael-text-secondary);
+  border-left-color: var(--ael-mist-200);
+}
+
+/* Narrow: each row becomes a block, its two cells labelled by their column. */
+@media (max-width: 900px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .table tbody tr + tr {
+    display: grid;
+    gap: 0.8rem;
+    padding-block: 1.15rem;
+  }
+  .table tbody tr + tr > th,
+  .table tbody tr + tr > td {
+    padding: 0;
+  }
+  .cell::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.2rem;
+    font: 600 0.72rem/1.2 var(--ael-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ael-text-muted);
+  }
+}

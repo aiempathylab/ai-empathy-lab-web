@@ -1,0 +1,80 @@
+/* What the prompt is made of and what changed between the groups: the things
+   it covers are the same for everyone, and two slots differ. */
+.wrap {
+  margin: 0;
+  width: 100%;
+  max-width: 40rem;
+}
+.card {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-radius: var(--ael-radius-panel);
+  background: var(--ael-bg-surface);
+  border: 1px solid var(--ael-border-hairline);
+  box-shadow: var(--ael-shadow-sm);
+}
+.label {
+  font: 600 0.75rem/1.2 var(--ael-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ael-text-muted);
+}
+.labelOn {
+  margin-top: 0.5rem;
+  color: var(--ael-indigo-700);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chips li {
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--ael-radius-pill);
+  background: var(--ael-mist-100);
+  border: 1px solid var(--ael-border-hairline);
+  font: 500 0.9rem/1.2 var(--ael-font-text);
+  color: var(--ael-text-secondary);
+}
+.slots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.slot {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: var(--ael-indigo-50);
+  border: 1.5px solid var(--ael-indigo-300);
+}
+.slotTitle {
+  font: 600 1.05rem/1.2 var(--ael-font-display);
+  color: var(--ael-text-primary);
+}
+.row {
+  display: grid;
+  gap: 0.2rem;
+  font: 400 0.95rem/1.35 var(--ael-font-text);
+  color: var(--ael-text-primary);
+}
+.tag,
+.tagOn {
+  font: 600 0.68rem/1 var(--ael-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tagOn {
+  color: var(--ael-indigo-700);
+}
+.tag {
+  color: var(--ael-text-muted);
+}
+@media (max-width: 560px) {
+  .slots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

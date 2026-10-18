@@ -1,0 +1,114 @@
+/* The film is drawn on the page's own ground and fades to it at every edge, so
+   it has no frame: no border, no shadow, no rounded box. What the reader sees is
+   the phone and the words, sitting in the page. */
+.wrap {
+  margin: 0;
+  width: 100%;
+}
+.shape {
+  width: 100%;
+}
+.video {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Two shapes of one film: the desktop one on a wide screen, the phone-shaped
+   one below the width where the page's two columns become one. AppLoopPlayer.tsx
+   states the same breakpoint, so a shape fetches its poster only when shown. */
+.mobile {
+  display: none;
+  max-width: 24rem;
+  margin-inline: auto;
+}
+@media (max-width: 900px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}
+
+/* The control bar: a button, a scrubber, the time. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.25rem 0.25rem 0;
+}
+.button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--ael-border-hairline);
+  background: var(--ael-bg-surface);
+  color: var(--ael-text-primary);
+  box-shadow: var(--ael-shadow-sm);
+  cursor: pointer;
+  transition: color var(--ael-dur-micro) var(--ael-ease), border-color var(--ael-dur-micro) var(--ael-ease);
+}
+.button:hover {
+  color: var(--ael-accent);
+  border-color: var(--ael-indigo-300);
+}
+.button:focus-visible,
+.scrub:focus-visible {
+  outline: 2px solid var(--ael-accent);
+  outline-offset: 3px;
+}
+.scrub {
+  flex: 1;
+  min-width: 0;
+  height: 1.5rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.scrub::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--ael-indigo-600) var(--filled, 0%), var(--ael-mist-200) var(--filled, 0%));
+}
+.scrub::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ael-mist-200);
+}
+.scrub::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ael-indigo-600);
+}
+.scrub::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--ael-bg-surface);
+  background: var(--ael-indigo-600);
+  box-shadow: var(--ael-shadow-sm);
+}
+.scrub::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--ael-bg-surface);
+  background: var(--ael-indigo-600);
+}
+.time {
+  flex: none;
+  font: 500 0.75rem/1 var(--ael-font-mono);
+  letter-spacing: 0.03em;
+  color: var(--ael-text-muted);
+  font-variant-numeric: tabular-nums;
+}
