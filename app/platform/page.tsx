@@ -2,6 +2,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { PlatformJsonLd } from "@/components/JsonLd";
+import { Hero } from "@/components/Page";
 import { FILMS } from "@/content/films";
 import {
   PLATFORM_FORMATS,
@@ -23,18 +24,10 @@ export default function PlatformPage() {
   return (
     <div className="container">
       <PlatformJsonLd film={FILMS.platform} />
-      <header className="page-hero">
-        <div className="hero-split">
-          <h1 className="t-h1">The research platform for empathic AI</h1>
-          <p className="t-lead">
-            Every experiment we publish runs on infrastructure we built
-            ourselves. Participants talk to a live, working AI agent, the
-            emotion in their voice is measured as they speak, and a
-            threshold you set can change how the agent answers. Built for
-            our own studies, and open to other research groups.
-          </p>
-        </div>
-      </header>
+      <Hero
+        title="The research platform for empathic AI"
+        lede="Every experiment we publish runs on infrastructure we built ourselves. Participants talk to a live, working AI agent, the emotion in their voice is measured as they speak, and a threshold you set can change how the agent answers. Built for our own studies, and open to other research groups."
+      />
 
       {/* The film first: it is the fastest way to understand the loop, and
           the page below it says the same things in words for anyone who

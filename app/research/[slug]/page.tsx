@@ -1,13 +1,18 @@
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DitherArt } from "@/components/DitherArt";
 import { ProjectJsonLd } from "@/components/JsonLd";
-import { PublicationItem } from "@/components/PublicationItem";
-import { explainerItems, QuestionList } from "@/components/QuestionRow";
+import { Figure, Hero, Prose, Section } from "@/components/Page";
+import { RefList, RefRow } from "@/components/RefList";
 import { PROGRAMME_ART } from "@/content/art";
 import { publicationsForProject } from "@/content/publications";
-import { projectBySlug, RESEARCH_PROJECTS } from "@/content/research";
+import {
+  PROGRAMME_HEADINGS,
+  projectBySlug,
+  RESEARCH_PROJECTS,
+  type ResearchProject,
+} from "@/content/research";
 import { EXPLAINERS } from "@/content/resources";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -29,6 +34,46 @@ export async function generateMetadata({
     description: project.seoDescription,
     path: `/research/${project.slug}/`,
   });
+}
+
+/** The work sample, set under the text with a hairline above. */
+function WorkSample({ sample }: { sample: NonNullable<ResearchProject["workSample"]> }) {
+  return (
+    <div className={styles.note}>
+      <p className={styles.kind}>
+        {sample.href ? (
+          <>
+            <span className="chip chip-accent">Working paper</span>
+            <span className={styles.venue}>SSRN</span>
+          </>
+        ) : (
+          <span className="chip chip-soon">Coming soon</span>
+        )}
+      </p>
+      <p className={styles.noteTitle}>{sample.title}</p>
+      {sample.href ? (
+        <a href={sample.href} target="_blank" rel="noopener noreferrer" className="link-arrow">
+          Read the work sample <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      ) : null}
+    </div>
+  );
+}
+
+/** A deeper page on how the programme's study was built. */
+function StudyNotes({ notes }: { notes: NonNullable<ResearchProject["studyNotes"]> }) {
+  return (
+    <div className={styles.note}>
+      <p className={styles.kind}>
+        <span className="chip chip-iris">Study notes</span>
+      </p>
+      <p className={styles.noteTitle}>{notes.title}</p>
+      <p className={styles.noteText}>{notes.summary}</p>
+      <Link href={notes.href} className="link-arrow">
+        {notes.cta} <ArrowRight size={16} aria-hidden="true" />
+      </Link>
+    </div>
+  );
 }
 
 export default async function ResearchProjectPage({
@@ -54,94 +99,71 @@ export default async function ResearchProjectPage({
   return (
     <div className="container">
       <ProjectJsonLd project={project} publications={papers} />
-      <header className="page-hero">
-        <div className="hero-split">
-          <div className="hero-split-left">
-            <h1 className="t-h1">{project.h1}</h1>
-            <p className={styles.question}>{project.question}</p>
-          </div>
-          <p className="t-lead">{project.intro}</p>
-        </div>
-      </header>
+      <Hero title={project.h1} subtitle={project.question} lede={project.intro} />
 
-      {/* Same shape as every other page's body: the reading rail on the
-          left, the one supporting object on the support rail. */}
-      <section className="band rail-split">
-        <div className="prose">
+      {/* The programme's picture under the heading, the text beside it, and
+          the work sample and study notes under the text. */}
+      <Section
+        title={PROGRAMME_HEADINGS.about}
+        left={
+          art ? (
+            <Figure ratio={art.ratio}>
+              <DitherArt piece={art} />
+            </Figure>
+          ) : undefined
+        }
+      >
+        <Prose>
           {project.body.map((paragraph) => (
             <p key={paragraph.slice(0, 32)}>{paragraph}</p>
           ))}
-        </div>
-
-        {/* The support rail: the programme's image, then its work sample,
-            riding alongside the text together. */}
-        <div className={styles.support}>
-          {art ? (
-            <figure className={styles.figure} style={{ ["--ratio" as string]: art.ratio }}>
-              <DitherArt piece={art} />
-            </figure>
-          ) : null}
-          {project.workSample ? (
-            <aside className={styles.sample}>
-              <p className={styles.sampleKind}>
-                {project.workSample.href ? (
-                  <>
-                    <span className="chip chip-accent">Working paper</span>
-                    <span className={styles.sampleVenue}>SSRN</span>
-                  </>
-                ) : (
-                  <span className="chip chip-soon">Coming soon</span>
-                )}
-              </p>
-              <p className={styles.sampleTitle}>{project.workSample.title}</p>
-              {project.workSample.href ? (
-                <a
-                  href={project.workSample.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-arrow"
-                >
-                  Read the work sample{" "}
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              ) : null}
-            </aside>
-          ) : null}
-        </div>
-      </section>
+        </Prose>
+        {project.workSample ? <WorkSample sample={project.workSample} /> : null}
+        {project.studyNotes ? <StudyNotes notes={project.studyNotes} /> : null}
+      </Section>
 
       {related.length ? (
-        <section className="band">
-          <div className="section-head">
-            <div>
-              <h2 className="t-h2">Related publications</h2>
-            </div>
-          </div>
-          <div>
+        <Section title={PROGRAMME_HEADINGS.publications}>
+          <RefList>
             {related.map((publication) => (
-              <PublicationItem key={publication.id} publication={publication} />
+              <RefRow
+                key={publication.id}
+                href={publication.href}
+                external
+                meta={
+                  <>
+                    {publication.year ? <span>{publication.year}</span> : null}
+                    {publication.venue ? (
+                      <em>
+                        {publication.venue}
+                        {publication.detail ? `, ${publication.detail}` : ""}
+                      </em>
+                    ) : null}
+                  </>
+                }
+                title={publication.title}
+                detail={publication.authors}
+              />
             ))}
-          </div>
-        </section>
+          </RefList>
+        </Section>
       ) : null}
 
       {explainers.length ? (
-        <section className="band">
-          <div className="section-head">
-            <div>
-              <h2 className="t-h2">Related explainers</h2>
-            </div>
-          </div>
-          <QuestionList items={explainerItems(explainers)} />
-        </section>
+        <Section title={PROGRAMME_HEADINGS.explainers}>
+          <RefList>
+            {explainers.map((explainer) => (
+              <RefRow
+                key={explainer.slug}
+                href={`/resources/${explainer.slug}/`}
+                meta={<span>{explainer.tag}</span>}
+                title={explainer.question}
+                detail={explainer.summary}
+              />
+            ))}
+          </RefList>
+        </Section>
       ) : null}
-
-      <nav className={styles.back}>
-        <Link href="/research/" className={styles.backLink}>
-          <ArrowLeft size={16} aria-hidden="true" />
-          All research programmes
-        </Link>
-      </nav>
     </div>
   );
 }

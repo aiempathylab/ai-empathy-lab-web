@@ -1,5 +1,6 @@
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { ResearchHubJsonLd } from "@/components/JsonLd";
+import { Hero } from "@/components/Page";
 import { projectItems, QuestionList } from "@/components/QuestionRow";
 import { FILMS } from "@/content/films";
 import { RESEARCH_INTRO, RESEARCH_PROJECTS } from "@/content/research";
@@ -16,12 +17,7 @@ export default function ResearchHubPage() {
   return (
     <div className="container">
       <ResearchHubJsonLd film={FILMS.howWeStudy} />
-      <header className="page-hero">
-        <div className="hero-split">
-          <h1 className="t-h1">AI Empathy Research</h1>
-          <p className="t-lead">{RESEARCH_INTRO}</p>
-        </div>
-      </header>
+      <Hero title="AI Empathy Research" lede={RESEARCH_INTRO} />
 
       {/* The film first: how the lab studies AI empathy, ending on the five
           programmes that the list below opens. */}

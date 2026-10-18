@@ -1,3 +1,4 @@
+import { Hero } from "@/components/Page";
 import { SITE } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
@@ -27,32 +28,18 @@ const DIMENSIONS = [
 export default function IndexPage() {
   return (
     <div className="container">
-      {/* Opening on the page seam: identity left, the document's own
-          description right — no dead band between question and answer. */}
-      <header className="page-hero">
-        <span className="chip chip-soon">Coming soon</span>
-        <div className="hero-split">
-          <div className="hero-split-left">
-            <h1 className="t-h1">The AI Empathy Index</h1>
-            <p className={styles.question}>
-              How empathic are today&apos;s AI assistants, really?
-            </p>
-          </div>
-          <div className="prose">
-          <p className="t-lead">
-            The AI Empathy Index will be a recurring, research-grade benchmark
-            measuring the empathic capabilities of leading AI voice assistants
-            and companions across the core dimensions of empathy:
-            perspective-taking, emotional resonance, and prosocial motivation.
-          </p>
-          <p>
-            Designed for researchers, developers, and policymakers alike, the
-            Index will track how machine empathy evolves, and what that
-            evolution means for the people who rely on it.
-          </p>
-          </div>
-        </div>
-      </header>
+      <Hero
+        eyebrow={<span className="chip chip-soon">Coming soon</span>}
+        title="The AI Empathy Index"
+        subtitle="How empathic are today's AI assistants, really?"
+        lede="The AI Empathy Index will be a recurring, research-grade benchmark measuring the empathic capabilities of leading AI voice assistants and companions across the core dimensions of empathy: perspective-taking, emotional resonance, and prosocial motivation."
+      >
+        <p className={styles.more}>
+          Designed for researchers, developers, and policymakers alike, the
+          Index will track how machine empathy evolves, and what that
+          evolution means for the people who rely on it.
+        </p>
+      </Hero>
 
       <section className="band" data-reveal>
         <div className="section-head">

@@ -2,6 +2,7 @@ import { Mail } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 import { LabPageJsonLd } from "@/components/JsonLd";
 import { LinkedInIcon } from "@/components/LinkedInIcon";
+import { Hero } from "@/components/Page";
 import { CONTACT } from "@/content/contact";
 import { SITE } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
@@ -19,12 +20,7 @@ export default function ContactPage() {
   return (
     <div className="container">
       <LabPageJsonLd type="ContactPage" path="/contact/" />
-      <header className="page-hero">
-        <div className="hero-split">
-          <h1 className="t-h1">{CONTACT.title}</h1>
-          <p className="t-lead">{CONTACT.lede}</p>
-        </div>
-      </header>
+      <Hero title={CONTACT.title} lede={CONTACT.lede} />
 
       <section className="band band-rule">
         <div className="rail-split">

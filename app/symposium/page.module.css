@@ -25,6 +25,11 @@
   align-items: center;
   padding-block: clamp(0.5rem, 1.5vw, 1rem) clamp(2.5rem, 6vw, 4.5rem);
 }
+.copy {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+}
 .mic {
   justify-self: end;
   height: clamp(320px, 34vw, 470px);

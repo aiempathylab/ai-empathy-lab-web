@@ -1,19 +1,7 @@
 /* ── An explainer ──
-   The hero is every interior page's hero: the question on the left rails,
-   the short answer as the lede on the support rail. Below it the article
-   takes the reading rail and a contents panel rides the support rail, the
-   same split as a research page and its work sample. */
-
-/* Reading time and review date. Two facts, set as two spans with a gap
-   between them, never joined by a separator glyph. */
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1.25rem;
-  font: 500 0.8125rem/1.5 var(--ael-font-mono);
-  letter-spacing: 0.03em;
-  color: var(--ael-text-muted);
-}
+   The hero is every page's hero: the question on the left half, the short
+   answer as the lede on the right. Below it the article takes the reading
+   rail and a contents panel rides the support rail. */
 
 /* Sections are spaced by whitespace, not rules: a rule on this site means
    "items in a list", and an article's sections are not that. */

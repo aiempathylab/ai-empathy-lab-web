@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { FilmPlayer } from "@/components/FilmPlayer";
 import { InlineText } from "@/components/InlineText";
 import { JsonLd, ORGANIZATION, videoObject } from "@/components/JsonLd";
+import { Hero } from "@/components/Page";
 import { PublicationItem } from "@/components/PublicationItem";
 import { explainerItems, QuestionList } from "@/components/QuestionRow";
 import { FILMS } from "@/content/films";
@@ -12,7 +13,6 @@ import {
   EXPLAINERS,
   explainerBySlug,
   plainText,
-  readingMinutes,
   type Explainer,
   type ExplainerBlock,
 } from "@/content/resources";
@@ -38,18 +38,6 @@ export async function generateMetadata({
     path: `/resources/${explainer.slug}/`,
     article: { published: explainer.published, modified: explainer.reviewed },
   });
-}
-
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June", "July",
-  "August", "September", "October", "November", "December",
-];
-
-/** "2026-10-04" as "October 2026", without leaning on the build machine's
- *  locale or time zone. */
-function monthYear(iso: string): string {
-  const [year, month] = iso.split("-");
-  return `${MONTHS[Number(month) - 1]} ${year}`;
 }
 
 function Block({ block }: { block: ExplainerBlock }) {
@@ -176,7 +164,6 @@ export default async function ExplainerPage({
   if (!explainer) notFound();
 
   const { article, faq, breadcrumbs } = structuredData(explainer);
-  const minutes = readingMinutes(explainer);
   const related = explainer.related
     .map((projectSlug) => projectBySlug(projectSlug))
     .filter((project) => project !== undefined);
@@ -198,23 +185,7 @@ export default async function ExplainerPage({
       {explainer.faqs.length ? <JsonLd data={faq} /> : null}
       <JsonLd data={breadcrumbs} />
 
-      <header className="page-hero">
-        <div className="hero-split">
-          <div className="hero-split-left">
-            <h1 className="t-h1">{explainer.question}</h1>
-            <p className={styles.meta}>
-              <span>{minutes} minute read</span>
-              <span>
-                Reviewed{" "}
-                <time dateTime={explainer.reviewed}>
-                  {monthYear(explainer.reviewed)}
-                </time>
-              </span>
-            </p>
-          </div>
-          <p className="t-lead">{explainer.answer}</p>
-        </div>
-      </header>
+      <Hero title={explainer.question} lede={explainer.answer} />
 
       {/* The film under the short answer: the same answer in forty-five
           seconds, full width so its smallest words stay readable. */}
@@ -224,9 +195,9 @@ export default async function ExplainerPage({
         </section>
       ) : null}
 
-      {/* The reading rail and its one supporting object, as on every other
-          page: the article on the left, contents and related research on
-          the support rail, sticky while the article scrolls past. */}
+      {/* The reading rail and its one supporting object: the article on the
+          left, contents and related research on the support rail, sticky
+          while the article scrolls past. */}
       <div className="band rail-split">
         <article className={styles.article}>
           {explainer.sections.map((section) => (

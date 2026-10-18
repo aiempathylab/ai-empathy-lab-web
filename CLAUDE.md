@@ -17,12 +17,28 @@ export; no server, no env vars. The research platform is a SEPARATE repo
 
 ## Layout
 
-ONE column system, declared once in `styles/globals.css`: the page rails,
-`11.5rem | 1.2fr | 0.9fr | 20px`. `.hero-split` is row zero, `.rail-split` is
-any body section, and every list row in `cards.module.css` sits on the same
-tracks. At 1440 that puts the left rail at x=88, the support rail at x=892 and
-the right edge at 1352 on every page. Do not introduce a second system.
+Two column systems, each declared once. Do not introduce a third.
 
+- **The centre line**, for a page's opening and for the sections of the
+  redesigned pages (October 2026): `components/Page.tsx` with
+  `components/Page.module.css`. A page opens with `<Hero>`, the headline on the
+  left half and the lede on the right (a programme's question goes above the
+  lede as `subtitle`). Its sections are `<Section>`: SPLIT (the takeaway and
+  any picture, diagram or numbers on the left half, the content on the right)
+  or STACKED (a header row, then full-width content such as a table or a card
+  grid). Two equal halves, a 4rem gap, the site's `.band` rhythm above and
+  below each section. Sections are divided by whitespace, never a rule: a rule
+  on this site means items in a list. The headline and lede type are `.page-hero`
+  in `styles/globals.css`, so every opening sets them alike. Used by every page
+  except the home page, the Symposium and a team profile, which keep their own
+  openings. The left side of a section is static, never sticky. Reading text
+  there is `<Prose>`, held to its half column (about 75 characters at 1440)
+  rather than to `--ael-measure`.
+- **The page rails**, `11.5rem | 1.2fr | 0.9fr | 20px`: every list row in
+  `cards.module.css`, and the body sections that continue them (an explainer's
+  article and its contents, a profile, the contact form), which are
+  `.rail-split` in `styles/globals.css`. At 1440 that puts the left rail at
+  x=88, the support rail at x=892 and the right edge at 1352.
 - The action track is a FIXED 20px, never `auto`. A row whose item has no arrow
   collapses an auto track and hands its width to the fr columns, sliding that
   one row's support rail out of line.
@@ -31,10 +47,11 @@ the right edge at 1352 on every page. Do not introduce a second system.
   question spans from just after it to the end of the primary rail, so the
   summary still lands on the support rail. Icon, question, summary and arrow
   are centred on one line. Explainer rows keep their text tag.
-- Both primitives state `justify-items: stretch`. `.page-hero` sets
+- `.rail-split` states `justify-items: stretch`. `.page-hero` sets
   `justify-items: start`, so a rail grid placed directly on it shrink-wraps its
   columns instead of filling them, which reads as correct until a page turns up
-  whose content is too short to hide it.
+  whose content is too short to hide it (the Symposium and a team profile do
+  exactly that).
 - Body measure is `--ael-measure: 74ch` on `.prose p`, about 95 characters.
   `ch` is the digit advance (10.1px in Inter) against a 7.8px average glyph,
   so the number reads lower than the character count it buys. It is set high on
@@ -58,7 +75,9 @@ common questions, and a sources list in the publication-row grammar.
   personalization effect over plain GPT-4 is not significant. Never cite it
   as showing that personalization drives persuasion.
 - `reviewed` is the date of the last full fact check. Change it only after
-  re-checking every number on that page against its source.
+  re-checking every number on that page against its source. It is not shown
+  on the page (no reading time or review date, Danylo, October 2026), but it
+  still sets dateModified and the sitemap's lastmod.
 - Statements about how the lab works (design of its experiments, what the
   platform records) should be confirmed by a director before they change.
 
@@ -256,8 +275,7 @@ which owns the film), turned into the files the site serves by
   "Related explainers" on the programme page.
 - No llms.txt. Google's own guidance says AI Overviews and AI Mode need no
   extra files or markup. What answer engines lift is crawlable text: the
-  explainers' opening answers, current dates, and facts kept true (the About
-  panel counts the team from `content/team.ts` for that reason).
+  explainers' opening answers, current dates, and facts kept true.
 - `published` on an explainer is the day it went live and never moves.
   `reviewed` moves with each full fact check, and so does dateModified.
 

@@ -1122,29 +1122,10 @@ export function explainerBySlug(slug: string): Explainer | undefined {
 }
 
 /** Matches [label](href). Kept here so the renderer and the plain-text
- *  helpers (JSON-LD, reading time) can never parse links differently. */
+ *  helper (JSON-LD) can never parse links differently. */
 export const INLINE_LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 
-/** The text with link markup removed, for structured data and word counts. */
+/** The text with link markup removed, for structured data. */
 export function plainText(text: string): string {
   return text.replace(INLINE_LINK, "$1");
-}
-
-/** Every word a reader meets on the page, at 230 words a minute. */
-export function readingMinutes(explainer: Explainer): number {
-  const parts: string[] = [explainer.answer];
-  for (const section of explainer.sections) {
-    parts.push(section.heading);
-    for (const block of section.blocks) {
-      if (block.kind === "p") parts.push(block.text);
-      else if (block.kind === "list") parts.push(...block.items);
-      else {
-        parts.push(...block.columns);
-        for (const row of block.rows) parts.push(row.term, ...row.cells);
-      }
-    }
-  }
-  for (const faq of explainer.faqs) parts.push(faq.question, faq.answer);
-  const words = plainText(parts.join(" ")).split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.round(words / 230));
 }
