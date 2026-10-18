@@ -1,0 +1,71 @@
+/* The two line drawings on the Cary page: where a call's data goes, and the
+   path of one fact. Boxes, arrows and a few words, drawn in the page's own
+   tokens. */
+.wrap {
+  margin: 0;
+  width: 100%;
+  max-width: 40rem;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.node {
+  fill: var(--ael-bg-surface);
+  stroke: var(--ael-border-hairline);
+  stroke-width: 2;
+}
+.title {
+  font: 600 22px var(--ael-font-display);
+  fill: var(--ael-text-primary);
+}
+.sub {
+  font: 400 15px var(--ael-font-text);
+  fill: var(--ael-text-secondary);
+}
+.label {
+  font: 500 14px var(--ael-font-mono);
+  letter-spacing: 0.02em;
+  fill: var(--ael-text-muted);
+}
+/* The smaller set, for the path of one fact. */
+.titleS {
+  font: 600 18px var(--ael-font-display);
+  fill: var(--ael-text-primary);
+}
+.subS {
+  font: 400 13px var(--ael-font-text);
+  fill: var(--ael-text-secondary);
+}
+.labelS {
+  font: 500 12px var(--ael-font-mono);
+  letter-spacing: 0.02em;
+  fill: var(--ael-text-muted);
+}
+.frame {
+  fill: none;
+  stroke: var(--ael-indigo-300);
+  stroke-width: 2;
+  stroke-dasharray: 8 8;
+}
+/* A line stops where its head starts: the head's base sits on the line's end
+   (refX 0, butt caps), so the tip lands exactly where the line was drawn to. */
+.line {
+  fill: none;
+  stroke: var(--ael-indigo-400);
+  stroke-width: 2.5;
+  stroke-linecap: butt;
+}
+.head {
+  fill: var(--ael-indigo-400);
+  stroke: none;
+}
+/* The facts beside a drawing say the same in words, so a narrow screen keeps
+   just those. The drawings are set in a half column, and below this width
+   their labels would shrink under 9px. */
+@media (max-width: 1000px) {
+  .wrap {
+    display: none;
+  }
+}

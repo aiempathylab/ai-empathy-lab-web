@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { CARY_STUDY } from "@/content/cary-study";
 import { getNews } from "@/content/news";
 import { RESEARCH_PROJECTS } from "@/content/research";
 import { EXPLAINERS } from "@/content/resources";
@@ -23,11 +24,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/symposium/",
   ];
   /* A date only where the page has a true one: the news page changes
-     when an item is added, an explainer when it is reviewed. */
+     when an item is added, an explainer when it is reviewed, the Cary study
+     page when it is revised. */
   const latestNews = getNews()[0]?.date;
   return [
     ...paths.map((path) => ({ url: `${SITE.url}${path}` })),
     { url: `${SITE.url}/news/`, ...(latestNews ? { lastModified: latestNews } : {}) },
+    {
+      url: `${SITE.url}/research/${CARY_STUDY.programme}/cary-study/`,
+      lastModified: CARY_STUDY.updated,
+    },
     ...EXPLAINERS.map((explainer) => ({
       url: `${SITE.url}/resources/${explainer.slug}/`,
       lastModified: explainer.reviewed,

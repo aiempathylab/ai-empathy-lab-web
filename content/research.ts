@@ -91,6 +91,13 @@ export const RESEARCH_PROJECTS: ResearchProject[] = [
     workSample: {
       title: "Work sample coming soon",
     },
+    studyNotes: {
+      title: "How the Cary study was built",
+      summary:
+        "How Cary's memory works, the AI models behind it, where the data is kept, and the instructions it was given.",
+      cta: "Read how it was built",
+      href: "/research/ai-companions-healthy-aging/cary-study/",
+    },
   },
   {
     slug: "ai-empathy-customer-service",

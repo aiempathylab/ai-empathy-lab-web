@@ -256,6 +256,37 @@ which owns the film), turned into the files the site serves by
 - The platform's master is 45 s at 1080p60, 10.5 MB. Its web files are
   1.7 to 2.5 MB each with the sound (VMAF 96 against the master).
 
+## The Cary study page
+
+`/research/ai-companions-healthy-aging/cary-study/` ("How the Cary study was
+built"), reached from the study notes under the companionship programme's text
+(`studyNotes` in `content/research.ts`). All its copy is in
+`content/cary-study.ts`, whose header lists what a director must confirm before
+it changes.
+
+- The prompt is never published. This repository is public, so no prompt text
+  lives anywhere in it: the page says in words what the prompt covers
+  (`prompt.covers`) and which two slots differed between the groups. The one
+  quoted placeholder in the conditions table ("No user data available yet") is
+  a fact about what the no-memory group was given, not the prompt.
+- Three short silent films of the app in use come from the motion studio
+  (`films/cary-tour`, `cary-memory`, `cary-compare`). Each is made in two
+  shapes: one that fills its half of the page or the whole width, and a phone
+  shape below 900px. `scripts/film/prepare_loop.sh` makes the files, and
+  `content/app-loops.ts` registers them. `components/AppLoopPlayer.tsx` plays
+  them: muted, started only while on screen, pausable (a pause is kept),
+  scrubbable, and not started at all under reduced motion. Only the shape on
+  show fetches its poster, and only one in view loads its video. The
+  conversations in them are illustrations, an invented "Maria" and her dog
+  "Bobby", and a director approves a film before it is public. The Article
+  carries each film as `video`, built by `appLoopObject` in
+  `components/JsonLd.tsx`.
+- `components/cary/` holds the drawings and the table: where a call's data
+  goes, the path of one fact, the two conditions regrouped, and the prompt's
+  slots. Their words are in the content file, beside the facts they restate.
+  Every row of `conditions.rows` must be in exactly one of `conditions.groups`,
+  or the build fails.
+
 ## Search and answer engines
 
 - `SITE.url` is the host Vercel SERVES (www; the bare domain redirects to
@@ -265,8 +296,11 @@ which owns the film), turned into the files the site serves by
 - Structured data lives in `components/JsonLd.tsx`, one builder per page
   type: the lab (home, /about/), a person's ProfilePage, the publication
   library, a research programme, the explainers' Article, FAQ and
-  breadcrumbs. Every value in it is one the page shows in words. Never add
-  markup for something the page does not say.
+  breadcrumbs, the Cary study's Article and its films. Every value in it is
+  one the page shows in words, except the dates: the pages show none (by
+  decision, October 2026), so `published` and `reviewed` are structured data
+  and sitemap lastmod only. Never add markup for something the page does not
+  say.
 - Papers join people by `authorsOf` in `content/publications.ts`: the
   surname matches and the APA initials include the member's first initial.
   A profile lists its member's papers, and its JSON-LD links them.
