@@ -1,5 +1,6 @@
 import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
+import { Hero } from "@/components/Page";
 import { explainerItems, QuestionList } from "@/components/QuestionRow";
 import { PLATFORM_FORMATS, PLATFORM_POINTS } from "@/content/platform";
 import { EXPLAINERS } from "@/content/resources";
@@ -16,18 +17,10 @@ export const metadata = pageMetadata({
 export default function ResourcesPage() {
   return (
     <div className="container">
-      <header className="page-hero">
-        <div className="hero-split">
-        <h1 className="t-h1">AI Empathy Resources and Definitions</h1>
-        <p className="t-lead">
-          Explore research-based explanations of AI empathy, empathic AI,
-          emotional AI, voice agents, AI companions, and human-AI
-          relationships. These resources translate current evidence, research
-          methods, and ethical questions into accessible guidance for
-          researchers, practitioners, policymakers, and the public.
-        </p>
-        </div>
-      </header>
+      <Hero
+        title="AI Empathy Resources and Definitions"
+        lede="Explore research-based explanations of AI empathy, empathic AI, emotional AI, voice agents, AI companions, and human-AI relationships. These resources translate current evidence, research methods, and ethical questions into accessible guidance for researchers, practitioners, policymakers, and the public."
+      />
 
       {/* Each explainer as the question it answers, in the same rows the
           research hub uses, with the answer itself as the summary so the

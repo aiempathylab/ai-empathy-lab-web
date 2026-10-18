@@ -179,13 +179,14 @@ strong {
   justify-items: start;
 }
 .page-hero .t-h1 {
-  font-size: clamp(2.5rem, 4.4vw, 3.5rem);
-  line-height: 1.06;
-  letter-spacing: -0.018em;
+  font-size: clamp(2.5rem, 4.8vw, 3.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
   max-width: 24ch;
 }
 .page-hero .t-lead {
   max-width: 64ch;
+  font-size: clamp(1.1rem, 1.5vw, 1.28rem);
 }
 .section-head {
   display: flex;
@@ -208,14 +209,15 @@ strong {
 }
 
 /* ── The page rails ──
-   Four tracks — meta, primary, support, action — carried by the hero
-   (row zero), by every list-row in cards.module.css, and by any section
-   that continues them further down the page. Declared once here so a
-   page cannot end up with two competing column systems: content on the
-   meta and primary rails, the aside on the support rail, and the 20px
-   action track holding the right edge open whether or not a row has an
-   arrow in it. */
-.hero-split,
+   Four tracks — meta, primary, support, action — carried by every list-row
+   in cards.module.css and by the body sections that continue them further
+   down a page (a profile, an explainer's article and its contents, the
+   contact form). Declared once here so a page cannot end up with two
+   competing column systems: content on the meta and primary rails, the aside
+   on the support rail, and the 20px action track holding the right edge open
+   whether or not a row has an arrow in it.
+   A page's opening, and the sections built from components/Page, sit on the
+   centre line instead, in two equal halves. */
 .rail-split {
   width: 100%;
   display: grid;
@@ -227,54 +229,25 @@ strong {
      them. That reads as correct until a page turns up whose content is
      too short to hide it. */
   justify-items: stretch;
-}
-.hero-split > :first-child,
-.rail-split > :first-child {
-  grid-column: 1 / 3;
-}
-.hero-split > :last-child,
-.rail-split > :last-child {
-  grid-column: 3 / 5;
-}
-/* The hero locks first baselines; a body section aligns block tops,
-   because its two sides are objects of unequal height rather than two
-   lines of type. */
-.hero-split {
-  row-gap: 1rem;
-  align-items: baseline;
-}
-.rail-split {
+  /* A body section aligns block tops, because its two sides are objects of
+     unequal height rather than two lines of type. */
   row-gap: 2.5rem;
   align-items: start;
 }
-/* A section whose left side is only a label puts it on the meta rail and
-   gives the content the remaining three, the way a list row does. */
-.rail-split-meta > :first-child {
-  grid-column: 1;
+.rail-split > :first-child {
+  grid-column: 1 / 3;
 }
-.rail-split-meta > :last-child {
-  grid-column: 2 / 5;
-}
-.hero-split-left {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
+.rail-split > :last-child {
+  grid-column: 3 / 5;
 }
 @media (max-width: 1000px) {
-  .hero-split,
   .rail-split {
     grid-template-columns: 1fr;
-  }
-  .hero-split > :first-child,
-  .hero-split > :last-child,
-  .rail-split > :first-child,
-  .rail-split > :last-child,
-  .rail-split-meta > :first-child,
-  .rail-split-meta > :last-child {
-    grid-column: 1;
-  }
-  .rail-split {
     row-gap: 1.5rem;
+  }
+  .rail-split > :first-child,
+  .rail-split > :last-child {
+    grid-column: 1;
   }
 }
 

@@ -24,7 +24,7 @@ export default function SymposiumPage() {
         <div className="container">
           <header className="page-hero">
             <div className={`rail-split ${styles.opening}`}>
-              <div className="hero-split-left">
+              <div className={styles.copy}>
                 <span className="chip chip-soon">Coming soon</span>
                 <h1 className="t-h1">AI Empathy Symposium</h1>
                 <div className="prose">

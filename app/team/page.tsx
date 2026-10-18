@@ -1,3 +1,4 @@
+import { Hero } from "@/components/Page";
 import { TeamCard } from "@/components/TeamCard";
 import { TEAM, TEAM_GROUPS } from "@/content/team";
 import { pageMetadata } from "@/lib/seo";
@@ -13,18 +14,10 @@ export const metadata = pageMetadata({
 export default function TeamPage() {
   return (
     <div className="container">
-      <header className="page-hero">
-        <div className="hero-split">
-          <h1 className="t-h1">AI Empathy Lab Researchers</h1>
-          <p className="t-lead">
-            Meet the international researchers and technologists advancing AI
-            empathy across marketing, psychology, behavioral science, computer
-            science, and affective computing. The team studies how voice
-            assistants, agents, and companions influence consumer decisions,
-            relationships, trust, and well-being.
-          </p>
-        </div>
-      </header>
+      <Hero
+        title="AI Empathy Lab Researchers"
+        lede="Meet the international researchers and technologists advancing AI empathy across marketing, psychology, behavioral science, computer science, and affective computing. The team studies how voice assistants, agents, and companions influence consumer decisions, relationships, trust, and well-being."
+      />
 
       {TEAM_GROUPS.map((group) => {
         const members = TEAM.filter((person) => person.group === group.key);

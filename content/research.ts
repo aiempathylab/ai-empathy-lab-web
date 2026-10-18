@@ -20,6 +20,9 @@ export interface ResearchProject {
   /** Body paragraphs, rendered in order. */
   body: string[];
   workSample?: { title: string; href?: string };
+  /** A deeper page on how the programme's study was built, linked under the
+   *  work sample. */
+  studyNotes?: { title: string; summary: string; cta: string; href: string };
 }
 
 export const RESEARCH_PROJECTS: ResearchProject[] = [
@@ -138,6 +141,13 @@ export const RESEARCH_PROJECTS: ResearchProject[] = [
 /** Hub-page intro — verbatim from the SEO plan. */
 export const RESEARCH_INTRO =
   "Our research investigates how empathy expressed by AI voice assistants, agents, and companions affects human judgment and behavior. Through experiments with working AI systems, we study agentic commerce, sustainable consumption, companionship, customer service, and emotion measurement.";
+
+/** The headings on a programme page, around the programme's own copy. */
+export const PROGRAMME_HEADINGS = {
+  about: "About the programme",
+  publications: "Related publications",
+  explainers: "Related explainers",
+} as const;
 
 export function projectBySlug(slug: string): ResearchProject | undefined {
   return RESEARCH_PROJECTS.find((p) => p.slug === slug);

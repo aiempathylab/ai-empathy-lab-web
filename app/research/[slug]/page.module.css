@@ -1,75 +1,28 @@
-.question {
-  font: 600 clamp(1.4rem, 3vw, 1.9rem)/1.3 var(--ael-font-display);
-  letter-spacing: -0.01em;
-  color: var(--ael-text-accent-violet);
-  max-width: 30ch;
-  text-wrap: balance;
-}
-/* The support-rail object. Same panel as the About page's lab overview and a
-   person's focus panel: one surface, one border, one radius. The accent bar
-   and the two mismatched corner radii it needed made this the only card on
-   the site with its own shape. */
-/* Image and work sample stick as one, so neither can slide over the other. */
-.support {
-  position: sticky;
-  top: calc(var(--ael-nav-clearance) + 1.25rem);
-  display: grid;
-  gap: 1.5rem;
-  align-content: start;
-}
-/* Wide images take the rail's width, tall ones are held to a height. */
-.figure {
-  width: min(100%, calc(420px * var(--ratio)));
-  margin: 0;
-}
-.sample {
-  background: var(--ael-bg-surface);
-  border: 1px solid var(--ael-border-hairline);
-  border-radius: var(--ael-radius-panel);
-  padding: 1.6rem 1.75rem;
+/* The work sample and the study notes under a programme's text: no box, a
+   hairline above and the text on the column's own left edge. */
+.note {
   display: grid;
   gap: 0.75rem;
-  box-shadow: var(--ael-shadow-sm);
+  border-top: 1px solid var(--ael-rule);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
 }
-.sampleKind {
+.kind {
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
-.sampleVenue {
+.venue {
   font: 500 0.75rem/1 var(--ael-font-mono);
   letter-spacing: 0.05em;
   color: var(--ael-text-muted);
 }
-.sampleTitle {
+.noteTitle {
   font: 600 1.05rem/1.45 var(--ael-font-display);
   letter-spacing: -0.005em;
+  text-wrap: pretty;
 }
-
-/* The way back to the hub, identical to the team profiles' back link. */
-.back {
-  border-top: 1px solid var(--ael-rule);
-  padding-block: 1.5rem 0.5rem;
-}
-.backLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding-block: 0.55rem;
-  margin-block: -0.55rem;
-  font: 500 0.95rem/1.5 var(--ael-font-text);
+.noteText {
+  font: var(--ael-text-small);
   color: var(--ael-text-secondary);
-  text-decoration: none;
-  transition: color var(--ael-dur-micro) var(--ael-ease);
-}
-.backLink:hover {
-  color: var(--ael-accent);
-}
-
-/* Once the rails stack there is nothing to ride alongside: a sticky panel
-   in a single column just judders. */
-@media (max-width: 1000px) {
-  .support {
-    position: static;
-  }
 }
