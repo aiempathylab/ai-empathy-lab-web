@@ -27,6 +27,9 @@
 }
 html {
   -webkit-text-size-adjust: 100%;
+  /* The flash a phone shows under a tapped link, in the brand's own accent
+     instead of the system grey. */
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--ael-accent) 14%, transparent);
 }
 body {
   margin: 0;
@@ -127,11 +130,33 @@ strong {
   --ael-rule: var(--ael-border-strong);
 }
 
+/* ── Very wide screens ──
+   Every size on the site is in rem, so raising the root size grows the page
+   as one piece (container, type, rails, pictures) instead of leaving a
+   narrow column in the middle of a big monitor. 2199px and below are
+   untouched. The kit's control heights are px, so they step with it. */
+@media (min-width: 2200px) {
+  html {
+    font-size: 112.5%;
+  }
+  :root {
+    --ael-control-h-sm: 2.25rem;
+    --ael-control-h-platform: 2.5rem;
+    --ael-control-h-md: 2.75rem;
+    --ael-control-h-lg: 3rem;
+  }
+}
+@media (min-width: 3000px) {
+  html {
+    font-size: 125%;
+  }
+}
+
 /* ── Navbar metrics ──
    The bar is fixed, so it contributes nothing to the page flow. Anything
    that starts at the top of <main> reserves this much room for it. */
 :root {
-  --ael-nav-h: 72px;
+  --ael-nav-h: 4.5rem;
   --ael-nav-gap: 1rem;
   --ael-nav-clearance: calc(var(--ael-nav-h) + var(--ael-nav-gap));
 }
@@ -285,8 +310,10 @@ strong {
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
-.prose a:hover {
-  color: var(--ael-accent-hover);
+@media (hover: hover) {
+  .prose a:hover {
+    color: var(--ael-accent-hover);
+  }
 }
 
 /* ── Links & buttons ── */
@@ -302,11 +329,13 @@ strong {
   text-decoration: none;
   transition: color var(--ael-dur-micro) var(--ael-ease);
 }
-.link-arrow:hover {
-  color: var(--ael-accent-hover);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+@media (hover: hover) {
+  .link-arrow:hover {
+    color: var(--ael-accent-hover);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
 }
 .btn {
   display: inline-flex;
@@ -327,8 +356,10 @@ strong {
   background: var(--ael-accent);
   color: var(--ael-text-on-accent);
 }
-.btn-primary:hover {
-  background: var(--ael-accent-hover);
+@media (hover: hover) {
+  .btn-primary:hover {
+    background: var(--ael-accent-hover);
+  }
 }
 .btn-secondary {
   background: var(--ael-bg-surface);
@@ -344,9 +375,11 @@ strong {
   padding: 0 1.6rem;
   font-size: 1.05rem;
 }
-.btn-secondary:hover {
-  border-color: var(--ael-accent);
-  color: var(--ael-text-link);
+@media (hover: hover) {
+  .btn-secondary:hover {
+    border-color: var(--ael-accent);
+    color: var(--ael-text-link);
+  }
 }
 
 /* ── Chips & tags ── */
@@ -486,13 +519,19 @@ strong {
 }
 
 /* ── Buttons lift on hover ── */
-.btn {
-  will-change: transform;
+@media (hover: hover) {
+  .btn {
+    will-change: transform;
+  }
 }
-.btn:hover {
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-1px);
+  }
 }
-.btn-primary:hover {
-  box-shadow: var(--ael-shadow-md);
+@media (hover: hover) {
+  .btn-primary:hover {
+    box-shadow: var(--ael-shadow-md);
+  }
 }
 

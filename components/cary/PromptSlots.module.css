@@ -63,7 +63,7 @@
 }
 .tag,
 .tagOn {
-  font: 600 0.68rem/1 var(--ael-font-mono);
+  font: 600 0.75rem/1 var(--ael-font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }

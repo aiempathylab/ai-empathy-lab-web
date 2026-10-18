@@ -377,7 +377,7 @@ export function DitherArt({
       data-state="init"
     >
       <div style={FRAME}>
-        <img src={piece.still} alt={piece.alt} className={styles.still} style={FILL} draggable={false} />
+        <img src={piece.still} alt={piece.alt} className={styles.still} style={FILL} loading="lazy" decoding="async" draggable={false} />
         <canvas ref={canvasRef} className={styles.canvas} style={FILL} aria-hidden="true" />
       </div>
     </div>

@@ -44,8 +44,10 @@
   border-radius: var(--ael-radius-control);
   transition: border-color var(--ael-dur-micro) var(--ael-ease);
 }
-.input:hover {
-  border-color: var(--ael-border-strong);
+@media (hover: hover) {
+  .input:hover {
+    border-color: var(--ael-border-strong);
+  }
 }
 .input:focus-visible {
   border-color: var(--ael-accent);
@@ -101,9 +103,11 @@
     border-color var(--ael-dur-micro) var(--ael-ease),
     color var(--ael-dur-micro) var(--ael-ease);
 }
-.chip:hover {
-  border-color: var(--ael-accent);
-  color: var(--ael-text-primary);
+@media (hover: hover) {
+  .chip:hover {
+    border-color: var(--ael-accent);
+    color: var(--ael-text-primary);
+  }
 }
 .chip[data-on="true"] {
   background: var(--ael-accent-soft);

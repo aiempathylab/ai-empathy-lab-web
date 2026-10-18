@@ -11,7 +11,7 @@
 }
 .head {
   padding-bottom: 0.7rem;
-  font: 500 0.72rem/1.4 var(--ael-font-mono);
+  font: 500 0.75rem/1.4 var(--ael-font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ael-text-muted);
@@ -48,8 +48,10 @@
   position: absolute;
   inset: 0;
 }
-.row:hover .title a {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .row:hover .title a {
+    color: var(--ael-accent);
+  }
 }
 .authors {
   font: var(--ael-text-small);
@@ -66,8 +68,10 @@
   color: var(--ael-text-muted);
   transition: color var(--ael-dur-micro) var(--ael-ease);
 }
-.row:hover .go {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .row:hover .go {
+    color: var(--ael-accent);
+  }
 }
 
 /* Folded: the venue drops under the title, the arrow stays on the title's row. */

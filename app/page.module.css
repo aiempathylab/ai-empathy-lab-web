@@ -49,19 +49,27 @@
      is wider than the container */
   right: calc(max(0px, (100% - 84rem) / 2) + clamp(1.25rem, 4vw, 2.5rem));
   bottom: 0;
-  height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 42vw, 600px);
+  height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 42vw, 37.5rem);
   z-index: 0;
 }
 /* Narrower screens bring the headline's end closer, so the picture is held
    to a third of the screen's width there and keeps clear of it. */
 @media (max-width: 1260px) {
   .heroArt {
-    height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 33vw, 600px);
+    height: min(calc(100% - var(--ael-nav-clearance) - 2.5rem), 33vw, 37.5rem);
   }
 }
 @media (max-width: 900px) {
   .heroArt {
     display: none;
+  }
+}
+/* A phone on its side is about 390px tall: the hero's padding alone would
+   fill the screen before the headline had started. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .heroInner {
+    padding-block: calc(var(--ael-nav-clearance) + 1rem) 2rem;
+    gap: 1.1rem;
   }
 }
 
@@ -71,7 +79,7 @@
 }
 .paperGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(26.25rem, 100%), 1fr));
   /* equal rows: every card takes the height of the tallest one */
   grid-auto-rows: 1fr;
   gap: 1.25rem;
@@ -88,7 +96,7 @@
    their internal boundaries fall on one vertical line down the page. */
 .aboutSplit {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(26.25rem, 100%), 1fr));
   gap: 2rem 1.25rem;
   align-items: start;
 }
@@ -99,7 +107,7 @@
 /* ── Initiatives ── */
 .initGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(26.25rem, 100%), 1fr));
   gap: 1.25rem;
 }
 /* Initiative cards: the page's two highlighted moments, as a MATCHED
@@ -114,16 +122,18 @@
   align-content: start;
   border-radius: var(--ael-radius-panel);
   padding: 2rem;
-  min-height: 232px;
+  min-height: 14.5rem;
   text-decoration: none;
   color: var(--ael-text-primary);
   transition:
     box-shadow var(--ael-dur-standard) var(--ael-ease),
     transform var(--ael-dur-standard) var(--ael-ease);
 }
-.initCard:hover {
-  box-shadow: var(--ael-shadow-md);
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .initCard:hover {
+    box-shadow: var(--ael-shadow-md);
+    transform: translateY(-3px);
+  }
 }
 .initIndigo {
   background: linear-gradient(135deg, var(--ael-indigo-100) 0%, var(--ael-indigo-50) 100%);
@@ -167,7 +177,7 @@
 /* The moving picture at the head of each initiative card, on the card's own
    tint, the full width of its text. */
 .initArt {
-  height: 132px;
+  height: 8.25rem;
   margin-bottom: 0.4rem;
 }
 
@@ -178,7 +188,7 @@
   max-width: 34rem;
 }
 .voiceField {
-  height: 112px;
+  height: 7rem;
 }
 .voiceCaption {
   margin-top: 0.85rem;

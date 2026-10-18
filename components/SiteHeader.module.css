@@ -81,9 +81,11 @@
     background-color var(--ael-dur-micro) var(--ael-ease);
 }
 
-.navLink:hover {
-  color: var(--ael-text-primary);
-  background: var(--ael-bg-sunken);
+@media (hover: hover) {
+  .navLink:hover {
+    color: var(--ael-text-primary);
+    background: var(--ael-bg-sunken);
+  }
 }
 
 .navLink[aria-current="page"] {
@@ -115,9 +117,11 @@
   color: var(--ael-text-secondary);
 }
 
-.menuBtn:hover {
-  color: var(--ael-text-primary);
-  background: var(--ael-bg-sunken);
+@media (hover: hover) {
+  .menuBtn:hover {
+    color: var(--ael-text-primary);
+    background: var(--ael-bg-sunken);
+  }
 }
 
 .mobileNav {

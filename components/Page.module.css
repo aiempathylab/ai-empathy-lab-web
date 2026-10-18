@@ -111,7 +111,7 @@
 /* Wide images take the half's width, tall ones are held to a height. */
 .figure {
   margin: 0;
-  width: min(100%, calc(420px * var(--ratio)));
+  width: min(100%, calc(26.25rem * var(--ratio)));
 }
 
 /* ── Closing call ──

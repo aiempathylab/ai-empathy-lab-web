@@ -98,6 +98,8 @@
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
-.fact a:hover {
-  color: var(--ael-accent-hover);
+@media (hover: hover) {
+  .fact a:hover {
+    color: var(--ael-accent-hover);
+  }
 }

@@ -54,9 +54,11 @@
   cursor: pointer;
   transition: color var(--ael-dur-micro) var(--ael-ease), border-color var(--ael-dur-micro) var(--ael-ease);
 }
-.button:hover {
-  color: var(--ael-accent);
-  border-color: var(--ael-indigo-300);
+@media (hover: hover) {
+  .button:hover {
+    color: var(--ael-accent);
+    border-color: var(--ael-indigo-300);
+  }
 }
 .button:focus-visible,
 .scrub:focus-visible {
@@ -66,7 +68,7 @@
 .scrub {
   flex: 1;
   min-width: 0;
-  height: 1.5rem;
+  height: 2.75rem;
   margin: 0;
   background: transparent;
   cursor: pointer;

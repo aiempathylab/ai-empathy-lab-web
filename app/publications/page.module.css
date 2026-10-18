@@ -1,6 +1,6 @@
 .paperGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(26.25rem, 100%), 1fr));
   grid-auto-rows: 1fr;
   gap: 1.25rem;
 }

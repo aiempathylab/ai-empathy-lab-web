@@ -55,7 +55,9 @@
   color: var(--ael-text-muted);
   transition: color var(--ael-dur-micro) var(--ael-ease);
 }
-.row:hover .title,
-.row:hover .go {
-  color: var(--ael-accent);
+@media (hover: hover) {
+  .row:hover .title,
+  .row:hover .go {
+    color: var(--ael-accent);
+  }
 }

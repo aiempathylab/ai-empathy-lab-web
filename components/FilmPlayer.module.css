@@ -76,9 +76,13 @@
   text-transform: uppercase;
   color: var(--ael-text-secondary);
 }
-.play:hover .pill,
 .play:focus-visible .pill {
   transform: translateY(-2px);
+}
+@media (hover: hover) {
+  .play:hover .pill {
+    transform: translateY(-2px);
+  }
 }
 .play:focus-visible {
   outline: none;
@@ -115,9 +119,13 @@
   .pill {
     transition: none;
   }
-  .play:hover .pill,
   .play:focus-visible .pill {
     transform: none;
+  }
+  @media (hover: hover) {
+    .play:hover .pill {
+      transform: none;
+    }
   }
   .disc[data-starting] {
     animation: none;
